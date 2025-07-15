@@ -14,7 +14,7 @@ class MissionController extends Controller
     public function showMission()
     { $trajets= Trajet::all();
         $voitures = Voiture::orderBy('modele')->get();
-        $chauffeurs = DetailChauff::with('user_id')->get();
+        $chauffeurs = DetailChauff::all();
         $missions = Mission::with(['lieuDepart', 'lieuArrivee', 'voiture'])->get();
         return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
     }
@@ -28,21 +28,17 @@ class MissionController extends Controller
             'date_arrive' => 'required|date|after_or_equal:date_depart',
             'objet' => 'required|string|max:255',
         ]);
-        $trajets = Trajet::where('lieu_depart_id', $request->lieu_depart)
-                    ->where('lieu_arrive_id', $request->lieu_arrivee)
-                    ->first();
-        if (!$trajets) {
-            return redirect()->back()->withErrors(['trajets' => 'Trajet non trouvé.']);
-        }
         // Créer une nouvelle mission
         $mission = new Mission();
         $mission->voiture_id = $request->voiture_id;
         $mission->chauffeur_id = $request->chauffeur_id;
-        $mission->trajet_id = $request->trajet_id;
+        $mission->lieu_depart_id = $request->lieu_depart;
+        $mission->lieu_arrive_id = $request->lieu_arrivee;
         $mission->date_depart = $request->date_depart;
         $mission->date_arrive = $request->date_arrive;
         $mission->objet = $request->objet;
         $mission->save();
-        return redirect()->route('mission.show')->with('success', 'Mission créée avec succès.');
+        return redirect()->route('mission.list')->with('success', 'Mission créée avec succès.');
     }
+
 }

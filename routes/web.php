@@ -62,7 +62,6 @@ Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.d
 
 // ======= Mission =======
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
-Route::get('/missions', [MissionController::class, 'missions'])->name('mission.list');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 
 

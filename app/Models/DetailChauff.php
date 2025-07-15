@@ -21,4 +21,10 @@ class DetailChauff extends Model
         'typePermis' => 'array',
         'dateValidite' => 'date'
     ];
+    public function voiture() {
+        return $this->hasMany(Voiture::class, 'chauffeur_id');
+    }
+public function users() {
+    return $this->belongsTo(User::class, 'user_id');
+}
 }

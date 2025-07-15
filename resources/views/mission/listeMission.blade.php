@@ -280,12 +280,12 @@
         <tbody>
   @forelse ($missions as $mission)
     <tr>
-      <td>{{ $mission->date_depart }}</td>
-      <td>{{ $mission->date_arrive }}</td>
-      <td>{{ $mission->lieuDepart->nom ?? '' }}</td>
-      <td>{{ $mission->lieuArrivee->nom ?? '' }}</td>
-      <td>{{ $mission->voiture->modele ?? '' }}</td>
-      <td>{{ $mission->objet }}</td>
+        <td>{{ $mission->date_depart }}</td>
+        <td>{{ $mission->date_arrive }}</td>
+        <td>{{ $mission->trajet->lieuDepart->nomLieu ?? '' }}</td>
+        <td>{{ $mission->trajet->lieuArrivee->nomLieu ?? '' }}</td>
+        <td>{{ $mission->voiture->modele ?? '' }}</td>
+        <td>{{ $mission->objet }}</td>
       <td>
         <a href="{{ route('mission.delete', $mission->id) }}" class="action-btn btn-delete">
           <i class="ri-delete-bin-line"></i>
@@ -320,7 +320,7 @@
           <select id="lieuDepart" name="lieu_depart" required>
             <option value="" disabled selected>-- Choisir --</option>
             @forelse ($trajets as $t)
-              <option value="{{ $t->lieu_depart_id }}">{{ $t->nomLieu }}</option>
+              <option value="{{ $t->lieu_depart_id }}">{{ $t->lieuDepart->nomLieu  }}</option>
             @empty
               <option value="" disabled>Aucun lieu disponible</option>
             @endforelse
@@ -331,14 +331,26 @@
           <select id="lieuArrivee" name="lieu_arrivee" required>
             <option value="" disabled selected>-- Choisir --</option>
             @forelse ($trajets as $t)
-              <option value="{{ $t->lieu_arrive_id }}">{{ $t->nomLieu }}</option>
+              <option value="{{ $t->lieu_arrive_id }}">{{ $t->lieuArrivee->nomLieu }}</option>
             @empty
               <option value="" disabled>Aucun lieu disponible</option>
             @endforelse
           </select>
         </div>
-      </div>
-      <div class="mt-3">
+        <div>
+  <label for="chauffeur_id">Chauffeur</label>
+  <select id="chauffeur_id" name="chauffeur_id" required>
+    <option value="" disabled selected>-- Choisir --</option>
+@forelse ($chauffeurs as $c)
+  <option value="{{ $c->id }}">
+    {{ $c->users ? $c->users->first_name : 'Chauffeur inconnu' }}
+  </option>
+@empty
+  <option value="" disabled>Aucun chauffeur disponible</option>
+@endforelse
+  </select>
+</div>
+      <div>
         <label for="">Voiture proposée</label>
         <select name="voiture_id" required>
           <option value="" disabled selected>Choisir une immatriculation</option>
@@ -348,6 +360,7 @@
             <option value="" disabled>Aucune voiture disponible</option>
           @endforelse
         </select>
+      </div>
       </div>
       <div class="width mt-3">
         <label for="objet">Objet</label>

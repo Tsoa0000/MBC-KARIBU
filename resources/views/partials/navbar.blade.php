@@ -119,7 +119,7 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="forms-elements.html">
+          <a href="{{route('mission.show')}}">
             <i class="bi bi-circle"></i><span>Missions</span>
           </a>
         </li>
