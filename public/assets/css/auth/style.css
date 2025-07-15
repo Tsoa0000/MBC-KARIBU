@@ -1,0 +1,346 @@
+@import url("normalize.css");
+@import url('https://fonts.cdnfonts.com/css/skia');
+@import url('https://fonts.googleapis.com/css2?family=Noto+sans:wgthh@300;400&display=swap');
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    align-items: center;
+    background-image: url('../../image/back.png');
+    background-size: cover;
+    font: 14px  'skia', sans-serif;;
+}
+
+P,
+h1,
+span {
+    letter-spacing: 2px;
+    font-family: 'skia', sans-serif;
+}
+
+.container {
+    width: 650px;
+    height: 580px;
+    display: flex;
+     top: -50px;
+    align-items: flex-end;
+    position: relative;
+}
+
+.overlay-container {
+    background-color: #F6F6F6;
+    width: 100%;
+    height: 440px;
+    top: -20px;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .1), 5px 5px 5px rgba(0, 0, 0, .1);
+}
+
+.overlay {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.overlay-right {
+    right: 0;
+}
+
+.overlay-left {
+    left: 0;
+}
+
+.overlay h1,
+.overlay h1 span {
+    font: 29px 'skia', sans-serif;;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #33897f;
+}
+
+.overlay h1 span {
+    color: #33897f !important;
+}
+
+.overlay p,
+.overlay p span {
+    font-family: 'Noto sans' , sans-serif;
+    font-size: 12px;
+    color: #33897f;
+}
+
+.overlay p {
+    margin-top: 5px;
+}
+
+.overlay p span {
+    color: #33897f !important;
+}
+
+.overlay-left-img {
+    width: 90px;
+    height: 100px;
+    margin: 15px 0;
+    opacity: .8;
+}
+
+.overlay-right-img {
+   width: 90px;
+    height: 100px;
+    margin: 15px 0;
+    opacity: .8;
+}
+
+.overlay .account {
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.btn {
+    color: #33897f;
+    border: solid 1px #33897f;
+    background: transparent;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 11px;
+    outline: none;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.btn:hover {
+    background: #d66c2f;
+    border: solid 1px #d66c2f;
+    color: #ffffff;
+}
+
+.btn:active {
+    transform: scale(.95);
+}
+
+.form-container {
+    width: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    background-color: #33897f;
+    top: 10%;
+    left: 5%;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 1s;
+    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, .05);
+}
+
+.sign-in-container {
+    z-index: 10;
+}
+
+.form-container h1 {
+    font-size: 24px;
+    color: #f6f6f6;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+form {
+    width: 100%;
+    text-align: center;
+}
+
+input {
+    width: 65%;
+    border: none;
+    border-bottom: 1px solid rgba(246, 246, 246, 0.5);
+    outline: none;
+    background: transparent;
+    color: #ffffff;
+    margin-bottom: 25px;
+
+    caret-color: #d66c2f;
+}
+
+input:focus {
+    border-bottom: 1px solid #d66c2f;
+    padding-bottom: 15px;
+}
+
+input:focus::placeholder {
+    opacity: 0;
+}
+
+::placeholder {
+    color: #f6f6f6;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 100;
+}
+
+
+
+input[type="checkbox"] {
+
+    width: 12px;
+    height: 12px;
+    accent-color: #d66c2f;
+}
+
+input[type="checkbox"]+label {
+    color: #ffffff;
+    margin-left: -5px;
+    font-size: 18px;
+}
+.marge{
+    color: #ffffff;
+    margin-bottom: 10px;
+    margin-left: -85px;
+    font-family: verdana;
+    font-size: 15px;
+}
+.marge1{
+    color: #ffffff;
+    margin-bottom: 5px;
+    margin-left: -130px;
+    font-family: verdana;
+    font-family: 'skia', sans-serif;
+    font-size: 15px;
+
+}
+.btn-submit {
+    background: #ffffff;
+    color: #d66c2f;
+    border: 1px solid #d66c2f;
+
+}
+
+.btn-submit:hover {
+    color: #f6f6f6;
+    background: #d66c2f;
+    border: 1px solid #ffffff;
+}
+
+.container.sign-up-mode .form-container {
+    transform: translateX(80%);
+}
+
+.container.sign-up-mode .sign-up-container {
+    z-index: 11;
+}
+.espace{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+input[type="date"]::-webkit-datetime-edit {
+    font-size:0;
+    color: #ffffff;
+    font-family: 'skia', sans-serif;
+}
+.input-floating input[type="date"]:not(:focus):not(:placeholder-shown) + label {
+    top: 10px;
+      font-family: 'Skia', sans-serif;
+   font-size: 16px;
+}
+
+/* Pour tous les types */
+.input-floating input:focus + label,
+.input-floating input:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 10px;
+    color: #fff;
+}
+
+.input-floating-checkbox {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 10px;
+
+}
+
+.label-floating-toggle-left {
+    font-size: 14px;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+/* Groupe des cases à cocher */
+.checkbox-group {
+    display: none;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-left: 5px;
+}
+
+/* Affichage après toggle */
+#toggleCheckbox:checked + .checkbox-group {
+    display: flex;
+}
+
+.input-floating {
+            position: relative;
+
+        }
+
+        .input-floating input {
+            width: 90%;
+            padding: 5px 5px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-floating label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding-left: 20px;
+            text-align: center;
+            color: #fffefe;
+            font-size: 16px;
+            transition: 0.2s ease all;
+            pointer-events: none;
+        }
+
+        .input-floating input:focus + label,
+        .input-floating input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 10px;
+            font-size: 13px;
+            color: #fff;
+        }
+
+
+
