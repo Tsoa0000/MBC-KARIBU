@@ -81,24 +81,6 @@
       <button type="submit" class="submit">Valider la vérification</button>
     </div>
   </form>
-
-  {{-- Résumé --}}
-  @if(session('resume'))
-  <section id="resume" class="active">
-    <h2 class="verif-title">Résumé de la vérification</h2>
-    <ul>
-      <li>Voiture: {{ session('resume.voiture') }}</li>
-      <li>Date: {{ session('resume.date') }}</li>
-      <li>Papier Véhicule: {{ session('resume.papierVehi') == 1 ? 'OUI' : 'NON' }}</li>
-      <li>Huile moteur: {{ session('resume.huileMoteur') == 1 ? 'OUI' : 'NON' }}</li>
-      <li>Lockeed: {{ session('resume.lockeed') == 1 ? 'OUI' : 'NON' }}</li>
-      <li>Eau: {{ session('resume.eau') == 1 ? 'OUI' : 'NON' }}</li>
-      <li>Pneu: {{ session('resume.pneu') == 1 ? 'OUI' : 'NON' }}</li>
-      <li>Observation: {{ session('resume.obs') }}</li>
-    </ul>
-    <button class="back-btn" onclick="window.location='{{ url()->current() }}'">Modifier</button>
-  </section>
-  @endif
 </main>
 @endsection
 

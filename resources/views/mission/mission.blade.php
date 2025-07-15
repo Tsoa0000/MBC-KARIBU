@@ -115,34 +115,41 @@
   <div class="grid-2col">
     <div>
       <label for="dateDepart"> Date de départ</label>
-      <input type="date" id="dateDepart" name="dateDepart" required>
+      <input type="date" id="dateDepart" name="date_depart" required>
     </div>
     <div>
       <label for="dateArrivee">Date d'arrivée</label>
-      <input type="date" id="dateArrivee" name="dateArrivee" required>
+      <input type="date" id="dateArrivee" name="date_arrive" required>
     </div>
 
-    <div>
-      <label for="lieuDepart">De</label>
-      <select id="lieuDepart" name="lieuDepart" required>
-        <option value="">-- Choisir --</option>
+ <div>
+  <label for="lieuDepart">De</label>
+  <select id="lieuDepart" name="lieuDepart" required>
+    <option value="" disabled selected>-- Choisir --</option>
+    @foreach ($trajet as $t)
+      <option value="{{ $t->lieu_depart_id }}">{{ $t->nomLieuDepart }}</option>
+    @endforeach
+  </select>
+</div>
 
-      </select>
-    </div>
-
-    <div>
-      <label for="lieuArrivee">À</label>
-      <select id="lieuArrivee" name="lieuArrivee" required>
-        <option value="">-- Choisir --</option>
-
-      </select>
-    </div>
+<div>
+  <label for="lieuArrivee">À</label>
+  <select id="lieuArrivee" name="lieuArrivee" required>
+    <option value="" disabled selected>-- Choisir --</option>
+    @foreach ($trajet as $t)
+      <option value="{{ $t->lieu_arrive_id }}">{{ $t->nomLieuArrivee }}</option>
+    @endforeach
+  </select>
+</div>
 
     <div class="width">
       <label for="voiture">Voiture</label>
-      <select id="voiture" name="voiture" disabled>
-        <option value="">-- Choisir lieux d'abord --</option>
-      </select>
+        <select name="voiture_id" required>
+          <option value="" disabled selected>Choisir une immatriculation</option>
+          @foreach ($voiture as $v)
+            <option value="{{ $v->id }}">{{ $v->matricule }}</option>
+          @endforeach
+        </select>
     </div>
 
     <div class="width">
