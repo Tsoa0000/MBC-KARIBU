@@ -38,7 +38,12 @@ class MissionController extends Controller
         $mission->date_arrive = $request->date_arrive;
         $mission->objet = $request->objet;
         $mission->save();
-        return redirect()->route('mission.list')->with('success', 'Mission créée avec succès.');
+        return redirect()->route('mission.show')->with('success', 'Mission créée avec succès.');
     }
-
+public function delete($id)
+    {
+        $mission = Mission::findOrFail($id);
+        $mission->delete();
+        return redirect()->route('mission.show')->with('success', 'Mission supprimée avec succès.');
+}
 }
