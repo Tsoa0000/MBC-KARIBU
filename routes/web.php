@@ -60,8 +60,10 @@ Route::get('/trajet', [TrajetController::class, 'create'])->name('trajet.create'
 Route::post('/trajet', [TrajetController::class, 'store'])->name('trajet.store');
 Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.destroy');
 
-
-Route::post('/trajet/distance', [TrajetController::class, 'getDistance'])->name('trajet.distance');
+// ======= Mission =======
+Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
+Route::get('/missions', [MissionController::class, 'missions'])->name('mission.list');
+Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 
 
 

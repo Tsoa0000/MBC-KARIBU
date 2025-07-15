@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Trajet;
 use App\Models\Voiture;
 use App\Models\DetailChauff;

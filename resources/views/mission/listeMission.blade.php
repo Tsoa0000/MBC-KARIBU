@@ -60,10 +60,11 @@
     background: #33897f;
     color: white;
     padding: 0.65rem 1.7rem;
+    border: none;
+    cursor: pointer;
     text-decoration: none;
     border-radius: 0.8rem;
     font-weight: 600;
-    box-shadow: 0 7px 16px rgba(51, 137, 127, 0.1);
     transition: all 0.3s ease;
     font-size: 1rem;
     white-space: nowrap;
@@ -121,15 +122,6 @@
     word-wrap: break-word;
   }
 
-  .ok {
-    color: #33897f;
-    font-weight: 700;
-  }
-
-  .nok {
-    color: #e53935;
-    font-weight: 700;
-  }
 
   @media (max-width: 768px) {
     .header-top {
@@ -168,23 +160,114 @@
   font-size: 1rem;
   transition: 0.3s ease;
 }
+/*modal style */
+.form {
+      background: #ffffff;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1.8rem;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2d5c4a;
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 0.92rem;
+      color: #2d5c4a;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border-radius: 14px;
+      border: none;
+      box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+      font-size: 0.95rem;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #33897f;
+      background: #f0fbff;
+    }
+
+    select:hover, input:hover, textarea:hover {
+      border: 1px solid #33897f;
+    }
+
+    textarea {
+      resize: none;
+      height: 60px;
+    }
+
+    .button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      background: #2d5c4a;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(45, 92, 74, 0.4);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .button:hover {
+      background: #e2a346;
+      transform: translateY(-1px);
+    }
+    .bt{
+        position:absolute;
+        top:10px; right:16px;
+        background:none;
+        border:1px #e2a346 solid;
+        border-radius:50%; width:30px;
+
+        color: #2d5c4a;
+        height: 30px;
+        cursor:pointer;
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .full-width {
+        grid-column: span 1;
+      }
+    }
 </style>
 @endsection
-
 @section('body')
 <main id="main" class="main">
   <div class="container">
-
-    <div class="header-top">
-      <h2 class="page-title">Liste des missions</h2>
-      <a href="{{ route('verification.form') }}" class="btn-create">+ Nouvelle missions</a>
-    </div>
-
+<div class="header-top">
+  <h2 class="page-title">Liste des missions</h2>
+  <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
+</div>
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
-            <th>Chauffeur</th>
             <th>Date de départ</th>
             <th>Date d'arriver</th>
             <th>Lieu de depart</th>
@@ -195,26 +278,101 @@
           </tr>
         </thead>
         <tbody>
-          @forelse ()
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <a href="{{ route('verification.delete', $v['id']) }}" class="action-btn btn-delete">
-                        <i class="ri-delete-bin-line"></i>
-                    </a></td>
-                </tr>
-              @empty
-            <tr><td colspan="4">Aucun mission enregistré.</td></tr>
-          @endforelse
-        </tbody>
+  @forelse ($missions as $mission)
+    <tr>
+      <td>{{ $mission->date_depart }}</td>
+      <td>{{ $mission->date_arrive }}</td>
+      <td>{{ $mission->lieuDepart->nom ?? '' }}</td>
+      <td>{{ $mission->lieuArrivee->nom ?? '' }}</td>
+      <td>{{ $mission->voiture->modele ?? '' }}</td>
+      <td>{{ $mission->objet }}</td>
+      <td>
+        <a href="{{ route('mission.delete', $mission->id) }}" class="action-btn btn-delete">
+          <i class="ri-delete-bin-line"></i>
+        </a>
+      </td>
+    </tr>
+  @empty
+    <tr><td colspan="7">Aucun mission enregistré.</td></tr>
+  @endforelse
+</tbody>
       </table>
     </div>
   </div>
+<!-- Modal Mission -->
+<div id="missionModal" style="display:none; position:fixed; top:0; left:0; width:105vw; height:105vh; background:rgba(0,0,0,0.3); z-index:1000; justify-content:center; align-items:center;">
+  <div style="background:#fff; border-radius:20px; position:relative;" class="form">
+    <button id="closeModalBtn" class="bt">&times;</button>
+    <form  id="trajetForm" method="POST" action="{{ route('mission.store') }}">
+      @csrf
+      <h2> Mission</h2>
+      <div class="grid">
+        <div>
+          <label for="dateDepart"> Date de départ</label>
+          <input type="date" id="dateDepart" name="date_depart" required>
+        </div>
+        <div>
+          <label for="dateArrivee">Date d'arrivée</label>
+          <input type="date" id="dateArrivee" name="date_arrive" required>
+        </div>
+        <div>
+          <label for="">Lieu de départ</label>
+          <select id="lieuDepart" name="lieu_depart" required>
+            <option value="" disabled selected>-- Choisir --</option>
+            @forelse ($trajets as $t)
+              <option value="{{ $t->lieu_depart_id }}">{{ $t->nomLieu }}</option>
+            @empty
+              <option value="" disabled>Aucun lieu disponible</option>
+            @endforelse
+          </select>
+        </div>
+        <div>
+          <label for="">Lieu d'arrivée</label>
+          <select id="lieuArrivee" name="lieu_arrivee" required>
+            <option value="" disabled selected>-- Choisir --</option>
+            @forelse ($trajets as $t)
+              <option value="{{ $t->lieu_arrive_id }}">{{ $t->nomLieu }}</option>
+            @empty
+              <option value="" disabled>Aucun lieu disponible</option>
+            @endforelse
+          </select>
+        </div>
+      </div>
+      <div class="mt-3">
+        <label for="">Voiture proposée</label>
+        <select name="voiture_id" required>
+          <option value="" disabled selected>Choisir une immatriculation</option>
+          @forelse ($voitures as $v)
+            <option value="{{ $v->id }}">{{ $v->modele }}</option>
+          @empty
+            <option value="" disabled>Aucune voiture disponible</option>
+          @endforelse
+        </select>
+      </div>
+      <div class="width mt-3">
+        <label for="objet">Objet</label>
+        <textarea id="objet" name="objet" placeholder="Motif..." required></textarea>
+      </div>
+      <div class="width">
+        <button type="submit" class="button">Envoyer</button>
+      </div>
+    </form>
+  </div>
+</div>
+</main>
+
+@section('script')
+<script>
+  const modal = document.getElementById('missionModal');
+  const openBtn = document.getElementById('openModalBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+
+  openBtn.onclick = () => modal.style.display = 'flex';
+  closeBtn.onclick = () => modal.style.display = 'none';
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.style.display = 'none';
+  }
+</script>
+@endsection
 </main>
 @endsection

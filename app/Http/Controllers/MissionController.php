@@ -11,27 +11,30 @@ use App\Http\Controllers\Controller;
 
 class MissionController extends Controller
 {
-    public function showMission(){
-        return view('mission.listeMission');
-    }
-      public function missions()
-    {
-       $trajets = Trajet::orderBy('lieu_depart_id')
-                         ->orderBy('lieu_arrive_id')
-                         ->get();
+    public function showMission()
+    { $trajets= Trajet::all();
         $voitures = Voiture::orderBy('modele')->get();
-        $chauffeurs = DetailChauff::orderBy('prenom')->get();
-        return view('mission.mission.', compact('trajet'));
+        $chauffeurs = DetailChauff::with('user_id')->get();
+        $missions = Mission::with(['lieuDepart', 'lieuArrivee', 'voiture'])->get();
+        return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
     }
     public function mission(Request $request){
         $request -> validate([
             'voiture_id' => 'required|exists:voitures,id',
             'chauffeur_id' => 'required|exists:detail_chauffs,id',
-            'trajet_id' => 'required|exists:trajets,id',
+            'lieu_depart' => 'required|exists:trajets,lieu_depart_id',
+            'lieu_arrivee' => 'required|exists:trajets,lieu_arrive_id',
             'date_depart' => 'required|date',
             'date_arrive' => 'required|date|after_or_equal:date_depart',
             'objet' => 'required|string|max:255',
         ]);
+        $trajets = Trajet::where('lieu_depart_id', $request->lieu_depart)
+                    ->where('lieu_arrive_id', $request->lieu_arrivee)
+                    ->first();
+        if (!$trajets) {
+            return redirect()->back()->withErrors(['trajets' => 'Trajet non trouvé.']);
+        }
+        // Créer une nouvelle mission
         $mission = new Mission();
         $mission->voiture_id = $request->voiture_id;
         $mission->chauffeur_id = $request->chauffeur_id;
@@ -40,5 +43,6 @@ class MissionController extends Controller
         $mission->date_arrive = $request->date_arrive;
         $mission->objet = $request->objet;
         $mission->save();
+        return redirect()->route('mission.show')->with('success', 'Mission créée avec succès.');
     }
 }
