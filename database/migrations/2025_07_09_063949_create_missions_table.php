@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('missions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('voiture_id')->constrained()->onDelete('cascade');
-           $table->foreignId('chauffeur_id')->constrained('detail_chauffs')->onDelete('cascade');
+            $table->foreignId('chauffeur_id')->constrained('detail_chauffs')->onDelete('cascade');
             $table->foreignId('trajet_id')->constrained()->onDelete('cascade');
             $table->date('date_depart');
             $table->date('date_arrive');

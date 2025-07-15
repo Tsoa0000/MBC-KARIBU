@@ -1,101 +1,164 @@
 @extends('app')
 
-@section('content')
-<div class="container mt-5">
-    <h2>Créer une Mission</h2>
+@section('style')
+<style>
+    * {
+      box-sizing: border-box;
+    }
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #e0f2f1, #c8e6c9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      overflow: hidden;
+    }
 
-    <form action="{{ route('mission.create') }}" method="POST">
-        @csrf
+    form {
+      background: #ffffff;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1.8rem;
+      border-radius: 20px;
 
-        {{-- Trajet --}}
-        <div class="mb-3">
-            <label for="trajet" class="form-label">Trajet</label>
-            <select id="trajet" name="trajet_id" class="form-select" required>
-                <option value="">-- Sélectionnez un trajet --</option>
-                @foreach($trajets as $trajet)
-                    <option value="{{ $trajet->id }}">
-                        {{ $trajet->lieuDepart->nom }} → {{ $trajet->lieuArrivee->nom }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+      max-width: 640px;
+      width: 100%;
+    }
 
-        {{-- Voiture --}}
-        <div class="mb-3">
-            <label for="voiture" class="form-label">Voiture proposée</label>
-            <select id="voiture" name="voiture_id" class="form-select" required>
-                <option value="">-- Choisissez un trajet d'abord --</option>
-            </select>
-        </div>
+    h2 {
+      text-align: center;
+      color: #2d5c4a;
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+    }
 
-        {{-- Chauffeur --}}
-        <div class="mb-3">
-            <label for="chauffeur" class="form-label">Chauffeur</label>
-            <select id="chauffeur" name="chauffeur_id" class="form-select" required>
-                <option value="">-- Sélectionnez un chauffeur --</option>
-                @foreach($chauffeurs as $chauffeur)
-                    <option value="{{ $chauffeur->id }}">{{ $chauffeur->nom }}</option>
-                @endforeach
-            </select>
-        </div>
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
 
-        {{-- Dates --}}
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label for="date_depart" class="form-label">Date de départ</label>
-                <input type="date" name="date_depart" id="date_depart" class="form-control" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="date_arrive" class="form-label">Date d’arrivée</label>
-                <input type="date" name="date_arrive" id="date_arrive" class="form-control" required>
-            </div>
-        </div>
+    .width {
+      grid-column: span 2;
+    }
 
-        {{-- Objet --}}
-        <div class="mb-3">
-            <label for="objet" class="form-label">Objet de la mission</label>
-            <textarea name="objet" id="objet" class="form-control" rows="3" required></textarea>
-        </div>
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 0.92rem;
+      color: #2d5c4a;
+    }
 
-        <button type="submit" class="btn btn-primary">Enregistrer la mission</button>
-    </form>
-</div>
+    input, select, textarea {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      border-radius: 14px;
+      border: none;
+      box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+      font-size: 0.95rem;
+    }
 
-<script>
-    document.getElementById('trajet').addEventListener('change', function () {
-        let trajetId = this.value;
-        fetch('{{ url("/missions/voitures") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ trajet_id: trajetId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const voitureSelect = document.getElementById('voiture');
-            voitureSelect.innerHTML = '';
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #33897f;
+      background: #f0fbff;
+    }
 
-            if (data.length === 0) {
-                let opt = document.createElement('option');
-                opt.text = 'Aucune voiture disponible';
-                voitureSelect.appendChild(opt);
-            } else {
-                data.forEach(voiture => {
-                    let opt = document.createElement('option');
-                    opt.value = voiture.id;
-                    opt.text = `${voiture.matricule} - ${voiture.modele}`;
-                    voitureSelect.appendChild(opt);
-                });
-            }
-        });
-    });
-</script>
+    select:hover, input:hover, textarea:hover {
+      border: 1px solid #33897f;
+    }
+
+    textarea {
+      resize: none;
+      height: 60px;
+    }
+
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.8rem;
+      background: #2d5c4a;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(45, 92, 74, 0.4);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #e2a346;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(226, 163, 70, 0.4);
+    }
+
+    @media (max-width: 640px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+      .full-width {
+        grid-column: span 1;
+      }
+    }
+  </style>
 @endsection
+@section('body')
+<main id="main" class="main">
+<form id="trajetForm">
+  <h2> Mission</h2>
+  <div class="grid-2col">
+    <div>
+      <label for="dateDepart"> Date de départ</label>
+      <input type="date" id="dateDepart" name="dateDepart" required>
+    </div>
+    <div>
+      <label for="dateArrivee">Date d'arrivée</label>
+      <input type="date" id="dateArrivee" name="dateArrivee" required>
+    </div>
+
+    <div>
+      <label for="lieuDepart">De</label>
+      <select id="lieuDepart" name="lieuDepart" required>
+        <option value="">-- Choisir --</option>
+
+      </select>
+    </div>
+
+    <div>
+      <label for="lieuArrivee">À</label>
+      <select id="lieuArrivee" name="lieuArrivee" required>
+        <option value="">-- Choisir --</option>
+
+      </select>
+    </div>
+
+    <div class="width">
+      <label for="voiture">Voiture</label>
+      <select id="voiture" name="voiture" disabled>
+        <option value="">-- Choisir lieux d'abord --</option>
+      </select>
+    </div>
+
+    <div class="width">
+      <label for="objet">Objet</label>
+      <textarea id="objet" name="objet" placeholder="Motif..." required></textarea>
+    </div>
+
+    <div class="width">
+      <button type="submit">Envoyer</button>
+    </div>
+  </div>
+</form>
+</main>
+@endsection
+@section('script')
+
+@endsection
+
+
