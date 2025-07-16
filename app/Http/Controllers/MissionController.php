@@ -12,23 +12,16 @@ use App\Http\Controllers\Controller;
 class MissionController extends Controller
 {
     public function showMission(Request $request)
-    { $lieu_depart = $request->input('lieu_depart');
+    {
+    $lieu_depart = $request->input('lieu_depart');
     $lieu_arrivee = $request->input('lieu_arrive');
 
     $trajet = Trajet::where('lieu_depart_id', $lieu_depart)
                     ->where('lieu_arrive_id', $lieu_arrivee)
                     ->first();
 
-    $typeRoute = $trajet ? $trajet->type_route : null;
-
-    $correspondances = [
-        'secondaire' => ['4x4'],
-        'principale' => ['berline', 'suv', '4x4'],
-        'montagne'   => ['4x4', 'pickup'],
-    ];
-$voitures = $typeRoute && isset($correspondances[$typeRoute])
-    ? Voiture::whereIn('typeVehi', $correspondances[$typeRoute])->orderBy('modele')->get()
-    : Voiture::orderBy('modele')->get();
+    $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
+    $voitures = Voiture::all();
 
     $chauffeurs = DetailChauff::all();
     $trajets = Trajet::all();

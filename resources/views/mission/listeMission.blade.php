@@ -356,15 +356,20 @@
 @endforelse
   </select>
 </div>
+<div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;" ></div>
 <div>
-        <label for="">Voiture proposée</label>
-    <select name="voiture_id" required>
-        <option value="">Voiture</option>
-        @foreach($voitures as $voiture)
-            <option value="{{ $voiture->id }}">{{ $voiture->modele }} ({{ $voiture->typeVehi }})</option>
-        @endforeach
-    </select>
-      </div>
+  <label for="voiture_id">Voiture proposée</label>
+<select id="voitureSelect" name="voiture_id" required>
+  <option value="">-- Choisir une voiture --</option>
+  @foreach($voitures as $v)
+    <option value="{{ $v->id }}" data-type="{{ $v->typeVehi }}">
+      {{ $v->modele }} ({{ $v->typeVehi }})
+    </option>
+  @endforeach
+</select>
+
+</div>
+
       </div>
       <div class="width mt-3">
         <label for="objet">Objet</label>
@@ -427,6 +432,60 @@
     });
   });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const lieuDepart = document.getElementById("lieuDepart");
+  const voitureSelect = document.getElementById("voitureSelect");
+  const typeRouteDisplay = document.getElementById("typeRouteDisplay");
+  const trajets = [
+    @foreach($trajets as $t)
+      {
+        departId: "{{ $t->lieu_depart_id }}",
+        typeRoute: "{{ strtolower($t->typeRoute) }}"
+      },
+    @endforeach
+  ];
+
+
+  const originalVoitures = Array.from(voitureSelect.querySelectorAll("option")).slice(1);
+
+  const compatibilite = {
+    "goudronnée": ["berline", "suv", "pick-up","4x4","minibus"],
+    "mixte": ["4x4", "suv", "camionnette", "pick-up"],
+    "secondaire": ["4x4", "pick-up", "camionnette"]
+  };
+
+  lieuDepart.addEventListener("change", function () {
+    const selectedId = this.value;
+
+    voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
+    typeRouteDisplay.textContent = "";
+
+    const trajet = trajets.find(t => t.departId === selectedId);
+
+    if (!trajet) return;
+
+    const typeRoute = trajet.typeRoute;
+    const typesAcceptes = compatibilite[typeRoute] || [];
+
+    typeRouteDisplay.textContent = "Type de route détecté : " + typeRoute;
+
+    originalVoitures.forEach(opt => {
+      const typeVoiture = opt.getAttribute("data-type").toLowerCase();
+
+      if (typesAcceptes.includes(typeVoiture)) {
+        voitureSelect.appendChild(opt.cloneNode(true));
+      }
+    });
+  });
+});
+</script>
+
+
+
+
+
 
 @endsection
 </main>

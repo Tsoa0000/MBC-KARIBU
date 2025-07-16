@@ -302,7 +302,7 @@ td {
             <option value="" disabled selected hidden></option>
             <option value="secondaire">Secondaire</option>
             <option value="goudronnée">Goudronnée</option>
-            <option value="montagne">Montagne</option>
+            <option value="mixte">Mixte</option>
           </select>
           <label for="typeRoute">Type de route</label>
         </div>
