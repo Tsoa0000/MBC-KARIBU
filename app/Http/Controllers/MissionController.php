@@ -11,10 +11,27 @@ use App\Http\Controllers\Controller;
 
 class MissionController extends Controller
 {
-    public function showMission()
-    { $trajets= Trajet::all();
-        $voitures = Voiture::orderBy('modele')->get();
-        $chauffeurs = DetailChauff::all();
+    public function showMission(Request $request)
+    { $lieu_depart = $request->input('lieu_depart');
+    $lieu_arrivee = $request->input('lieu_arrive');
+
+    $trajet = Trajet::where('lieu_depart_id', $lieu_depart)
+                    ->where('lieu_arrive_id', $lieu_arrivee)
+                    ->first();
+
+    $typeRoute = $trajet ? $trajet->type_route : null;
+
+    $correspondances = [
+        'secondaire' => ['4x4'],
+        'principale' => ['berline', 'suv', '4x4'],
+        'montagne'   => ['4x4', 'pickup'],
+    ];
+$voitures = $typeRoute && isset($correspondances[$typeRoute])
+    ? Voiture::whereIn('typeVehi', $correspondances[$typeRoute])->orderBy('modele')->get()
+    : Voiture::orderBy('modele')->get();
+
+    $chauffeurs = DetailChauff::all();
+    $trajets = Trajet::all();
         $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture'])->get();
         return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
     }
@@ -28,6 +45,21 @@ class MissionController extends Controller
             'date_arrive' => 'required|date|after_or_equal:date_depart',
             'objet' => 'required|string|max:255',
         ]);
+            // Vérifier si la voiture est déjà utilisée sur la période demandée
+    $chevauchement = Mission::where('voiture_id', $request->voiture_id)
+        ->where(function($query) use ($request) {
+            $query->whereBetween('date_depart', [$request->date_depart, $request->date_arrive])
+                  ->orWhereBetween('date_arrive', [$request->date_depart, $request->date_arrive])
+                  ->orWhere(function($q) use ($request) {
+                      $q->where('date_depart', '<=', $request->date_depart)
+                        ->where('date_arrive', '>=', $request->date_arrive);
+                  });
+        })
+        ->exists();
+
+    if ($chevauchement) {
+        return back()->withErrors(['voiture_id' => 'Cette voiture est déjà utilisée pour une mission sur cette période.'])->withInput();
+    }
         // Créer une nouvelle mission
         $mission = new Mission();
         $mission->voiture_id = $request->voiture_id;
@@ -47,3 +79,4 @@ public function delete($id)
         return redirect()->route('mission.show')->with('success', 'Mission supprimée avec succès.');
 }
 }
+

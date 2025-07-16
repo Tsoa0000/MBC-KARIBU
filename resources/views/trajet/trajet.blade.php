@@ -100,7 +100,7 @@
     .divider {
       height: 1px;
       background: #e0e5e3;
-      margin: 2rem 0 1rem;
+      margin: 0rem 0 1rem;
     }
 
   .page-title {
@@ -120,7 +120,7 @@
 .table-wrapper {
   overflow-x: auto;
   border-radius: 1rem;
-  margin-top: 2rem;
+  margin-top: 0rem;
 }
 
 table.voiture-table {
@@ -251,7 +251,25 @@ td {
   background-color: #e2a346;
   color: #fff;
 }
+.btn-delete {
+    height: 30px;
+    width: 30px;
+    margin-left: 20px;
+    border: 1px #e2a346 solid;
+    color: #e2a346 ;
 
+}
+.action-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
 
   </style>
 @endsection
@@ -282,10 +300,9 @@ td {
         <div class="form-group">
           <select name="typeRoute" required>
             <option value="" disabled selected hidden></option>
-            <option value="Asphaltée">Secondaire</option>
-            <option value="Piste">Piste</option>
-            <option value="Mixte">Pavée</option>
-            <option value="Mixte">Autoroute</option>
+            <option value="Secondaire">Secondaire</option>
+            <option value="Goudronnier">Goudronnier</option>
+            <option value="Montagne">Montagne</option>
           </select>
           <label for="typeRoute">Type de route</label>
         </div>
@@ -311,6 +328,7 @@ td {
         <th>Arrivée</th>
         <th>Type de route</th>
         <th>Kilométrage</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -320,6 +338,11 @@ td {
           <td>{{ $trajet->lieuArrivee?->nomLieu ?? '-' }}</td>
           <td>{{ $trajet->typeRoute }}</td>
           <td>{{ $trajet->km ?? '-' }} km</td>
+          <td>
+        <a href="{{ route('trajet.destroy', $trajet->id) }}" class="action-btn btn-delete">
+          <i class="ri-delete-bin-line"></i>
+        </a>
+      </td>
         </tr>
       @empty
         <tr>

@@ -260,6 +260,11 @@
 @section('body')
 <main id="main" class="main">
   <div class="container">
+             @if ($errors->has('voiture_id'))
+    <div class="alert alert-danger">
+        {{ $errors->first('voiture_id') }}
+    </div>
+@endif
 <div class="header-top">
   <h2 class="page-title">Liste des missions</h2>
   <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
@@ -350,16 +355,14 @@
 @endforelse
   </select>
 </div>
-      <div>
+<div>
         <label for="">Voiture proposée</label>
-        <select name="voiture_id" required>
-          <option value="" disabled selected>Choisir une immatriculation</option>
-          @forelse ($voitures as $v)
-            <option value="{{ $v->id }}">{{ $v->modele }}</option>
-          @empty
-            <option value="" disabled>Aucune voiture disponible</option>
-          @endforelse
-        </select>
+    <select name="voiture_id" required>
+        <option value="">Voiture</option>
+        @foreach($voitures as $voiture)
+            <option value="{{ $voiture->id }}">{{ $voiture->modele }} ({{ $voiture->typeVehi }})</option>
+        @endforeach
+    </select>
       </div>
       </div>
       <div class="width mt-3">
