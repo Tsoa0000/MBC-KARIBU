@@ -8,31 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class DetailChaufController extends Controller
-{
+class DetailChaufController extends Controller {
 
+    public function create() {
 
-    public function create(){
-
-        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E',];
-        return view('Authentification.auth', ['typePermis' => $typePermis]);
+        $typePermis = [ 'A', 'A1', 'B', 'C', 'D', 'E', ];
+        return view( 'Authentification.auth', [ 'typePermis' => $typePermis ] );
     }
-public function register(Request $request)
-{
-    // Validation des données du formulaire
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'first_name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:4',
-        'numeroPermis' => 'required|string|max:255',
-        'typePermis.*' => 'in:A,A1,B,C,D,E,',
-        'typePermis' => 'required|array',
-        'dateValidite' => 'required|date',
 
-    ]);
+    public function register( Request $request ) {
+        // Validation des données du formulaire
+        $request->validate( [
+            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:4',
+            'numeroPermis' => 'required|string|max:255',
+            'typePermis.*' => 'in:A,A1,B,C,D,E,',
+            'typePermis' => 'required|array',
+            'dateValidite' => 'required|date',
 
-    // Création de l'utilisateur
+        ] );
+
+        // Création de l'utilisateur
     $user = new User();
     $user->name = $request->name;
     $user->first_name = $request->first_name;
@@ -45,7 +43,7 @@ public function register(Request $request)
     $detailChauff = new DetailChauff();
     $detailChauff->numeroPermis = $request->numeroPermis;
     $detailChauff->dateValidite = $request->dateValidite;
-    $detailChauff->typePermis =  implode(',', $request->typePermis);
+    $detailChauff->typePermis =  implode(', ', $request->typePermis);
     $detailChauff->user_id = $user->id;
     $detailChauff->save();
 
@@ -61,8 +59,8 @@ public function register(Request $request)
          ]);
 
          // Authentification de l'utilisateur
-         if (Auth::attempt($credentials)) {
-             // Si l'utilisateur est authentifié, on le redirige en fonction de son rôle
+        if ( Auth::attempt( $credentials ) ) {
+            // Si l'utilisateur est authentifié, on le redirige en fonction de son rôle
              $user = Auth::user();
 
              if ($user->role === '1') {
@@ -74,6 +72,6 @@ public function register(Request $request)
          return back()->withErrors([
              'email' => 'email incorrecte.',
              'password' => 'Mot de passe incorrecte.',
-         ]);
-     }
+        ] );
+    }
 }

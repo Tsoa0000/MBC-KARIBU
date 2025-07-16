@@ -6,9 +6,8 @@ use App\Models\Verification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Voiture extends Model
-{
-      protected $fillable = [
+class Voiture extends Model {
+    protected $fillable = [
         'id',
         'matricule',
         'modele',
@@ -17,9 +16,10 @@ class Voiture extends Model
         'conso',
         'nbrPlace'
     ];
+
     public function verification() {
 
-        return $this->hasMany(Verification::class);
+        return $this->hasMany( Verification::class );
     }
     use HasFactory;
 }

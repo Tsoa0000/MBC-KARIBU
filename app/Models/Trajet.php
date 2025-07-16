@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Trajet extends Model
-{
+class Trajet extends Model {
     use HasFactory;
 
     protected $fillable = [
@@ -15,13 +14,13 @@ class Trajet extends Model
         'typeRoute',
         'km',
     ];
-    public function lieuDepart()
-{
-    return $this->belongsTo(Lieu::class, 'lieu_depart_id');
-}
-public function lieuArrivee()
-{
-    return $this->belongsTo(Lieu::class, 'lieu_arrive_id');
-}
+
+    public function lieuDepart() {
+        return $this->belongsTo( Lieu::class, 'lieu_depart_id' );
+    }
+
+    public function lieuArrivee() {
+        return $this->belongsTo( Lieu::class, 'lieu_arrive_id' );
+    }
 
 }

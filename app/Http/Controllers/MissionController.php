@@ -9,27 +9,26 @@ use App\Models\DetailChauff;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MissionController extends Controller
-{
-    public function showMission(Request $request)
-    {
-    $lieu_depart = $request->input('lieu_depart');
-    $lieu_arrivee = $request->input('lieu_arrive');
+class MissionController extends Controller {
+    public function showMission( Request $request ) {
+        $lieu_depart = $request->input( 'lieu_depart' );
+        $lieu_arrivee = $request->input( 'lieu_arrive' );
 
-    $trajet = Trajet::where('lieu_depart_id', $lieu_depart)
-                    ->where('lieu_arrive_id', $lieu_arrivee)
-                    ->first();
+        $trajet = Trajet::where( 'lieu_depart_id', $lieu_depart )
+        ->where( 'lieu_arrive_id', $lieu_arrivee )
+        ->first();
 
-    $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
-    $voitures = Voiture::all();
+        $trajets = Trajet::with( [ 'lieuDepart', 'lieuArrivee' ] )->get();
+        $voitures = Voiture::all();
 
-    $chauffeurs = DetailChauff::all();
-    $trajets = Trajet::all();
-        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture'])->get();
-        return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
+        $chauffeurs = DetailChauff::all();
+        $trajets = Trajet::all();
+        $missions = Mission::with( [ 'lieuDepart', 'lieuArrive', 'voiture' ] )->get();
+        return view( 'mission.listeMission', compact( 'missions', 'trajets', 'voitures', 'chauffeurs' ) );
     }
-    public function mission(Request $request){
-        $request -> validate([
+
+    public function mission( Request $request ) {
+        $request -> validate( [
             'voiture_id' => 'required|exists:voitures,id',
             'chauffeur_id' => 'required|exists:detail_chauffs,id',
             'lieu_depart' => 'required|exists:trajets,lieu_depart_id',
@@ -37,7 +36,7 @@ class MissionController extends Controller
             'date_depart' => 'required|date',
             'date_arrive' => 'required|date|after_or_equal:date_depart',
             'objet' => 'required|string|max:255',
-        ]);
+        ] );
         // Créer une nouvelle mission
         $mission = new Mission();
         $mission->voiture_id = $request->voiture_id;
@@ -48,13 +47,13 @@ class MissionController extends Controller
         $mission->date_arrive = $request->date_arrive;
         $mission->objet = $request->objet;
         $mission->save();
-        return redirect()->route('mission.show')->with('success', 'Mission créée avec succès.');
+        return redirect()->route( 'mission.show' )->with( 'success', 'Mission créée avec succès.' );
     }
-public function delete($id)
-    {
-        $mission = Mission::findOrFail($id);
+
+    public function delete( $id ) {
+        $mission = Mission::findOrFail( $id );
         $mission->delete();
-        return redirect()->route('mission.show')->with('success', 'Mission supprimée avec succès.');
-}
+        return redirect()->route( 'mission.show' )->with( 'success', 'Mission supprimée avec succès.' );
+    }
 }
 
