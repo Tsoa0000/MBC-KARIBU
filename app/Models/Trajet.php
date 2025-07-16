@@ -15,13 +15,10 @@ class Trajet extends Model
         'typeRoute',
         'km',
     ];
-
-
     public function lieuDepart()
 {
     return $this->belongsTo(Lieu::class, 'lieu_depart_id');
 }
-
 public function lieuArrivee()
 {
     return $this->belongsTo(Lieu::class, 'lieu_arrive_id');

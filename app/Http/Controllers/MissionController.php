@@ -45,21 +45,6 @@ $voitures = $typeRoute && isset($correspondances[$typeRoute])
             'date_arrive' => 'required|date|after_or_equal:date_depart',
             'objet' => 'required|string|max:255',
         ]);
-            // Vérifier si la voiture est déjà utilisée sur la période demandée
-    $chevauchement = Mission::where('voiture_id', $request->voiture_id)
-        ->where(function($query) use ($request) {
-            $query->whereBetween('date_depart', [$request->date_depart, $request->date_arrive])
-                  ->orWhereBetween('date_arrive', [$request->date_depart, $request->date_arrive])
-                  ->orWhere(function($q) use ($request) {
-                      $q->where('date_depart', '<=', $request->date_depart)
-                        ->where('date_arrive', '>=', $request->date_arrive);
-                  });
-        })
-        ->exists();
-
-    if ($chevauchement) {
-        return back()->withErrors(['voiture_id' => 'Cette voiture est déjà utilisée pour une mission sur cette période.'])->withInput();
-    }
         // Créer une nouvelle mission
         $mission = new Mission();
         $mission->voiture_id = $request->voiture_id;

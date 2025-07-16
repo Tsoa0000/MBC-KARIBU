@@ -267,6 +267,7 @@
 @endif
 <div class="header-top">
   <h2 class="page-title">Liste des missions</h2>
+
   <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
 </div>
     <div class="table-wrapper">
@@ -298,7 +299,7 @@
       </td>
     </tr>
   @empty
-    <tr><td colspan="7">Aucun mission enregistré.</td></tr>
+    <tr><td colspan="7">Aucune mission enregistré.</td></tr>
   @endforelse
 </tbody>
       </table>
@@ -388,7 +389,45 @@
   modal.onclick = function(e) {
     if (e.target === modal) modal.style.display = 'none';
   }
+
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const lieuDepartSelect = document.getElementById("lieuDepart");
+    const lieuArriveeSelect = document.getElementById("lieuArrivee");
+
+    // Tableau des trajets (lieu_depart_id -> lieu_arrivee_id et nom)
+    const trajets = [
+      @foreach($trajets as $t)
+        {
+          departId: "{{ $t->lieu_depart_id }}",
+          arriveeId: "{{ $t->lieu_arrive_id }}",
+          arriveeNom: "{{ $t->lieuArrivee->nomLieu }}"
+        },
+      @endforeach
+    ];
+
+    lieuDepartSelect.addEventListener("change", function () {
+      const selectedDepart = this.value;
+
+      // Vide les options précédentes du select lieu d'arrivée
+      lieuArriveeSelect.innerHTML = '<option value="" disabled selected>-- Choisir --</option>';
+
+      // Recherche du trajet correspondant
+      const trajet = trajets.find(t => t.departId === selectedDepart);
+
+      if (trajet) {
+        const option = document.createElement("option");
+        option.value = trajet.arriveeId;
+        option.textContent = trajet.arriveeNom;
+        option.selected = true;
+        lieuArriveeSelect.appendChild(option);
+      }
+    });
+  });
+</script>
+
 @endsection
 </main>
 @endsection

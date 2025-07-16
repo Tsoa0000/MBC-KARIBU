@@ -300,9 +300,9 @@ td {
         <div class="form-group">
           <select name="typeRoute" required>
             <option value="" disabled selected hidden></option>
-            <option value="Secondaire">Secondaire</option>
-            <option value="Goudronnier">Goudronnier</option>
-            <option value="Montagne">Montagne</option>
+            <option value="secondaire">Secondaire</option>
+            <option value="goudronnée">Goudronnée</option>
+            <option value="montagne">Montagne</option>
           </select>
           <label for="typeRoute">Type de route</label>
         </div>
