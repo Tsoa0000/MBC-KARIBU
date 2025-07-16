@@ -15,7 +15,7 @@ class MissionController extends Controller
     { $trajets= Trajet::all();
         $voitures = Voiture::orderBy('modele')->get();
         $chauffeurs = DetailChauff::all();
-        $missions = Mission::with(['lieuDepart', 'lieuArrivee', 'voiture'])->get();
+        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture'])->get();
         return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
     }
     public function mission(Request $request){

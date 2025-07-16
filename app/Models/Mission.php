@@ -23,8 +23,8 @@ protected $fillable = [
      public function lieuDepart() {
     return $this->belongsTo(Lieu::class, 'lieu_depart_id');
 }
-public function lieuArrivee() {
-    return $this->belongsTo(Lieu::class, 'lieu_arrivee_id');
+public function lieuArrive() {
+    return $this->belongsTo(Lieu::class, 'lieu_arrive_id');
 }
 public function voiture() {
     return $this->belongsTo(Voiture::class, 'voiture_id');

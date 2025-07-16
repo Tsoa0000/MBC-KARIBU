@@ -283,7 +283,7 @@
         <td>{{ $mission->date_depart }}</td>
         <td>{{ $mission->date_arrive }}</td>
         <td>{{ $mission->lieuDepart->nomLieu ?? '' }}</td>
-        <td>{{ $mission->lieuArrivee->nomLieu ?? '' }}</td>
+        <td>{{ $mission->lieuArrive->nomLieu ?? '' }}</td>
         <td>{{ $mission->voiture->modele ?? '' }}</td>
         <td>{{ $mission->objet }}</td>
       <td>
