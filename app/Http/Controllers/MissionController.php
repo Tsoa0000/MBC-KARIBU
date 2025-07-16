@@ -11,15 +11,13 @@ use App\Http\Controllers\Controller;
 
 class MissionController extends Controller
 {
-public function showMission()
-{
-    $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
-    $lieux = Lieu::orderBy('nomLieu')->get();
-    $voitures = Voiture::orderBy('modele')->get();
-    $chauffeurs = DetailChauff::all();
-    $missions = Mission::with(['lieuDepart', 'lieuArrivee', 'voiture'])->get();
-    return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs', 'lieux'));
-}
+    public function showMission()
+    { $trajets= Trajet::all();
+        $voitures = Voiture::orderBy('modele')->get();
+        $chauffeurs = DetailChauff::all();
+        $missions = Mission::with(['lieuDepart', 'lieuArrivee', 'voiture'])->get();
+        return view('mission.listeMission', compact('missions','trajets','voitures', 'chauffeurs'));
+    }
     public function mission(Request $request){
         $request -> validate([
             'voiture_id' => 'required|exists:voitures,id',

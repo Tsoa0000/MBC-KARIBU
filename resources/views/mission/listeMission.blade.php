@@ -282,8 +282,8 @@
     <tr>
         <td>{{ $mission->date_depart }}</td>
         <td>{{ $mission->date_arrive }}</td>
-        <td>{{ $mission->trajet->lieuDepart->nomLieu ?? '' }}</td>
-        <td>{{ $mission->trajet->lieuArrivee->nomLieu ?? '' }}</td>
+        <td>{{ $mission->lieuDepart->nomLieu ?? '' }}</td>
+        <td>{{ $mission->lieuArrivee->nomLieu ?? '' }}</td>
         <td>{{ $mission->voiture->modele ?? '' }}</td>
         <td>{{ $mission->objet }}</td>
       <td>
@@ -316,27 +316,27 @@
           <input type="date" id="dateArrivee" name="date_arrive" required>
         </div>
         <div>
-  <label for="">Lieu de départ</label>
-  <select id="lieuDepart" name="lieu_depart" required>
-    <option value="" disabled selected>-- Choisir --</option>
-    @forelse ($lieux as $l)
-      <option value="{{ $l->id }}">{{ $l->nomLieu }}</option>
-    @empty
-      <option value="" disabled>Aucun lieu disponible</option>
-    @endforelse
-  </select>
-</div>
-<div>
-  <label for="">Lieu d'arrivée</label>
-  <select id="lieuArrivee" name="lieu_arrivee" required>
-    <option value="" disabled selected>-- Choisir --</option>
-    @forelse ($lieux as $l)
-      <option value="{{ $l->id }}">{{ $l->nomLieu }}</option>
-    @empty
-      <option value="" disabled>Aucun lieu disponible</option>
-    @endforelse
-  </select>
-</div>
+          <label for="">Lieu de départ</label>
+          <select id="lieuDepart" name="lieu_depart" required>
+            <option value="" disabled selected>-- Choisir --</option>
+            @forelse ($trajets as $t)
+              <option value="{{ $t->lieu_depart_id }}">{{ $t->lieuDepart->nomLieu  }}</option>
+            @empty
+              <option value="" disabled>Aucun lieu disponible</option>
+            @endforelse
+          </select>
+        </div>
+        <div>
+          <label for="">Lieu d'arrivée</label>
+          <select id="lieuArrivee" name="lieu_arrivee" required>
+            <option value="" disabled selected>-- Choisir --</option>
+            @forelse ($trajets as $t)
+              <option value="{{ $t->lieu_arrive_id }}">{{ $t->lieuArrivee->nomLieu }}</option>
+            @empty
+              <option value="" disabled>Aucun lieu disponible</option>
+            @endforelse
+          </select>
+        </div>
         <div>
   <label for="chauffeur_id">Chauffeur</label>
   <select id="chauffeur_id" name="chauffeur_id" required>
