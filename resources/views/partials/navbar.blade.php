@@ -119,13 +119,13 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="{{route('mission.show')}}">
-            <i class="bi bi-circle"></i><span>Missions</span>
+          <a href="{{route('trajet.create')}}">
+            <i class="bi bi-circle"></i><span>Trajet</span>
           </a>
         </li>
         <li>
-          <a href="{{route('trajet.create')}}">
-            <i class="bi bi-circle"></i><span>Trajet</span>
+          <a href="{{route('mission.show')}}">
+            <i class="bi bi-circle"></i><span>Mission</span>
           </a>
         </li>
       </ul>
