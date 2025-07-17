@@ -9,6 +9,7 @@ use App\Http\Controllers\VoitureController;
 use App\Http\Controllers\DetailChaufController;
 use App\Http\Controllers\AjoutVoitureController;
 use App\Http\Controllers\VerifVoitureController;
+use App\Http\Controllers\TabBordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,10 @@ Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.d
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
+
+
+Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
+Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
 
 
 
