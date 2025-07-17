@@ -1,79 +1,98 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\DetailChauff;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class DetailChaufController extends Controller
-{
-
-
-    public function create(){
-
-        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E',];
-        return view('Authentification.auth', ['typePermis' => $typePermis]);
+{   public function create()
+    {
+        return view('Authentification.auth');
     }
-public function register(Request $request)
+    // Enregistrement d’un nouveau chauffeur (création de compte)
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:4',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->first_name = $request->first_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = '1';
+        $user->save();
+
+        return redirect()->route('dashboard');
+    }
+
+    // Connexion du chauffeur
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->role === '1') {
+                return redirect()->route('dashboard');
+            }
+        }
+
+        return back()->withErrors([
+            'email' => 'Email incorrect.',
+            'password' => 'Mot de passe incorrect.',
+        ]);
+    }
+
+    // Affichage du profil du chauffeur
+ public function showProfilChauffeur()
 {
-    // Validation des données du formulaire
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'first_name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:4',
-        'numeroPermis' => 'required|string|max:255',
-        'typePermis.*' => 'in:A,A1,B,C,D,E,',
-        'typePermis' => 'required|array',
-        'dateValidite' => 'required|date',
+    $user = Auth::user();
 
-    ]);
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir votre profil.');
+    }
 
-    // Création de l'utilisateur
-    $user = new User();
-    $user->name = $request->name;
-    $user->first_name = $request->first_name;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->role = "1";
-    $user->save();
+    $detailChauff = DetailChauff::where('user_id', $user->id)->first();
+    $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
 
-    // Création du détail du chauffeur
-    $detailChauff = new DetailChauff();
-    $detailChauff->numeroPermis = $request->numeroPermis;
-    $detailChauff->dateValidite = $request->dateValidite;
-    $detailChauff->typePermis =  implode(',', $request->typePermis);
-    $detailChauff->user_id = $user->id;
-    $detailChauff->save();
-
-     return redirect()->route('Dash');
+    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
 }
 
-     public function login(Request $request)
-     {
-         // Validation des données
-         $credentials = $request->validate([
-             'email' => 'required|email',
-             'password' => 'required',
-         ]);
 
-         // Authentification de l'utilisateur
-         if (Auth::attempt($credentials)) {
-             // Si l'utilisateur est authentifié, on le redirige en fonction de son rôle
-             $user = Auth::user();
+    // Enregistrement des détails du profil du chauffeur
+    public function ProfilChauffeur(Request $request)
+    {
+        $request->validate([
+            'numeroPermis' => 'required|string|max:20',
+            'dateValidite' => 'required|date',
+            'typePermis' => 'required|array',
+            'typePermis.*' => 'in:A,A1,B,C,D,E',
+            'cin' => 'required|string|max:12',
+        ]);
 
-             if ($user->role === '1') {
-                 return redirect()->route('Dash');  // Remplace avec la route du tableau de bord SuperAdmin
-             }
-         }
+        $user = Auth::user();
 
-         // Si l'authentification échoue, retourner un message d'erreur
-         return back()->withErrors([
-             'email' => 'email incorrecte.',
-             'password' => 'Mot de passe incorrecte.',
-         ]);
-     }
+        $detailChauff = new DetailChauff();
+        $detailChauff->numeroPermis = $request->numeroPermis;
+        $detailChauff->dateValidite = $request->dateValidite;
+        $detailChauff->typePermis = implode(', ', $request->typePermis);
+        $detailChauff->cin = $request->cin;
+        $detailChauff->user_id = $user->id;
+        $detailChauff->save();
+
+        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff'));
+    }
 }

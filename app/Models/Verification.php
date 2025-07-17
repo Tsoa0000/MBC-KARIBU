@@ -6,10 +6,9 @@ use App\Models\Voiture;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Verification extends Model
-{
+class Verification extends Model {
     use HasFactory;
-    protected $fillable=[
+    protected $fillable = [
 
         'id',
         'dateVerif',
@@ -21,7 +20,8 @@ class Verification extends Model
         'obs',
         'voiture_id',
     ];
-    public function voiture(){
-        return $this->belongsTo(Voiture::class);
+
+    public function voiture() {
+        return $this->belongsTo( Voiture::class );
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('numeroPermis');
             $table->date('dateValidite');
             $table->json('typePermis');
+            $table->string('cin');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

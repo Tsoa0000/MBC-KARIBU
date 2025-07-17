@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class LieuController extends Controller
-{
+class LieuController extends Controller {
     //
 }

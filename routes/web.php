@@ -17,34 +17,27 @@ use App\Http\Controllers\TabBordController;
 |--------------------------------------------------------------------------
 */
 
-// Authentification utilisateur
+// ======= AUTHENTIFICATION =======
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.attempt'); // <-- Ity no antsoina ao amin'ny form
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Tableau de bord
+// ======= DASHBOARD =======
 Route::get('/', [DashController::class, 'show'])->name('dashboard');
 
 
 // ======= GESTION DES VOITURES =======
 Route::get('/voiture/liste', [VoitureController::class,"showVoiture"])->name('voiture');
 
-// ajout
-
-
-
+// ======= AJOUT DES VOITURES =======
 Route::get('/voiture/ajouter', [AjoutVoitureController::class, 'create'])->name('voiture.ajout');
 Route::post('/voiture/ajoutVoiture', [AjoutVoitureController::class, 'store'])->name('voiture.store');
 Route::put('/voiture/{id}', [AjoutVoitureController::class, 'update'])->name('voiture.update');
-
-
-
+// ======= SUPPRESION DES VOITURE =======
 Route::get('/voiture/{id}', [AjoutVoitureController::class,"delete"])->name('voiture.delete');
 
-// verification
-
-
+// ======= VERIFICATION DES VOITURES =======
 Route::get('/verifications', [VerifVoitureController::class, 'index'])->name('verification.index');
 Route::get('/verification/formulaire', [VerifVoitureController::class, 'verification'])->name('verification.form');
 Route::post('/verification/store', [VerifVoitureController::class, 'verif'])->name('verification.store');
@@ -55,6 +48,9 @@ Route::get('/authChauffeur', [DetailChaufController::class,"create"])->name('Aut
 Route::post('/loginChauffeur',[DetailChaufController::class,"login"])->name('login.chauffeur');
 Route::post('/registerChauffeur',[DetailChaufController::class,"register"])->name('register.chauffeur');
 
+// ======= PROFIL CHAUFFEUR =======
+Route::get('/profilChauffeur', [DetailChaufController::class, 'showProfilChauffeur'])->name('profil.chauffeur');
+Route::post('/profilChauffeur/update', [DetailChaufController::class, 'updateProfilChauffeur'])->name('profil.chauffeur.update');
 
 // ======= Trajet =======
 Route::get('/trajet', [TrajetController::class, 'create'])->name('trajet.create');
