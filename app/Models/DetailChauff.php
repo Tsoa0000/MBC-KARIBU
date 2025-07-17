@@ -13,6 +13,7 @@ class DetailChauff extends Model {
         'numeroPermis',
         'dateValidite',
         'typePermis',
+        'cin',
         'user_id',
 
     ];

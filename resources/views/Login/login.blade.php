@@ -91,7 +91,7 @@
                     <span class="input-icon"><i class="fas fa-lock"></i></span>
                     <input type="password" name="password" id="password-register" placeholder=" " required>
                     <label for="password-register">Mot de passe</label>
-                    <span class="toggle-password" data-target="password-login" title="Afficher / masquer le mot de passe"
+                    <span class="toggle-password" data-target="password-register" title="Afficher / masquer le mot de passe"
                         role="button" tabindex="0">
                         <i class="fas fa-eye-slash"></i>
                     </span>
