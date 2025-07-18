@@ -1,0 +1,321 @@
+@import url("normalize.css");
+@import url('https://fonts.cdnfonts.com/css/skia');
+@import url('https://fonts.googleapis.com/css2?family=Noto+sans:wgthh@300;400&display=swap');
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::after, *::before {
+  box-sizing: inherit;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../image/back.png');
+  background-size: cover;
+  font: 14px 'skia', sans-serif;
+  overflow: hidden;
+}
+
+p, h1, span {
+  letter-spacing: 2px;
+  font-family: 'skia', sans-serif;
+}
+
+.container {
+  width: 650px;
+  height: 500px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.overlay-container {
+  background-color: #F6F6F6;
+  width: 100%;
+  height: 415px;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .1), 5px 5px 5px rgba(0, 0, 0, .1);
+}
+
+.overlay {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.overlay-right { right: 0; }
+.overlay-left { left: 0; }
+
+.overlay h1, .overlay h1 span {
+  font: 29px 'skia', sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #33897f;
+}
+
+.overlay p {
+  margin-top: 5px;
+  font-family: 'Noto sans', sans-serif;
+  font-size: 12px;
+  color: #33897f;
+}
+
+.overlay-left-img,
+.overlay-right-img {
+  width: 90px;
+  height: 100px;
+  margin: 15px 0;
+  opacity: .8;
+}
+
+.overlay .account {
+  font-size: 11px;
+  margin-top: 15px;
+}
+
+.btn {
+  color: #33897f;
+  border: solid 1px #33897f;
+  background: transparent;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 11px;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.btn:hover {
+  background: #d66c2f;
+  border: solid 1px #d66c2f;
+  color: #ffffff;
+}
+
+.btn:active {
+  transform: scale(.95);
+}
+
+.btn-submit {
+  background: #ffffff;
+  color: #d66c2f;
+  border: 1px solid #d66c2f;
+  margin-top: 5px;
+}
+
+.btn-submit:hover {
+  color: #f6f6f6;
+  background: #d66c2f;
+  border: 1px solid #ffffff;
+}
+
+.form-container {
+  width: 320px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  background-color: #33897f;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 1s;
+  box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, .05);
+}
+
+.sign-in-container {
+  z-index: 10;
+}
+
+.container.sign-up-mode .form-container {
+  transform: translateX(80%);
+}
+
+.container.sign-up-mode .sign-up-container {
+  z-index: 11;
+}
+
+.form-container h1 {
+  font-size: 24px;
+  color: #f6f6f6;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+form {
+  width: 100%;
+  text-align: center;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid rgba(246, 246, 246, 0.5);
+  background: transparent;
+  color: #ffffff;
+  margin-bottom: 10px;
+  caret-color: #d66c2f;
+}
+
+input:focus {
+  border-bottom: 1px solid #d66c2f;
+  padding-bottom: 15px;
+}
+
+::placeholder {
+  color: #f6f6f6;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 100;
+}
+
+input[type="checkbox"] {
+  width: 10px;
+  height: 10px;
+  accent-color: #d66c2f;
+}
+
+input[type="checkbox"] + label {
+  color: #ffffff;
+  margin-left: -10px;
+  font-size: 13px;
+}
+
+.marge {
+  color: #ffffff;
+  margin-bottom: 10px;
+  margin-left: -50px;
+  font-family: verdana;
+  font-size: 12px;
+}
+
+.marge1 {
+  color: #ffffff;
+  margin-bottom: 10px;
+  margin-left: -80px;
+  font-family: verdana;
+  font-size: 12px;
+}
+
+/* =============== Input Floating Modern avec Icon FontAwesome =============== */
+
+.input-floating {
+    position: relative;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto 1.2rem auto;
+  }
+
+  .input-floating input {
+    width: 100%;
+    padding: 10px 36px 10px 34px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0 0 5px 5px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+  }
+
+  .input-floating input:focus {
+    border-bottom-color: #d66c2f;
+  }
+
+  .input-floating input::placeholder {
+    color: transparent;
+  }
+
+  .input-floating label {
+    position: absolute;
+    top: 40%;
+    left: 34px;
+    transform: translateY(-50%);
+    color: #ffffffcc;
+    font-size: 15px;
+    pointer-events: none;
+    transition: 0.2s ease all;
+  }
+
+  .input-floating input:focus + label,
+  .input-floating input:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 28px;
+    font-size: 12px;
+    background: #33897f;
+    padding: 0 4px;
+    border-radius: 4px;
+    color: #fff;
+  }
+
+  .input-icon {
+    position: absolute;
+    top: 40%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #ffffffcc;
+    pointer-events: none;
+  }
+
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 15px;
+    color: #ffffffcc;
+    transition: color 0.3s;
+  }
+
+  .toggle-password:hover {
+    color: #fff;
+  }
+  .toast-message {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 500;
+    animation: slideDownFade 0.4s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .toast-success {
+    background-color: #28a745;
+  }
+  .toast-error {
+    background-color: #dc3545;
+  }
+  @keyframes slideDownFade {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+}
+}
