@@ -87,7 +87,7 @@
 <aside id="sidebar" class="sidebar">
 
   <ul class="sidebar-nav" id="sidebar-nav">
-
+@if (Auth::check() && Auth::user()->role === '0')
     <li class="nav-item">
       <a class="nav-link " href="{{ route('dashboard') }}">
         <i class="ri-dashboard-line"></i>
@@ -143,8 +143,17 @@
         <i class=" ri-file-excel-2-line"></i>
         <span>Rapport</span>
       </a>
+    @endif
     </li><!-- End rapport Page Nav -->
-  </ul>
+    @if (Auth::check() && Auth::user()->role === '1')
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{route('tabbord.index')}}">
+        <i class="ri-team-line"></i>
+        <span>Fiche de bord</span>
+      </a>
+    </li><!-- End chauffeur Page Nav -->
+    </ul>
+    @endif
 </aside><!-- End Sidebar-->
 
 <script src="/asset/js/bootstrap.min.js"></script>

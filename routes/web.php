@@ -62,9 +62,11 @@ Route::get('/mission', [MissionController::class, 'showMission'])->name('mission
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
 
-
+// ======= Tableau de bord =======
+Route::get('/tabbord/liste', [TabBordController::class, 'index'])->name('tabbord.index');
 Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
 Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
+
 
 
 

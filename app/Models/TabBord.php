@@ -26,4 +26,9 @@ class TabBord extends Model
     {
         return $this->belongsTo(DetailChauff::class, 'idChauff');
     }
+    public function user()
+{
+    return $this->belongsTo(User::class, 'idChauff');
+}
+
 }

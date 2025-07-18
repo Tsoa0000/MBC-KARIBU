@@ -9,10 +9,10 @@ class CreateTabBordsTable extends Migration
     public function up()
     {
         Schema::create('tab_bords', function (Blueprint $table) {
-            $table->id(); // id AUTO_INCREMENT PRIMARY KEY
+            $table->id();
 
-            $table->unsignedBigInteger('idChauff'); // id chauffeur
-            $table->foreign('idChauff')->references('id')->on('detail_chauffs')->onDelete('cascade');
+            $table->unsignedBigInteger('idChauff');
+            $table->foreign('idChauff')->references('id')->on('users')->onDelete('cascade');
 
             $table->date('date');
             $table->string('point_depart', 100);
@@ -26,7 +26,7 @@ class CreateTabBordsTable extends Migration
             $table->double('km_effec');
             $table->boolean('signature');
 
-            $table->timestamps(); // created_at et updated_at
+            $table->timestamps();
         });
     }
 
