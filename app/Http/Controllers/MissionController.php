@@ -7,6 +7,7 @@ use App\Models\Mission;
 use App\Models\Voiture;
 use App\Models\DetailChauff;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 
 class MissionController extends Controller {
@@ -21,7 +22,7 @@ class MissionController extends Controller {
         $trajets = Trajet::with( [ 'lieuDepart', 'lieuArrivee' ] )->get();
         $voitures = Voiture::all();
 
-        $chauffeurs = DetailChauff::all();
+        $chauffeurs = User::where('role', '1')->get();
         $trajets = Trajet::all();
         $missions = Mission::with( [ 'lieuDepart', 'lieuArrive', 'voiture' ] )->get();
         return view( 'mission.listeMission', compact( 'missions', 'trajets', 'voitures', 'chauffeurs' ) );
