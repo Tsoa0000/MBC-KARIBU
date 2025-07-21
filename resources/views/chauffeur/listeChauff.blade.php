@@ -171,7 +171,7 @@
     <main class="main" id="main">
         <div class="container">
         <div class="header-top">
-        <h2 class="page-title">Tableau de bord</h2>
+        <h2 class="page-title">Liste de details Chauffeurs</h2>
         <<button class="btn-create" onclick="window.location.href='{{ route('tabbord.create') }}'">+ Nouveau fiche</button>
         </div>
 
@@ -180,17 +180,13 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Chauffeur</th>
-                            <th>Départ</th>
-                            <th>Destination</th>
-                            <th>Motif</th>
-                            <th>Km Départ</th>
-                            <th>Km Arrivée</th>
-                            <th>Heure Départ</th>
-                            <th>Heure Arrivée</th>
-                            <th>Km Effectué</th>
-                            <th>Signature</th>
+                            <th>Nom</th>
+                            <th>Prénom(s)</th>
+                            <th>Email</th>
+                            <th>Numéro de permis</th>
+                            <th>Date de validité</th>
+                            <th>Catégorie</th>
+                            <th>CIN</th>
                         </tr>
                     </thead>
                     <tbody>

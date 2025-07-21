@@ -142,7 +142,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">Aucun trajet enregistré.</td>
+                                <td colspan="4">Aucune voiture enregistrée.</td>
                             </tr>
                         @endforelse
 
