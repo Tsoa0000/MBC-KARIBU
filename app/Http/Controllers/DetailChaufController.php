@@ -13,7 +13,7 @@ class DetailChaufController extends Controller
     {
         return view('Authentification.auth');
     }
-    // Enregistrement d’un nouveau chauffeur (création de compte)
+    // création de compte
     public function register(Request $request)
     {
         $request->validate([

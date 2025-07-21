@@ -6,6 +6,7 @@ use App\Models\TabBord;
 use App\Models\User;
 use App\Models\ChauffeurDetail;
 use App\Models\DetailChauff;
+use Illuminate\Support\Facades\Auth;
 
 class TabBordController extends Controller
 {
@@ -19,11 +20,10 @@ class TabBordController extends Controller
     }
    public function index()
 {
-    $tabbords = TabBord::with('user')->get();
+    $tabbords = TabBord::where('idChauff', auth()->id())->with('user')->get();
+
     return view('chauffeur.listeTab', compact('tabbords'));
 }
-
-
 public function store(Request $request)
 {
     $validated = $request->validate([

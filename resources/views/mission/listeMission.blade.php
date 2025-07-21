@@ -36,7 +36,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -180,7 +180,7 @@
         h2 {
             text-align: center;
             color: #2d5c4a;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
             font-size: 1.4rem;
         }
 
@@ -283,8 +283,9 @@
             @endif
             <div class="header-top">
                 <h2 class="page-title">Liste des missions</h2>
-
+                @if (Auth::check() && Auth::user()->role === '0')
                 <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
+                @endif
             </div>
             <div class="table-wrapper">
                 <table>
@@ -296,7 +297,9 @@
                             <th>Lieu d'arriver</th>
                             <th>Voiture</th>
                             <th>Objet</th>
+                            @if (Auth::check() && Auth::user()->role === '0')
                             <th>Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -308,11 +311,13 @@
                                 <td>{{ $mission->lieuArrive->nomLieu ?? '' }}</td>
                                 <td>{{ $mission->voiture->modele ?? '' }}</td>
                                 <td>{{ $mission->objet }}</td>
+                                @if (Auth::check() && Auth::user()->role === '0')
                                 <td>
                                     <a href="{{ route('mission.delete', $mission->id) }}" class="action-btn btn-delete">
                                         <i class="ri-delete-bin-line"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>
@@ -468,7 +473,7 @@
                 const originalVoitures = Array.from(voitureSelect.querySelectorAll("option")).slice(1);
 
                 const compatibilite = {
-                    "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus"],
+                    "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus","camionnette"],
                     "mixte": ["4x4", "suv", "camionnette", "pick-up"],
                     "secondaire": ["4x4", "pick-up", "camionnette"]
                 };
