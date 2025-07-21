@@ -51,7 +51,7 @@ Route::post('/registerChauffeur',[DetailChaufController::class,"register"])->nam
 
 // ======= PROFIL CHAUFFEUR =======
 Route::get('/profilChauffeur', [DetailChaufController::class, 'showProfilChauffeur'])->name('profil.chauffeur');
-Route::post('/profilChauffeur', [DetailChaufController::class, 'ProfilChauffeur'])->name('profil.chauffeur.store');
+Route::post('/profilChauffeur', [DetailChaufController::class, 'storeProfilChauffeur'])->name('profil.chauffeur.store');
 Route::get('/profilChauffeur/edit', [DetailChaufController::class, 'editProfil'])->name('profil.chauffeur.edit');
 Route::put('/profilChauffeur/update/{id}', [DetailChaufController::class, 'updateProfilChauffeur'])->name('profil.chauffeur.update');
 
