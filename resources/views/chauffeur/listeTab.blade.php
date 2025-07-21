@@ -215,7 +215,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('tabbord.delete', $tab->id) }}" class="action-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette fiche ?');">
+                                    <a href="{{ route('tabbord.destroy', $tab->id) }}" class="action-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette fiche ?');">
                                         <i class="ri-delete-bin-line"></i>
                                     </a>
                                 </td>

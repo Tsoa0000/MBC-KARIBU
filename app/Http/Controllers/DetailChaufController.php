@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class DetailChaufController extends Controller
-{   public function create()
+{
+    public function create()
     {
         return view('Authentification.auth');
     }
-    // création de compte
+
+    // Création de compte
     public function register(Request $request)
     {
         $request->validate([
@@ -34,7 +36,7 @@ class DetailChaufController extends Controller
         return redirect()->route('tabbord.index');
     }
 
-    // Connexion du chauffeur
+    // Connexion
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -56,53 +58,72 @@ class DetailChaufController extends Controller
         ]);
     }
 
-    // Affichage du profil du chauffeur
- public function showProfilChauffeur()
-{
-    $user = Auth::user();
+    // Affichage du profil
+    public function showProfilChauffeur()
+    {
+        $user = Auth::user();
 
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir votre profil.');
-    }
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir votre profil.');
+        }
 
-    $detailChauff = DetailChauff::where('user_id', $user->id)->first();
+        $detailChauff = DetailChauff::where('user_id', $user->id)->first();
         $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
 
-    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', ['typePermis']));
-}
+        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
+    }
+    // Création du profil chauffeur
+    public function storeProfilChauffeur(Request $request)
+    {
+        $request->validate([
+            'numeroPermis' => 'required|string|max:20',
+            'dateValidite' => 'required|date',
+            'typePermis' => 'required|array',
+            'typePermis.*' => 'in:A,A1,B,C,D,E',
+            'cin' => 'required|string|max:12',
+        ]);
 
+        $user = Auth::user();
 
-public function ProfilChauffeur(Request $request)
+        $detailChauff = DetailChauff::firstOrNew(['user_id' => $user->id]);
+
+        $detailChauff->numeroPermis = $request->numeroPermis;
+        $detailChauff->dateValidite = $request->dateValidite;
+        $detailChauff->typePermis = $request->typePermis;
+        $detailChauff->cin = $request->cin;
+        $detailChauff->user_id = $user->id;
+        $detailChauff->save();
+
+        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
+
+        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
+    }
+
+    // Modification du profil
+    public function updateProfilChauffeur(Request $request, $id)
+    {
+        $request->validate([
+
+            'typePermis' => 'required|array',
+            'typePermis.*' => 'in:A,A1,B,C,D,E',
+        ]);
+
+        $detailChauff = DetailChauff::findOrFail($id);
+
+        $detailChauff->typePermis = $request->typePermis;
+        $detailChauff->save();
+         $user = auth()->user();
+        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
+        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
+    }
+
+public function editProfil()
 {
-    $request->validate([
-        'numeroPermis' => 'required|string|max:20',
-        'dateValidite' => 'required|date',
-        'typePermis' => 'required|array',
-        'typePermis.*' => 'in:A,A1,B,C,D,E',
-        'cin' => 'required|string|max:12',
-    ]);
-
-    $user = Auth::user();
-
-    $detailChauff = DetailChauff::firstOrNew(['user_id' => $user->id]);
-
-    $detailChauff->numeroPermis = $request->numeroPermis;
-    $detailChauff->dateValidite = $request->dateValidite;
-    $detailChauff->typePermis = $request->typePermis;
-    $detailChauff->cin = $request->cin;
-    $detailChauff->user_id = $user->id;
-    $detailChauff->save();
-
+    $user = auth()->user();
+    $detailChauff = DetailChauff::where('user_id', $user->id)->first();
     $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
-    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil mis à jour avec succès !');
-}
-public function editProfil() {
-    $userId = auth()->id();
-    $detailChauff = DetailChauffeur::where('user_id', $userId)->first();
-    $typePermis = ['A', 'B', 'C', 'D', 'E'];
 
-    return view('profil.formulaire', compact('detailChauff', 'typePermis'));
+    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
 }
-
 
 }
