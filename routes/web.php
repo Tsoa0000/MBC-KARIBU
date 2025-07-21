@@ -66,6 +66,7 @@ Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission
 Route::get('/tabbord/liste', [TabBordController::class, 'index'])->name('tabbord.index');
 Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
 Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
+Route::get('/tabbord/delete/{id}', [TabBordController::class, 'delete'])->name('tabbord.delete');
 
 
 

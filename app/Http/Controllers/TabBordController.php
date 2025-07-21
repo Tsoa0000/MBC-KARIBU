@@ -57,7 +57,12 @@ public function store(Request $request)
 
 
 
-    return redirect()->back()->with('success', 'Trajet enregistré avec succès !');
+    return redirect()->route('tabbord.index');
 }
-
+    public function delete($id)
+    {
+        $tabbord = TabBord::findOrFail($id);
+        $tabbord->delete();
+        return redirect()->route('tabbord.index')->with('success', 'TabBord deleted successfully.');
+    }
 }
