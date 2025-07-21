@@ -1,6 +1,6 @@
 @extends('app')
 @include('partials.navbar')
-
+@import url('https://fonts.cdnfonts.com/css/skia');
 @section('style')
     <style>
         .toast-message {

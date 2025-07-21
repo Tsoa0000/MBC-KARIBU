@@ -1,20 +1,13 @@
-/**
-* Template Name: NiceAdmin
-* Updated: Jan 29 2024 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+@import url('https://fonts.cdnfonts.com/css/skia');
 :root {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Skia", sans-serif;
   background: #f6f9ff;
   color: #444444;
 }
@@ -237,7 +230,7 @@ h6 {
   font-size: 18px;
   font-weight: 500;
   color: #2d5c4a;
-  font-family: "Poppins", sans-serif;
+  font-family: "Skia", sans-serif;
 }
 
 
@@ -253,7 +246,7 @@ h6 {
 /* Alerts */
 .alert-heading {
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
+  font-family: "Skia", sans-serif;
   font-size: 20px;
 }
 
@@ -302,7 +295,7 @@ h6 {
 /* Breadcrumbs */
 .breadcrumb {
   font-size: 14px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Skia", sans-serif;
   color: #33897f;
   font-weight: 600;
 }

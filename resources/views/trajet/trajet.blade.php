@@ -107,13 +107,12 @@
 
         .page-title {
 
-            font-size: 1.8rem;
-            width: 200px;
+            font-size: 1.7rem;
+            width: 203px;
             font-weight: 600;
             color: #2a736d;
             margin-bottom: 1.5rem;
             border-bottom: 2px solid #e2a346;
-
             padding-bottom: 0.3rem;
 
 
@@ -291,8 +290,7 @@
     <main id="main" class="main">
         <div class="container">
             <div class="card">
-                <h2>Ajouter un Trajet</h2>
-
+            <h2 class="page-title">Ajouter un trajet</h2>
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
