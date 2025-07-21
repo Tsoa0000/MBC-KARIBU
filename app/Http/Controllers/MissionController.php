@@ -7,6 +7,7 @@ use App\Models\Mission;
 use App\Models\Voiture;
 use App\Models\DetailChauff;
 use Illuminate\Http\Request;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 
 class MissionController extends Controller {
@@ -20,17 +21,18 @@ class MissionController extends Controller {
 
         $trajets = Trajet::with( [ 'lieuDepart', 'lieuArrivee' ] )->get();
         $voitures = Voiture::all();
+        $chauffeurs = User::where('role', '1')->get();
 
-        $chauffeurs = DetailChauff::all();
+
         $trajets = Trajet::all();
-        $missions = Mission::with( [ 'lieuDepart', 'lieuArrive', 'voiture' ] )->get();
+        $missions = Mission::with( [ 'lieuDepart', 'lieuArrive', 'voiture','chauffeur' ] )->get();
         return view( 'mission.listeMission', compact( 'missions', 'trajets', 'voitures', 'chauffeurs' ) );
     }
 
     public function mission( Request $request ) {
         $request -> validate( [
             'voiture_id' => 'required|exists:voitures,id',
-            'chauffeur_id' => 'required|exists:detail_chauffs,id',
+            'chauffeur_id' => 'required|exists:users,id',
             'lieu_depart' => 'required|exists:trajets,lieu_depart_id',
             'lieu_arrivee' => 'required|exists:trajets,lieu_arrive_id',
             'date_depart' => 'required|date',

@@ -316,7 +316,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7">Aucune mission enregistré.</td>
+                                <td colspan="7">Aucune mission enregistrée.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -366,15 +366,14 @@
                             <label for="chauffeur_id">Chauffeur</label>
                             <select id="chauffeur_id" name="chauffeur_id" required>
                                 <option value="" disabled selected>-- Choisir --</option>
-                                @forelse ($chauffeurs as $c)
+                                @foreach ($chauffeurs as $c)
                                     <option value="{{ $c->id }}">
-                                        {{ $c->users ? $c->users->first_name : 'Chauffeur inconnu' }}
+                                        {{ $c->name }} {{ $c->first_name }}
                                     </option>
-                                @empty
-                                    <option value="" disabled>Aucun chauffeur disponible</option>
-                                @endforelse
+                                @endforeach
                             </select>
                         </div>
+
                         <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
                         <div>
                             <label for="voiture_id">Voiture proposée</label>

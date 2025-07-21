@@ -146,9 +146,15 @@
     @endif
     </li><!-- End rapport Page Nav -->
     @if (Auth::check() && Auth::user()->role === '1')
+       <li class="nav-item">
+      <a class="nav-link collapsed" href="{{route('mission.show')}}">
+        <i class="ri-file-edit-line"></i>
+        <span>Mission</span>
+      </a>
+    </li><!-- End chauffeur Page Nav -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('tabbord.index')}}">
-        <i class="ri-team-line"></i>
+        <i class="ri-file-edit-line"></i>
         <span>Fiche de bord</span>
       </a>
     </li><!-- End chauffeur Page Nav -->

@@ -200,7 +200,6 @@
                                 <td>
                                     {{ $tab->user ? $tab->user->name . ' ' . $tab->user->first_name : 'Utilisateur inconnu' }}
                                 </td>
-
                                 <td> {{ $tab->point_depart }} </td>
                                 <td> {{ $tab->destination }} </td>
                                 <td> {{ $tab->motif }} </td>

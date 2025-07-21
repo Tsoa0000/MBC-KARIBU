@@ -31,5 +31,15 @@ class Mission extends Model {
     public function voiture() {
         return $this->belongsTo( Voiture::class, 'voiture_id' );
     }
+    public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+public function chauffeur()
+{
+    return $this->belongsTo(User::class, 'chauffeur_id');
+}
+
+
 }
 
