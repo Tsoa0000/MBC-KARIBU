@@ -8,26 +8,38 @@ use App\Models\Voiture;
 use App\Models\DetailChauff;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class MissionController extends Controller {
-    public function showMission( Request $request ) {
-        $lieu_depart = $request->input( 'lieu_depart' );
-        $lieu_arrivee = $request->input( 'lieu_arrive' );
 
-        $trajet = Trajet::where( 'lieu_depart_id', $lieu_depart )
-        ->where( 'lieu_arrive_id', $lieu_arrivee )
+
+public function showMission(Request $request)
+{
+    $lieu_depart = $request->input('lieu_depart');
+    $lieu_arrivee = $request->input('lieu_arrive');
+
+    $trajet = Trajet::where('lieu_depart_id', $lieu_depart)
+        ->where('lieu_arrive_id', $lieu_arrivee)
         ->first();
 
-        $trajets = Trajet::with( [ 'lieuDepart', 'lieuArrivee' ] )->get();
-        $voitures = Voiture::all();
-        $chauffeurs = User::where('role', '1')->get();
+    $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
+    $voitures = Voiture::all();
+    $chauffeurs = User::where('role', '1')->get();
 
-
-        $trajets = Trajet::all();
-        $missions = Mission::with( [ 'lieuDepart', 'lieuArrive', 'voiture','chauffeur' ] )->get();
-        return view( 'mission.listeMission', compact( 'missions', 'trajets', 'voitures', 'chauffeurs' ) );
+    $user = Auth::user();
+    if ($user->role === '0') {
+        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])->get();
     }
+    else {
+        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])
+            ->where('chauffeur_id', $user->id)
+            ->get();
+    }
+
+    return view('mission.listeMission', compact('missions', 'trajets', 'voitures', 'chauffeurs', 'user'));
+}
+
 
     public function mission( Request $request ) {
         $request -> validate( [

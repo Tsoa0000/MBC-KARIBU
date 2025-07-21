@@ -191,6 +191,7 @@
                             <th>Heure Arrivée</th>
                             <th>Km Effectué</th>
                             <th>Signature</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -212,6 +213,11 @@
                                     <span class="badge {{ $tab->signature ? 'signed' : 'unsigned' }}">
                                         {{ $tab->signature ? 'Signé' : 'Non signé' }}
                                     </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('tabbord.delete', $tab->id) }}" class="action-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette fiche ?');">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @empty

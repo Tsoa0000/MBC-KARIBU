@@ -52,10 +52,18 @@
           </li>
 
           <li>
+            @if (Auth::check() && Auth::user()->role === '0')
+             <a class="dropdown-item d-flex align-items-center" href="">
+              <i class="bi bi-person"></i>
+              <span>Mon Profile</span>
+            </a>
+            @endif
+               @if (Auth::check() && Auth::user()->role === '1')
             <a class="dropdown-item d-flex align-items-center" href="{{route('profil.chauffeur')}}">
               <i class="bi bi-person"></i>
               <span>Mon Profile</span>
             </a>
+            @endif
           </li>
 
           <li>
@@ -148,7 +156,7 @@
     @if (Auth::check() && Auth::user()->role === '1')
        <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('mission.show')}}">
-        <i class="ri-file-edit-line"></i>
+        <i class="ri-file-list-2-line"></i>
         <span>Mission</span>
       </a>
     </li><!-- End chauffeur Page Nav -->
