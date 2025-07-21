@@ -174,15 +174,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($chauffeurs as $detail_chauffs)
+                    @forelse ($chauffeurs as $c)
                         <tr>
-                            <td>{{ $chauffeurs->nom }}</td>
-                            <td>{{ $chauffeurs->prenom }}</td>
-                            <td>{{ $chauffeurs->email }}</td>
-                            <td>{{ $detail_chauffs->nummeroPermis }}</td>
-                            <td>{{ $chauffeurs->date_validite }}</td>
-                            <td>{{ $chauffeurs->categorie }}</td>
-                            <td>{{ $chauffeurs->cin }}</td>
+                            <td>{{ $c->name }}</td>
+                            <td>{{ $c->first_name }}</td>
+                            <td>{{ $c->email }}</td>
+                            <td>{{ $c->detailChauff->numeroPermis}}</td>
+                            <td>{{ $c->detailChauff->dateValidite }}</td>
+                            <td>
+    @if(isset($c->detailChauff->typePermis))
+        {{ is_array($c->detailChauff->typePermis) ? implode(', ', $c->detailChauff->typePermis) : $c->detailChauff->typePermis }}
+    @else
+        Non renseigné
+    @endif
+</td>
+
+                            <td>{{ $c->detailChauff->cin }}</td>
                         </tr>
                     @empty
                         <tr>
