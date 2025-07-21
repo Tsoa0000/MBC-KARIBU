@@ -17,10 +17,10 @@ class DetailChauff extends Model {
         'user_id',
 
     ];
-    protected $casts = [
-        'typePermis' => 'array',
-        'dateValidite' => 'date'
-    ];
+   protected $casts = [
+    'typePermis' => 'array',
+];
+
 
     public function voiture() {
         return $this->hasMany( Voiture::class, 'chauffeur_id' );
