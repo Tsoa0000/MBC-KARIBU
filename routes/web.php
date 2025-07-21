@@ -55,12 +55,12 @@ Route::post('/profilChauffeur', [DetailChaufController::class, 'ProfilChauffeur'
 Route::get('/profilChauffeur/edit', [DetailChaufController::class, 'editProfil'])->name('profil.chauffeur.edit');
 Route::put('/profilChauffeur/update/{id}', [DetailChaufController::class, 'updateProfilChauffeur'])->name('profil.chauffeur.update');
 
-// ======= Trajet =======
+// ======= TRAJET =======
 Route::get('/trajet', [TrajetController::class, 'create'])->name('trajet.create');
 Route::post('/trajet', [TrajetController::class, 'store'])->name('trajet.store');
 Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.destroy');
 
-// ======= Mission =======
+// ======= MISSION =======
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
