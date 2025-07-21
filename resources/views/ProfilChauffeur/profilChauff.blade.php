@@ -112,13 +112,11 @@
     <div class="container">
         <div class="form-container">
             <h2>Profil Chauffeur</h2>
-
-            <form action="{{ $detailChauff ? route('profil.chauffeur.edit', $detailChauff->id) : route('profil.chauffeur.store', $user->id) }}" method="POST">
-                @csrf
-                @if($detailChauff)
-                    @method('PUT')
-                @endif
-
+            <form action="{{ $detailChauff ? route('profil.chauffeur.update', $detailChauff->id) : route('profil.chauffeur.store', $user->id) }}" method="POST">
+    @csrf
+    @if($detailChauff)
+        @method('PUT')
+    @endif
                 <!-- Nom complet (readonly) -->
                 <div class="form-group">
                     <label class="form-label">

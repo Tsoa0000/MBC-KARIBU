@@ -59,6 +59,7 @@ public function store(Request $request)
 
     return redirect()->route('tabbord.index');
 }
+
     public function delete($id)
     {
         $tabbord = TabBord::findOrFail($id);

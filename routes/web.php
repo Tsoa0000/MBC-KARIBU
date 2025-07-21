@@ -53,7 +53,7 @@ Route::post('/registerChauffeur',[DetailChaufController::class,"register"])->nam
 Route::get('/profilChauffeur', [DetailChaufController::class, 'showProfilChauffeur'])->name('profil.chauffeur');
 Route::post('/profilChauffeur', [DetailChaufController::class, 'ProfilChauffeur'])->name('profil.chauffeur.store');
 Route::get('/profilChauffeur/edit', [DetailChaufController::class, 'editProfil'])->name('profil.chauffeur.edit');
-
+Route::put('/profilChauffeur/update/{id}', [DetailChaufController::class, 'updateProfilChauffeur'])->name('profil.chauffeur.update');
 
 // ======= Trajet =======
 Route::get('/trajet', [TrajetController::class, 'create'])->name('trajet.create');
@@ -69,7 +69,9 @@ Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission
 Route::get('/tabbord/liste', [TabBordController::class, 'index'])->name('tabbord.index');
 Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
 Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
+Route::get('/tabbord/{id}', [TabBordController::class, 'destroy'])->name('tabbord.destroy');
 Route::get('/chauffeurs', [ChauffeurController::class, 'index'])->name('chauffeur.index');
+
 
 
 

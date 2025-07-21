@@ -126,7 +126,7 @@
             color: #a83232;
         }
 
-      
+
 
         .action-btn:hover {
             background: #e2a346;
@@ -176,13 +176,13 @@
                     <tbody>
                     @forelse ($chauffeurs as $detail_chauffs)
                         <tr>
-                            <td>{{ $chauffeur->nom }}</td>
-                            <td>{{ $chauffeur->prenom }}</td>
-                            <td>{{ $chauffeur->email }}</td>
+                            <td>{{ $chauffeurs->nom }}</td>
+                            <td>{{ $chauffeurs->prenom }}</td>
+                            <td>{{ $chauffeurs->email }}</td>
                             <td>{{ $detail_chauffs->nummeroPermis }}</td>
-                            <td>{{ $chauffeur->date_validite }}</td>
-                            <td>{{ $chauffeur->categorie }}</td>
-                            <td>{{ $chauffeur->cin }}</td>
+                            <td>{{ $chauffeurs->date_validite }}</td>
+                            <td>{{ $chauffeurs->categorie }}</td>
+                            <td>{{ $chauffeurs->cin }}</td>
                         </tr>
                     @empty
                         <tr>
