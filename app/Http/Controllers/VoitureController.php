@@ -9,7 +9,7 @@ class VoitureController extends Controller
 {
     public function showVoiture()
     {
-          $voiture = Voiture::all(); // Récupère toutes les voitures
+        $voiture = Voiture::all(); 
         return view('voiture.voiture', compact('voiture'));
 
     }
@@ -28,6 +28,8 @@ class VoitureController extends Controller
 
     return redirect()->back()->with('success', 'Voiture modifiée avec succès.');
 }
+
+
 
 
 }

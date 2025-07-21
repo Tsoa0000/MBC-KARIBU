@@ -22,4 +22,5 @@ class Voiture extends Model {
         return $this->hasMany( Verification::class );
     }
     use HasFactory;
+    
 }
