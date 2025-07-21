@@ -138,8 +138,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Données dynamiques à insérer ici -->
-                                    </tbody>
+                                    @foreach($missions as $index => $mission)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $mission->voiture->modele ?? 'Non défini' }}</td>
+                                            <td>{{ $mission->chauffeur->name ?? 'Non défini' }}</td>
+                                            <td>{{ $mission->lieuArrive->nomLieu }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($mission->date_mission)->format('d/m/Y') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                                 </table>
                             </div>
                         </div>

@@ -15,7 +15,11 @@ class DashController extends Controller
         $nombreVoitures = Voiture::count();
         $nombresChauffeurs = DetailChauff::count();
         $nombresMission = Mission::count();
-        return view('dashboard.dasboard', compact('nombreVoitures','nombresChauffeurs','nombresMission'));
+        $missions = Mission::with(['voiture', 'chauffeur'])
+        ->orderByDesc('created_at')
+        ->take(3)
+        ->get();
+        return view('dashboard.dasboard', compact('nombreVoitures','nombresChauffeurs','nombresMission','missions'));
 
     }
 }
