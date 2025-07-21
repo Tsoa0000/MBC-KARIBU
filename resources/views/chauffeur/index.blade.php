@@ -33,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -126,20 +126,7 @@
             color: #a83232;
         }
 
-        .action-btn {
-            width: 38px;
-            height: 38px;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            font-size: 1rem;
-            transition: 0.3s ease;
-            border: 1px solid #e2a346;
-            color: #e2a346;
-            background: none;
-            cursor: pointer;
-        }
+      
 
         .action-btn:hover {
             background: #e2a346;
@@ -171,11 +158,8 @@
     <main class="main" id="main">
         <div class="container">
         <div class="header-top">
-        <h2 class="page-title">Liste de details Chauffeurs</h2>
-        <<button class="btn-create" onclick="window.location.href='{{ route('tabbord.create') }}'">+ Nouveau fiche</button>
+        <h2 class="page-title">Liste des Chauffeurs</h2>
         </div>
-
-
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -190,33 +174,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($tabbords as $tab)
-                            <tr>
-                                <td> {{ $tab->date }} </td>
-                                <td>
-                                    {{ $tab->user ? $tab->user->name . ' ' . $tab->user->first_name : 'Utilisateur inconnu' }}
-                                </td>
+                    @forelse ($chauffeurs as $detail_chauffs)
+                        <tr>
+                            <td>{{ $chauffeur->nom }}</td>
+                            <td>{{ $chauffeur->prenom }}</td>
+                            <td>{{ $chauffeur->email }}</td>
+                            <td>{{ $detail_chauffs->nummeroPermis }}</td>
+                            <td>{{ $chauffeur->date_validite }}</td>
+                            <td>{{ $chauffeur->categorie }}</td>
+                            <td>{{ $chauffeur->cin }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center">Aucun chauffeur trouvé.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
 
-                                <td> {{ $tab->point_depart }} </td>
-                                <td> {{ $tab->destination }} </td>
-                                <td> {{ $tab->motif }} </td>
-                                <td> {{ $tab->dep_km }} </td>
-                                <td> {{ $tab->arr_km }} </td>
-                                <td> {{ $tab->heure_depart }} </td>
-                                <td> {{ $tab->heure_arrivee }} </td>
-                                <td> {{ $tab->km_effec }} </td>
-                                <td>
-                                    <span class="badge {{ $tab->signature ? 'signed' : 'unsigned' }}">
-                                        {{ $tab->signature ? 'Signé' : 'Non signé' }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="11" class="text-center">Aucune fiche de tableau de bord trouvée.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
                 </table>
             </div>
         </div>

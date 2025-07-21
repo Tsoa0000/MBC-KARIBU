@@ -132,7 +132,7 @@
     </li><!-- End mission et trajet Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.html">
+      <a class="nav-link collapsed" href="{{route('chauffeur.index')}}">
         <i class="ri-team-line"></i>
         <span>Chauffeurs</span>
       </a>

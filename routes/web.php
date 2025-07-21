@@ -10,6 +10,7 @@ use App\Http\Controllers\DetailChaufController;
 use App\Http\Controllers\AjoutVoitureController;
 use App\Http\Controllers\VerifVoitureController;
 use App\Http\Controllers\TabBordController;
+use App\Http\Controllers\ChauffeurController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,8 @@ Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission
 Route::get('/tabbord/liste', [TabBordController::class, 'index'])->name('tabbord.index');
 Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
 Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
+Route::get('/chauffeurs', [ChauffeurController::class, 'index'])->name('chauffeur.index');
+
 
 
 
