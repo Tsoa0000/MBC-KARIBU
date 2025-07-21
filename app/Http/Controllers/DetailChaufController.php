@@ -31,7 +31,7 @@ class DetailChaufController extends Controller
         $user->role = '1';
         $user->save();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('tabbord.index');
     }
 
     // Connexion du chauffeur
@@ -46,7 +46,7 @@ class DetailChaufController extends Controller
             $user = Auth::user();
 
             if ($user->role === '1') {
-                return redirect()->route('dashboard');
+                return redirect()->route('tabbord.index')->with('success', 'Connexion réussie !');
             }
         }
 

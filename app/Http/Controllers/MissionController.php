@@ -25,15 +25,12 @@ public function showMission(Request $request)
 
     $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
     $voitures = Voiture::all();
-    $chauffeurs = User::where('role', '1')->get(); // Chauffeurs
+    $chauffeurs = User::where('role', '1')->get();
 
     $user = Auth::user();
-
-    // Si c'est un admin → toutes les missions
     if ($user->role === '0') {
         $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])->get();
     }
-    // Si c'est un chauffeur → uniquement ses missions
     else {
         $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])
             ->where('chauffeur_id', $user->id)

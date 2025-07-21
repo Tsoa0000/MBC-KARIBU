@@ -52,10 +52,18 @@
           </li>
 
           <li>
+            @if (Auth::check() && Auth::user()->role === '0')
+             <a class="dropdown-item d-flex align-items-center" href="">
+              <i class="bi bi-person"></i>
+              <span>Mon Profile</span>
+            </a>
+            @endif
+               @if (Auth::check() && Auth::user()->role === '1')
             <a class="dropdown-item d-flex align-items-center" href="{{route('profil.chauffeur')}}">
               <i class="bi bi-person"></i>
               <span>Mon Profile</span>
             </a>
+            @endif
           </li>
 
           <li>
