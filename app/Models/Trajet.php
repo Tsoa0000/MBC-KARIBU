@@ -22,5 +22,9 @@ class Trajet extends Model {
     public function lieuArrivee() {
         return $this->belongsTo( Lieu::class, 'lieu_arrive_id' );
     }
+       public function carburant()
+    {
+        return $this->belongsTo(Carburant::class);
+    }
 
 }

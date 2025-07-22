@@ -19,6 +19,12 @@ class Mission extends Model {
         'date_arrive',
         'objet',
     ];
+      public function trajet()
+    {
+        // Lier le trajet par lieux de départ et arrivée
+        return $this->hasOne(Trajet::class, 'lieu_depart_id', 'lieu_depart_id')
+                    ->where('lieu_arrive_id', $this->lieu_arrive_id);
+    }
 
     public function lieuDepart() {
         return $this->belongsTo( Lieu::class, 'lieu_depart_id' );

@@ -150,6 +150,14 @@
                     </li>
                 </ul>
             </li><!-- End mission et trajet Nav -->
+            <!-- chauffeur Page Nav
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('chauffeur.index') }}">
+                    <i class="ri-gas-station-fill"></i>
+                    <span>Carburant</span>
+                </a>
+            </li>End chauffeur Page Nav -->
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('chauffeur.index') }}">

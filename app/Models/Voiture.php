@@ -21,6 +21,11 @@ class Voiture extends Model {
 
         return $this->hasMany( Verification::class );
     }
+    public function carburant()
+{
+    return $this->belongsTo(Carburant::class);
+}
+
     use HasFactory;
-    
+
 }

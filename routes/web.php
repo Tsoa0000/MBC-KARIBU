@@ -11,6 +11,7 @@ use App\Http\Controllers\AjoutVoitureController;
 use App\Http\Controllers\VerifVoitureController;
 use App\Http\Controllers\TabBordController;
 use App\Http\Controllers\ChauffeurController;
+use App\Http\Controllers\ConsommationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,9 @@ Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.stor
 Route::get('/tabbord/{id}', [TabBordController::class, 'destroy'])->name('tabbord.destroy');
 Route::get('/chauffeurs', [ChauffeurController::class, 'index'])->name('chauffeur.index');
 
+// ======= CARBURANT =======
+Route::get('/carburants', [ConsommationController::class, 'create'])->name('consommation');
+Route::get('/carburant', [ConsommationController::class, 'store'])->name('consommation.store');
 
 
 
