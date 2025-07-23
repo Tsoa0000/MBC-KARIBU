@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,17 +32,12 @@ class AuthController extends Controller
             'password.confirmed' => 'Les mots de passe saisis ne sont pas identiques.',
         ]);
 
-
         $user = User::create([
             'name' => $request->name,
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-<<<<<<< HEAD
-            'role' => '2'
-=======
-            'role' => '2'
->>>>>>> 50440a4175bd320462c51e5bc8c563a2888d3cde
+            'role' => '2',
         ]);
 
         Auth::login($user);
@@ -67,31 +61,21 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-<<<<<<< HEAD
-            // Redirection selon rôle utilisateur
-            if ($user->role === '2') {
-                return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+            switch ($user->role) {
+                case '2':
+                    return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+                case '7':
+                    return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
+                case '0':
+                    return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+                default:
+                    return redirect()->route('dashboard')->with('success', 'Bienvenue !');
             }
-
-            if ($user->role === '7') {
-                return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
-            }
-            return redirect()->route('dashboard')->with('success', 'Bienvenue !');
         }
 
-=======
-
-            if ($user->role === '0') {
-                return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
-            }
-
-
-            return redirect()->route('dashboard')->with('success', 'Bienvenue !');
-        }
-
-
->>>>>>> 50440a4175bd320462c51e5bc8c563a2888d3cde
-        return back()->with('error', 'Email ou mot de passe incorrect.');
+        return redirect()->back()
+            ->withErrors(['email' => 'Identifiants invalides.'])
+            ->withInput($request->only('email'));
     }
 
     public function logout()

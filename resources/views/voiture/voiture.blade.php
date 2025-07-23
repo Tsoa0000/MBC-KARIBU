@@ -114,7 +114,9 @@
                             <th>État</th>
                             <th>Consommation</th>
                             <th>Places</th>
+                            @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                             <th class="text-center">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -131,6 +133,7 @@
                                 </td>
                                 <td>{{ $v['conso'] }}</td>
                                 <td>{{ $v['nbrPlace'] }}</td>
+                                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                                 <td class="text-center">
                                     <a href="#" class="action-btn btn-edit me-2" data-bs-toggle="modal"
                                         data-bs-target="#modifierVoitureModal"
@@ -141,6 +144,7 @@
                                         <i class="ri-delete-bin-line"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

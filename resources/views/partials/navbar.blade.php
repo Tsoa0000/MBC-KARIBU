@@ -68,7 +68,7 @@
                                 <span>Mon Profile</span>
                             </a>
                         @endif
-                        @if (Auth::check() && Auth::user()->role === '1')
+                        @if (Auth::check() && Auth::user()->role === '7')
                             <a class="dropdown-item d-flex align-items-center" href="{{ route('profil.chauffeur') }}">
                                 <i class="bi bi-person"></i>
                                 <span>Mon Profile</span>
@@ -180,7 +180,7 @@
             @endif
         @endif
         </li><!-- End rapport Page Nav -->
-        @if (Auth::check() && Auth::user()->role === '1')
+        @if (Auth::check() && Auth::user()->role === '7')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('mission.show') }}">
                     <i class="ri-file-list-2-line"></i>
