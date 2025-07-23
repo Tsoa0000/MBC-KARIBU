@@ -176,3 +176,19 @@
         }
     </script>
 @endsection
+@section('script')
+<script>
+    function capitalizeFirst(input) {
+        let value = input.value.trim();
+        if (value.length > 0) {
+            input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+        }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[name="lieu_depart"], input[name="lieu_arrivee"]').forEach(input => {
+            input.addEventListener('blur', () => capitalizeFirst(input));
+        });
+    });
+</script>
+
+@endsection

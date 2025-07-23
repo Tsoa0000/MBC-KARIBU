@@ -42,7 +42,8 @@
 
                 <div class="item">
                     <span class="label">Date de vérification</span>
-                    <input type="date" name="date" required />
+                    <input type="date" name="date" min="{{ date('Y-m-d') }}" required>
+
                 </div>
 
 

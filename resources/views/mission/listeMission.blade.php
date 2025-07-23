@@ -343,7 +343,7 @@
                             <th>Chauffeur</th>
                             <th>Lieu du mission</th>
                             <th>Voiture</th>
-                            <th>Objet</th>
+                            <th id="obs-cell">objet</th>
                             @if (Auth::check() && Auth::user()->role === '0')
                             <th>Action</th>
                             @endif
@@ -606,7 +606,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Remplir les voitures
+                   
                     const voitureSelect = document.getElementById('voitureSelect');
                     voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
 
@@ -621,7 +621,6 @@
                         voitureSelect.appendChild(option);
                     });
 
-                    // Remplir les chauffeurs
                     const chauffeurSelect = document.getElementById('chauffeur_id');
                     chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
 
@@ -646,6 +645,13 @@
         dateArriveInput.addEventListener('change', checkDisponibilite);
     });
 </script>
-
-
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const obsCells = document.querySelectorAll('td:nth-child(8)');
+        obsCells.forEach(cell => {
+            const text = cell.textContent.trim();
+            cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        });
+    });
+</script>
 @endsection
