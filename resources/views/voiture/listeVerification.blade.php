@@ -30,6 +30,7 @@
             border-radius: 1.5rem;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
         }
+
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -38,6 +39,8 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
+
+        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;

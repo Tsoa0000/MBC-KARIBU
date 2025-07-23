@@ -10,13 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Affiche la page login + register
     public function showLogin()
     {
         return view('login.login');
     }
 
-    // Traitement de l'inscription
     public function register(Request $request)
     {
         $request->validate([
@@ -41,7 +39,7 @@ class AuthController extends Controller
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => '2'
+            'role' => '2' // Role par défaut
         ]);
 
         Auth::login($user);
@@ -49,7 +47,6 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with('success', 'Votre compte a été créé avec succès !');
     }
 
-    // Traitement de la connexion
     public function login(Request $request)
     {
         $request->validate([
@@ -67,20 +64,18 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // Redirection selon rôle utilisateur
-            if ($user->role === '2') {
+            if ($user->role === '0') {
                 return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
             }
 
-            if ($user->role === '7') {
-                return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
-            }
+            // Ajouter autres rôles ici si besoin
             return redirect()->route('dashboard')->with('success', 'Bienvenue !');
         }
 
+        // Retour en cas d'erreur de connexion
         return back()->with('error', 'Email ou mot de passe incorrect.');
     }
 
-    // Déconnexion
     public function logout()
     {
         Auth::logout();

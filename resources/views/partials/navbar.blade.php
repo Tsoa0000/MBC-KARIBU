@@ -18,14 +18,14 @@
             <img src="{{ asset('assets/image/logop.png') }}" alt="">
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+    </div>
 
     <div class="search-bar ">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
             <input type="text" name="query" placeholder="Recherche" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
-    </div><!-- End Search Bar -->
+    </div>
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
@@ -34,7 +34,7 @@
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
                     <i class="bi bi-search"></i>
                 </a>
-            </li><!-- End Search Icon-->
+            </li>
 
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown">
@@ -51,7 +51,7 @@
                         </svg>
                     </div>
                     <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
-                </a><!-- End Profile Image Icon -->
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
@@ -93,15 +93,14 @@
                         </li>
                     @endauth
 
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
+                </ul>
+            </li>
 
         </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
-</header><!-- End Header -->
+</header>
 
-<!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
@@ -111,7 +110,7 @@
                     <i class="ri-dashboard-line"></i>
                     <span>Tableau de bord</span>
                 </a>
-            </li><!-- End Dashboard Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -130,7 +129,7 @@
                         </a>
                     </li>
                 </ul>
-            </li><!-- End voiture Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -150,6 +149,13 @@
                     </li>
                 </ul>
             </li><!-- End mission et trajet Nav -->
+            <!-- chauffeur Page Nav
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('chauffeur.index') }}">
+                    <i class="ri-gas-station-fill"></i>
+                    <span>Carburant</span>
+                </a>
+            </li>End chauffeur Page Nav -->
 
 
             <li class="nav-item">
@@ -157,7 +163,7 @@
                     <i class="ri-team-line"></i>
                     <span>Chauffeurs</span>
                 </a>
-            </li><!-- End chauffeur Page Nav -->
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-faq.html">
@@ -173,25 +179,25 @@
                 </a>
             @endif
         @endif
-        @if (Auth::check() && Auth::user()->role === '7')
+        </li><!-- End rapport Page Nav -->
+        @if (Auth::check() && Auth::user()->role === '1')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('mission.show') }}">
                     <i class="ri-file-list-2-line"></i>
                     <span>Mission</span>
                 </a>
-            </li><!-- End chauffeur Page Nav -->
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('tabbord.index') }}">
                     <i class="ri-file-edit-line"></i>
                     <span>Fiche de bord</span>
                 </a>
-            </li><!-- End chauffeur Page Nav -->
+            </li>
     </ul>
     @endif
-</aside><!-- End Sidebar-->
+</aside>
 
 <script src="/asset/js/bootstrap.min.js"></script>
-<!-- Vendor JS Files -->
 <script src="/asset/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="/asset/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="/asset/vendor/chart.js/chart.umd.js"></script>
@@ -200,6 +206,4 @@
 <script src="/asset/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="/asset/vendor/tinymce/tinymce.min.js"></script>
 <script src="/asset/vendor/php-email-form/validate.js"></script>
-
-<!-- Template Main JS File -->
 <script src="/asset/js/main.js"></script>

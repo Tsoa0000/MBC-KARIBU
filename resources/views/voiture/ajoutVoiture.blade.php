@@ -280,7 +280,6 @@
                 });
             });
 
-            // Activation initiale
             activateBadge(input.value);
 
             const immat = document.getElementById('immat');

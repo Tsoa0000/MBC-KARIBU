@@ -40,7 +40,6 @@ public function store(Request $request)
         'signature' => 'required|boolean',
     ]);
 
-    // Créer une instance et sauvegarder
     $tabbord = new TabBord();
     $tabbord->date = $request->date;
     $tabbord->idChauff = $request->idChauff;

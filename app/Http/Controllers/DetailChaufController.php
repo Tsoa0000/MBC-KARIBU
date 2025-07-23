@@ -36,7 +36,6 @@ class DetailChaufController extends Controller
         return redirect()->route('tabbord.index');
     }
 
-    // Connexion
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -58,7 +57,6 @@ class DetailChaufController extends Controller
         ]);
     }
 
-    // Affichage du profil
     public function showProfilChauffeur()
     {
         $user = Auth::user();
@@ -72,7 +70,6 @@ class DetailChaufController extends Controller
 
         return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
     }
-    // Création du profil chauffeur
     public function storeProfilChauffeur(Request $request)
     {
         $request->validate([
@@ -99,7 +96,7 @@ class DetailChaufController extends Controller
         return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
     }
 
-    // Modification du profil
+    
     public function updateProfilChauffeur(Request $request, $id)
     {
         $request->validate([

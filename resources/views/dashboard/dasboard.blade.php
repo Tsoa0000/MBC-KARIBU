@@ -63,13 +63,12 @@
                     <li class="breadcrumb-item active">Tableau de bord</li>
                 </ol>
             </nav>
-        </div><!-- End Page Title -->
+        </div>
 
         <section class="section dashboard">
             <div class="col-lg-12">
                 <div class="row">
 
-                    <!-- voiture Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
                             <div class="card-body">
@@ -85,10 +84,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End voiture Card -->
 
 
-                    <!-- chauffeur Card -->
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
                             <div class="card-body">
@@ -103,9 +100,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- End chauffeur Card -->
+                    </div>
 
-                    <!-- mission Card -->
+                   
                     <div class="col-xxl-4 col-md-4">
                         <div class="card info-card sales-card">
                             <div class="card-body">
@@ -120,9 +117,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- End mission Card -->
+                    </div>
 
-                    <!-- Recent mission -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
@@ -151,12 +147,12 @@
                                 </table>
                             </div>
                         </div>
-                    </div><!-- End Recent Sales -->
+                    </div>
 
                 </div>
-            </div><!-- End Left side columns -->
+            </div>
         </section>
-    </main><!-- End #main -->
+    </main>
 @endsection
 
 @section('srcipt')
