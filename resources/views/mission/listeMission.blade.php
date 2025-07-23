@@ -343,7 +343,7 @@
                             <th>Chauffeur</th>
                             <th>Lieu du mission</th>
                             <th>Voiture</th>
-                            <th>Objet</th>
+                            <th id="obs-cell">objet</th>
                             @if (Auth::check() && Auth::user()->role === '0')
                             <th>Action</th>
                             @endif
@@ -646,6 +646,13 @@
         dateArriveInput.addEventListener('change', checkDisponibilite);
     });
 </script>
-
-
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const obsCells = document.querySelectorAll('td:nth-child(8)');
+        obsCells.forEach(cell => {
+            const text = cell.textContent.trim();
+            cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        });
+    });
+</script>
 @endsection

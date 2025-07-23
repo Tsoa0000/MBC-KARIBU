@@ -196,9 +196,10 @@
                             <th>Freins</th>
                             <th>Transmission</th>
                             <th>Pneu</th>
-                            <th>Observation</th>
+                            <th id="obs-cell">observation</th>
                             <th>Action</th>
                         </tr>
+                       
                     </thead>
                     <tbody>
                         @forelse ($verifications as $v)
@@ -228,3 +229,16 @@
         </div>
     </main>
 @endsection
+@section('script')
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const obsCells = document.querySelectorAll('td:nth-child(8)');
+        obsCells.forEach(cell => {
+            const text = cell.textContent.trim();
+            cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        });
+    });
+</script>
+
+@endsection
+
