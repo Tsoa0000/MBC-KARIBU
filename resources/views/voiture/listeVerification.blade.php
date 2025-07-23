@@ -40,6 +40,7 @@
             gap: 1rem;
         }
 
+        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;
@@ -179,7 +180,9 @@
 
             <div class="header-top">
                 <h2 class="page-title">Liste des vérifications de véhicules</h2>
+                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                 <a href="{{ route('verification.form') }}" class="btn-create">+ Nouvelle vérification</a>
+                @endif
             </div>
 
             <div class="table-wrapper">

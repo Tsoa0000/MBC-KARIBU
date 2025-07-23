@@ -53,7 +53,7 @@
     @if (session('error'))
         <div class="toast-message toast-error">{{ session('error') }}</div>
     @endif
- @if (Auth::check() && Auth::user()->role === '0')
+@if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' || Auth::user()->role === '2')
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>Dashboard</h1>

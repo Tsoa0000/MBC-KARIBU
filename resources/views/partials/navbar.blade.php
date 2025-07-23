@@ -69,7 +69,7 @@
                                 <span>Mon Profile</span>
                             </a>
                         @endif
-                        @if (Auth::check() && Auth::user()->role === '1')
+                        @if (Auth::check() && Auth::user()->role === '7')
                             <a class="dropdown-item d-flex align-items-center" href="{{ route('profil.chauffeur') }}">
                                 <i class="bi bi-person"></i>
                                 <span>Mon Profile</span>
@@ -105,7 +105,7 @@
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-        @if (Auth::check() && Auth::user()->role === '0')
+        @if (Auth::check() && Auth::user()->role === '2' || Auth::user()->role === '0' || Auth::user()->role === '5')
             <li class="nav-item">
                 <a class="nav-link " href="{{ route('dashboard') }}">
                     <i class="ri-dashboard-line"></i>
@@ -149,7 +149,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li><!-- End mission et trajet Nav -->
             <!-- chauffeur Page Nav
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('chauffeur.index') }}">
@@ -171,9 +171,17 @@
                     <i class=" ri-file-excel-2-line"></i>
                     <span>Rapport</span>
                 </a>
+            </li><!-- End rapport Page Nav -->
+            @if (Auth::check() && Auth::user()->role === '0')
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('gestionRole') }}">
+                    <i class="ri-user-settings-line"></i>
+                    <span>Gestion des rôles</span>
+                </a>
+            @endif
         @endif
-        </li>
-        @if (Auth::check() && Auth::user()->role === '1')
+        </li><!-- End rapport Page Nav -->
+        @if (Auth::check() && Auth::user()->role === '7')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('mission.show') }}">
                     <i class="ri-file-list-2-line"></i>

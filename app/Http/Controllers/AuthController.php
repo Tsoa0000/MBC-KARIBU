@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -38,7 +37,7 @@ class AuthController extends Controller
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => '0' 
+            'role' => '2',
         ]);
 
         Auth::login($user);
@@ -62,17 +61,21 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-        
-            if ($user->role === '0') {
-                return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+            switch ($user->role) {
+                case '2':
+                    return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+                case '7':
+                    return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
+                case '0':
+                    return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+                default:
+                    return redirect()->route('dashboard')->with('success', 'Bienvenue !');
             }
-
-          
-            return redirect()->route('dashboard')->with('success', 'Bienvenue !');
         }
 
-      
-        return back()->with('error', 'Email ou mot de passe incorrect.');
+        return redirect()->back()
+            ->withErrors(['email' => 'Identifiants invalides.'])
+            ->withInput($request->only('email'));
     }
 
     public function logout()

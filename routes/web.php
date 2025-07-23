@@ -27,6 +27,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ======= DASHBOARD =======
 Route::get('/', [DashController::class, 'show'])->name('dashboard');
+Route::get('/gestionRole', [DashController::class, 'GestionRole'])->name('gestionRole');
+Route::put('/gestionRole/{id}', [DashController::class, 'updateRole'])->name('gestionRole.update');
 
 
 // ======= GESTION DES VOITURES =======
