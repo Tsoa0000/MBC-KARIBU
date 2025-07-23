@@ -64,6 +64,8 @@ Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.d
 // ======= MISSION =======
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
+Route::post('/disponibilites', [MissionController::class, 'checkDisponibilite'])->name('check.disponibilite');
+
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
 
 // ======= Tableau de bord =======

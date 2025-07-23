@@ -117,7 +117,6 @@
     @if($detailChauff)
         @method('PUT')
     @endif
-                <!-- Nom complet (readonly) -->
                 <div class="form-group">
                     <label class="form-label">
                         <svg viewBox="0 0 24 24">
@@ -127,8 +126,6 @@
                     </label>
                     <input type="text" name="nom" value="{{ $user->name }} {{ $user->first_name }}" readonly>
                 </div>
-
-                <!-- Numéro de permis -->
                 <div class="form-group">
                     <label class="form-label">
                         <svg viewBox="0 0 24 24">
@@ -138,8 +135,6 @@
                     </label>
                     <input type="text" name="numeroPermis" value="{{ old('numeroPermis', $detailChauff->numeroPermis ?? '') }}" required>
                 </div>
-
-                <!-- Date de validité -->
                 <div class="form-group">
                     <label class="form-label">
                         <svg viewBox="0 0 24 24">
@@ -150,7 +145,6 @@
                     <input type="date" name="dateValidite" value="{{ old('dateValidite', $detailChauff->dateValidite ?? '') }}" required>
                 </div>
 
-                <!-- Catégorie(s) du permis -->
                 <div class="form-group checkbox-group">
                     <label class="form-label" style="width: 100%;">Catégorie(s) du permis</label>
                     @foreach ($typePermis as $type)
@@ -164,7 +158,6 @@
                     @endforeach
                 </div>
 
-                <!-- CIN -->
                 <div class="form-group">
                     <label class="form-label">
                         <svg viewBox="0 0 24 24">

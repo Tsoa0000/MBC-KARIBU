@@ -2,6 +2,8 @@
 @include('partials.navbar')
 
 @section('style')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <style>
         @import url('https://fonts.cdnfonts.com/css/skia');
 
@@ -31,7 +33,6 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
         }
 
-        /* Entête container: titre + bouton aligné eo amin'ny tsipika iray */
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -41,7 +42,6 @@
             gap: 1rem;
         }
 
-        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;
@@ -55,7 +55,7 @@
 
         }
 
-        /* Bouton création vérification */
+       
         .btn-create {
             background: #33897f;
             color: white;
@@ -115,6 +115,8 @@
             font-size: 1rem;
             vertical-align: middle;
             border-bottom: none;
+            text-transform: capitalize;
+
         }
 
         td:last-child {
@@ -132,7 +134,7 @@
 
             thead th,
             td {
-
+                text-transform: capitalize;
                 font-size: 0.9rem;
             }
         }
@@ -166,7 +168,7 @@
             transition: 0.3s ease;
         }
 
-        /*modal style */
+     
         .form {
             background: #ffffff;
             backdrop-filter: blur(16px);
@@ -207,7 +209,18 @@
             border: none;
             box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
             font-size: 0.95rem;
+
+
         }
+        .select {
+    text-transform: capitalize;
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border-radius: 14px;
+    border: none;
+    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+    font-size: 0.95rem;
+}
 
         input:focus,
         select:focus,
@@ -271,6 +284,36 @@
                 grid-column: span 1;
             }
         }
+
+.select2-container--default .select2-selection--single {
+    background-color: #f0f4f8;
+    border: none;
+    border-radius: 14px;
+    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+    padding: 8px 12px;
+    height: auto;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #333;
+    line-height: 1.5;
+    padding-left: 4px;
+}
+
+.select2-container--default .select2-selection--single:focus {
+    outline: none;
+    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100%;
+}
+
     </style>
 @endsection
 @section('body')
@@ -281,9 +324,14 @@
                     {{ $errors->first('voiture_id') }}
                 </div>
             @endif
+            @if ($errors->has('chauffeur_id'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('chauffeur_id') }}
+                </div>
+            @endif
             <div class="header-top">
                 <h2 class="page-title">Liste des missions</h2>
-                @if (Auth::check() && Auth::user()->role === '0')
+                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                 <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
                 @endif
             </div>
@@ -291,10 +339,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Date de départ</th>
-                            <th>Date d'arriver</th>
-                            <th>Lieu de depart</th>
-                            <th>Lieu d'arriver</th>
+                            <th>Date de mission</th>
+                            <th>Chauffeur</th>
+                            <th>Lieu du mission</th>
                             <th>Voiture</th>
                             <th>Objet</th>
                             @if (Auth::check() && Auth::user()->role === '0')
@@ -305,10 +352,18 @@
                     <tbody>
                         @forelse ($missions as $mission)
                             <tr>
-                                <td>{{ $mission->date_depart }}</td>
-                                <td>{{ $mission->date_arrive }}</td>
-                                <td>{{ $mission->lieuDepart->nomLieu ?? '' }}</td>
-                                <td>{{ $mission->lieuArrive->nomLieu ?? '' }}</td>
+                                <td>{{ $mission->date_depart }} / {{ $mission->date_arrive }}</td>
+                                <td>
+                                    @if ($mission->chauffeur)
+                                        {{ $mission->chauffeur->name }} {{ $mission->chauffeur->first_name }}
+                                    @else
+                                        <div class="alert alert-danger p-1 m-0" role="alert">
+                                            Chauffeur non assigné !
+                                        </div>
+                                    @endif
+                                </td>
+                                
+                                <td>{{ $mission->lieuDepart->nomLieu }}-{{ $mission->lieuArrive->nomLieu }}</td>
                                 <td>{{ $mission->voiture->modele ?? '' }}</td>
                                 <td>{{ $mission->objet }}</td>
                                 @if (Auth::check() && Auth::user()->role === '0')
@@ -328,7 +383,6 @@
                 </table>
             </div>
         </div>
-        <!-- Modal Mission -->
         <div id="missionModal"
             style="display:none; position:fixed; top:0; left:0; width:105vw; height:105vh; background:rgba(0,0,0,0.3); z-index:1000; justify-content:center; align-items:center;">
             <div style="background:#fff; border-radius:20px; position:relative;" class="form">
@@ -337,63 +391,74 @@
                     @csrf
                     <h2> Mission</h2>
                     <div class="grid">
-                        <div>
-                            <label for="dateDepart"> Date de départ</label>
-                            <input type="date" id="dateDepart" name="date_depart" required>
+                        <div >
+                            <label for="date_depart">Date de départ</label>
+                            <input type="date" name="date_depart" id="date_depart" class="form-control" min="{{ date('Y-m-d') }}">
+                            <div class="invalid-feedback" id="dateDepartError" style="display: none;">
+                                La date de départ doit être aujourd'hui ou une date future.
+                            </div>
                         </div>
+                        
                         <div>
-                            <label for="dateArrivee">Date d'arrivée</label>
-                            <input type="date" id="dateArrivee" name="date_arrive" required>
+                            <label for="date_arrive">Date d'arrivée</label>
+                            <input type="date" name="date_arrive" id="date_arrive" class="form-control" min="{{ date('Y-m-d') }}">
+                            <div class="invalid-feedback" id="dateArriveError" style="display: none;">
+                                La date d'arrivée doit être après ou égale à la date de départ.
+                            </div>
                         </div>
-                        <div>
-                            <label for="">Lieu de départ</label>
-                            <select id="lieuDepart" name="lieu_depart" required>
-                                <option value="" disabled selected>-- Choisir --</option>
+                        <div >
+                            <label for="trajet_id" >Lieu</label>
+                            <select id="trajet_id" name="trajet_id" class="select2" required>
+                                <option value="" disabled selected>--Choisir--</option>
                                 @forelse ($trajets as $t)
-                                    <option value="{{ $t->lieu_depart_id }}">{{ $t->lieuDepart->nomLieu }}</option>
+                                    <option value="{{ $t->lieu_depart_id }} - {{ $t->lieu_arrive_id }}">
+                                        {{ $t->lieuDepart->nomLieu ?? '' }} - {{ $t->lieuArrivee->nomLieu ?? '' }}
+                                    </option>
                                 @empty
-                                    <option value="" disabled>Aucun lieu disponible</option>
+                                    <option value="" disabled>Aucun trajet disponible</option>
                                 @endforelse
                             </select>
                         </div>
-                        <div>
-                            <label for="">Lieu d'arrivée</label>
-                            <select id="lieuArrivee" name="lieu_arrivee" required>
-                                <option value="" disabled selected>-- Choisir --</option>
-                                @forelse ($trajets as $t)
-                                    <option value="{{ $t->lieu_arrive_id }}">{{ $t->lieuArrivee->nomLieu }}</option>
-                                @empty
-                                    <option value="" disabled>Aucun lieu disponible</option>
-                                @endforelse
-                            </select>
-                        </div>
+                        
                         <div>
                             <label for="chauffeur_id">Chauffeur</label>
-                            <select id="chauffeur_id" name="chauffeur_id" required>
+                            <select id="chauffeur_id" name="chauffeur_id" class="@error('chauffeur_id') is-invalid @enderror" required>
                                 <option value="" disabled selected>-- Choisir --</option>
                                 @foreach ($chauffeurs as $c)
-                                    <option value="{{ $c->id }}">
+                                    <option value="{{ $c->id }}"
+                                        @if (!$c->disponible) disabled style="color:red;" @endif
+                                        @if (old('chauffeur_id') == $c->id) selected @endif>
                                         {{ $c->name }} {{ $c->first_name }}
+                                        @if (!$c->disponible) - Indisponible @endif
                                     </option>
                                 @endforeach
                             </select>
+                            @error('chauffeur_id')
+                                <div style="color:red; font-style: italic;">{{ $message }}</div>
+                            @enderror
                         </div>
-
-                        <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
-                        <div>
-                            <label for="voiture_id">Voiture proposée</label>
-                            <select id="voitureSelect" name="voiture_id" required>
-                                <option value="">-- Choisir une voiture --</option>
-                                @foreach ($voitures as $v)
-                                    <option value="{{ $v->id }}" data-type="{{ $v->typeVehi }}">
-                                        {{ $v->modele }} ({{ $v->typeVehi }})
-                                    </option>
-                                @endforeach
-                            </select>
-
-                        </div>
-
+                        
+                        
                     </div>
+                    <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
+                    <div>
+                        <label for="voiture_id">Voiture proposée</label>
+                        <select id="voitureSelect" name="voiture_id" class="form-control @error('voiture_id') is-invalid @enderror" required>
+                            <option value="">-- Choisir une voiture --</option>
+                            @foreach ($voitures as $v)
+                                <option value="{{ $v->id }}" 
+                                    data-type="{{ $v->typeVehi }}"
+                                    @if (!$v->disponible) disabled style="color:red;" @endif
+                                    @if (old('voiture_id') == $v->id) selected @endif>
+                                    {{ $v->modele }} ({{ $v->typeVehi }})
+                                    @if (!$v->disponible) - 🚫 Indisponible @endif
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    
+                    
                     <div class="width mt-3">
                         <label for="objet">Objet</label>
                         <textarea id="objet" name="objet" placeholder="Motif..." required></textarea>
@@ -405,104 +470,175 @@
             </div>
         </div>
     </main>
+@endsection
+@section('script')
+    <!-- JQuery + Select2 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    @section('script')
-        <script>
+    <script>
+        $(document).ready(function () {
+           
             const modal = document.getElementById('missionModal');
             const openBtn = document.getElementById('openModalBtn');
             const closeBtn = document.getElementById('closeModalBtn');
 
             openBtn.onclick = () => modal.style.display = 'flex';
             closeBtn.onclick = () => modal.style.display = 'none';
-            modal.onclick = function(e) {
+            modal.onclick = function (e) {
                 if (e.target === modal) modal.style.display = 'none';
+            };
+
+            $('select[name="trajet_id"]').select2({
+                placeholder: "--Choisir un trajet--",
+                allowClear: true,
+                width: '100%' 
+            });
+
+            const dateDepartInput = $('#date_depart');
+            const dateArriveInput = $('#date_arrive');
+            const dateDepartError = $('#dateDepartError');
+            const dateArriveError = $('#dateArriveError');
+
+            function validateDates() {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const dateDepart = new Date(dateDepartInput.val());
+                const dateArrive = new Date(dateArriveInput.val());
+
+                if (dateDepartInput.val() && dateDepart < today) {
+                    dateDepartInput.addClass('is-invalid');
+                    dateDepartError.show();
+                } else {
+                    dateDepartInput.removeClass('is-invalid');
+                    dateDepartError.hide();
+                }
+
+                if (dateArriveInput.val()) {
+                    if (dateArrive < today || dateArrive < dateDepart) {
+                        dateArriveInput.addClass('is-invalid');
+                        dateArriveError.show();
+                    } else {
+                        dateArriveInput.removeClass('is-invalid');
+                        dateArriveError.hide();
+                    }
+                }
             }
-        </script>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const lieuDepartSelect = document.getElementById("lieuDepart");
-                const lieuArriveeSelect = document.getElementById("lieuArrivee");
+            dateDepartInput.on('change', function () {
+                if (dateDepartInput.val()) {
+                    dateArriveInput.attr('min', dateDepartInput.val());
+                }
+                validateDates();
+            });
 
-                // Tableau des trajets (lieu_depart_id -> lieu_arrivee_id et nom)
-                const trajets = [
-                    @foreach ($trajets as $t)
-                        {
-                            departId: "{{ $t->lieu_depart_id }}",
-                            arriveeId: "{{ $t->lieu_arrive_id }}",
-                            arriveeNom: "{{ $t->lieuArrivee->nomLieu }}"
-                        },
-                    @endforeach
-                ];
+            dateArriveInput.on('change', validateDates);
 
-                lieuDepartSelect.addEventListener("change", function() {
-                    const selectedDepart = this.value;
+      
+            const voitureSelect = document.getElementById("voitureSelect");
+            const typeRouteDisplay = document.getElementById("typeRouteDisplay");
+            const lieuSelect = document.querySelector('select[name="trajet_id"]');
 
-                    // Vide les options précédentes du select lieu d'arrivée
-                    lieuArriveeSelect.innerHTML = '<option value="" disabled selected>-- Choisir --</option>';
+            const trajets = [
+                @foreach ($trajets as $t)
+                    {
+                        departId: "{{ $t->lieu_depart_id }}",
+                        arriveId: "{{ $t->lieu_arrive_id }}",
+                        typeRoute: "{{ strtolower($t->typeRoute) }}"
+                    },
+                @endforeach
+            ];
 
-                    // Recherche du trajet correspondant
-                    const trajet = trajets.find(t => t.departId === selectedDepart);
+            const originalVoitures = Array.from(voitureSelect.querySelectorAll("option")).slice(1);
 
-                    if (trajet) {
-                        const option = document.createElement("option");
-                        option.value = trajet.arriveeId;
-                        option.textContent = trajet.arriveeNom;
-                        option.selected = true;
-                        lieuArriveeSelect.appendChild(option);
+            const compatibilite = {
+                "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
+                "mixte": ["4x4", "suv", "camionnette", "pick-up", "berline"],
+                "secondaire": ["4x4", "pick-up", "camionnette"]
+            };
+
+            lieuSelect.addEventListener("change", function () {
+                const selected = this.value.trim();
+                const [departId] = selected.split(" - "); 
+
+                voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
+                typeRouteDisplay.textContent = "";
+
+                const trajet = trajets.find(t => t.departId === departId);
+
+                if (!trajet) return;
+
+                const typeRoute = trajet.typeRoute;
+                const typesAcceptes = compatibilite[typeRoute] || [];
+
+                typeRouteDisplay.textContent = "Type de route détecté : " + typeRoute;
+
+                originalVoitures.forEach(opt => {
+                    const typeVoiture = opt.getAttribute("data-type").toLowerCase();
+                    if (typesAcceptes.includes(typeVoiture)) {
+                        voitureSelect.appendChild(opt.cloneNode(true));
                     }
                 });
             });
-        </script>
+        });
+    </script>
+ <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateDepartInput = document.getElementById('date_depart');
+        const dateArriveInput = document.getElementById('date_arrive');
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const lieuDepart = document.getElementById("lieuDepart");
-                const voitureSelect = document.getElementById("voitureSelect");
-                const typeRouteDisplay = document.getElementById("typeRouteDisplay");
-                const trajets = [
-                    @foreach ($trajets as $t)
-                        {
-                            departId: "{{ $t->lieu_depart_id }}",
-                            typeRoute: "{{ strtolower($t->typeRoute) }}"
-                        },
-                    @endforeach
-                ];
+        function checkDisponibilite() {
+            const dateDepart = dateDepartInput.value;
+            const dateArrive = dateArriveInput.value;
 
-
-                const originalVoitures = Array.from(voitureSelect.querySelectorAll("option")).slice(1);
-
-                const compatibilite = {
-                    "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus","camionnette"],
-                    "mixte": ["4x4", "suv", "camionnette", "pick-up"],
-                    "secondaire": ["4x4", "pick-up", "camionnette"]
-                };
-
-                lieuDepart.addEventListener("change", function() {
-                    const selectedId = this.value;
-
+            if (dateDepart && dateArrive) {
+                fetch("{{ route('check.disponibilite') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        date_depart: dateDepart,
+                        date_arrive: dateArrive
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const voitureSelect = document.getElementById('voitureSelect');
                     voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
-                    typeRouteDisplay.textContent = "";
 
-                    const trajet = trajets.find(t => t.departId === selectedId);
-
-                    if (!trajet) return;
-
-                    const typeRoute = trajet.typeRoute;
-                    const typesAcceptes = compatibilite[typeRoute] || [];
-
-                    typeRouteDisplay.textContent = "Type de route détecté : " + typeRoute;
-
-                    originalVoitures.forEach(opt => {
-                        const typeVoiture = opt.getAttribute("data-type").toLowerCase();
-
-                        if (typesAcceptes.includes(typeVoiture)) {
-                            voitureSelect.appendChild(opt.cloneNode(true));
+                    data.voitures.forEach(v => {
+                        const option = document.createElement('option');
+                        option.value = v.id;
+                        option.textContent = `${v.modele} (${v.typeVehi})${v.disponible ? '' : ' -  Indisponible'}`;
+                        if (!v.disponible) {
+                            option.disabled = true;
+                            option.style.color = 'red';
                         }
+                        voitureSelect.appendChild(option);
+                    });
+                    const chauffeurSelect = document.getElementById('chauffeur_id');
+                    chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
+
+                    data.chauffeurs.forEach(c => {
+                        const option = document.createElement('option');
+                        option.value = c.id;
+                        option.textContent = `${c.name} ${c.first_name}${c.disponible ? '' : ' -  Indisponible'}`;
+                        if (!c.disponible) {
+                            option.disabled = true;
+                            option.style.color = 'red';
+                        }
+                        chauffeurSelect.appendChild(option);
                     });
                 });
-            });
-        </script>
-    @endsection
-    </main>
+            }
+        }
+
+        dateDepartInput.addEventListener('change', checkDisponibilite);
+        dateArriveInput.addEventListener('change', checkDisponibilite);
+    });
+</script>
+
 @endsection

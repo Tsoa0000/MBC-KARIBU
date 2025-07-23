@@ -8,14 +8,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class VerifVoitureController extends Controller {
-    //  Affiche le formulaire de vérification
 
     public function verification() {
         $voiture = Voiture::orderBy( 'matricule' )->get();
         return view( 'voiture.verificationVoiture', compact( 'voiture' ) );
     }
 
-    //  Enregistre une nouvelle vérification
+  
 
     public function verif ( Request $request ) {
         $request->validate( [
@@ -43,14 +42,13 @@ class VerifVoitureController extends Controller {
         return redirect()->route( 'verification.index' );
     }
 
-    //  Liste de toutes les vérifications
+   
 
     public function index() {
         $verifications = Verification::with( 'voiture' )->latest()->get();
         return view( 'voiture.listeVerification', compact( 'verifications' ) );
     }
 
-    // Delete
 
     public function delete( $id ) {
         $verifications = Verification::find( $id );

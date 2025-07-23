@@ -222,19 +222,21 @@
             </div>
           </div>
 
-          <div class="item"><label for="depart">Départ</label>
-            <div class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
-              <input type="text" id="depart" name="point_depart" required>
+                    <div class="item">
+              <label for="depart">Départ</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                <input type="text" id="depart" name="point_depart" required>
+              </div>
             </div>
-          </div>
 
-          <div class="item"><label for="destination">Destination</label>
-            <div class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
-              <input type="text" id="destination" name="destination" required>
+            <div class="item">
+              <label for="destination">Destination</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+                <input type="text" id="destination" name="destination" required>
+              </div>
             </div>
-          </div>
 
           <div class="item"><label for="motif">Motif</label>
             <div class="input-icon">
@@ -243,20 +245,21 @@
             </div>
           </div>
 
-          <div class="item"><label for="dep_km">Km départ</label>
-            <div class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M5 12h14v2H5z"/></svg>
-              <input type="number" id="dep_km" name="dep_km" step="0.01" required>
+            <div class="item">
+              <label for="dep_km">Km départ</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14v2H5z"/></svg>
+                <input type="number" id="dep_km" name="dep_km" min="0" step="0.01" required>
+              </div>
             </div>
-          </div>
 
-          <div class="item"><label for="arr_km">Km arrivée</label>
-            <div class="input-icon">
-              <svg viewBox="0 0 24 24"><path d="M5 12h14v2H5z"/></svg>
-              <input type="number" id="arr_km" name="arr_km" step="0.01" required>
+            <div class="item">
+              <label for="arr_km">Km arrivée</label>
+              <div class="input-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14v2H5z"/></svg>
+                <input type="number" id="arr_km" name="arr_km" min="0" step="0.01" required>
+              </div>
             </div>
-          </div>
-
           <div class="item"><label for="heure_depart">Heure de départ</label>
             <div class="input-icon">
               <input type="time" id="heure_depart" name="heure_depart" required>
@@ -295,7 +298,7 @@
     </div>
   </div>
 
-  {{-- Script JS corrigé --}}
+
   <script>
     document.getElementById("date").value = new Date().toISOString().split("T")[0];
 
@@ -315,6 +318,20 @@
 
     depInput.addEventListener("input", calcKM);
     arrInput.addEventListener("input", calcKM);
+
+
+  function validateKM() {
+    const regex = /^\d+(\.\d{1,2})?$/;
+    const depKm = document.getElementById('dep_km').value.trim();
+    const arrKm = document.getElementById('arr_km').value.trim();
+
+    if (!regex.test(depKm) || !regex.test(arrKm)) {
+      alert("Veuillez entrer un nombre valide (positif, sans lettre) pour les kilomètres.");
+      return false;
+    }
+
+    return true;
+  }
   </script>
 </main>
 

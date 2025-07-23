@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item active">Tableau de bord</li>
                 </ol>
             </nav>
-        </div><!-- End Page Title -->
+        </div>
 
         <div class="d-flex justify-content-end mb-4">
             <a href="{{ route('voiture.ajout') }}" class="btn btn-ajouter">
@@ -95,8 +95,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // Bouton Modifier (passe en mode édition)
             document.querySelectorAll('.btn-edit').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const tr = btn.closest('tr');
@@ -104,11 +102,9 @@
                 });
             });
 
-            // Bouton Annuler (annule la modification)
             document.querySelectorAll('.btn-cancel').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const tr = btn.closest('tr');
-                    // Remet les valeurs des inputs à celles affichées (span)
                     tr.querySelectorAll('input.edit-mode').forEach(input => {
                         const span = tr.querySelector(
                             `.view-mode:nth-child(${input.parentElement.cellIndex + 1})`
@@ -119,7 +115,6 @@
                 });
             });
 
-            // Bouton Valider (enregistre via AJAX)
             document.querySelectorAll('.btn-save').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const tr = btn.closest('tr');
@@ -159,12 +154,10 @@
                 })
                 .then(json => {
                     if (json.success) {
-                        // Mise à jour des spans affichés avec nouvelles valeurs
                         tr.querySelectorAll('.edit-mode').forEach(input => {
                             const span = tr.querySelector(`.view-mode[name="${input.name}"]`);
                             if (span) span.textContent = input.value;
                         });
-                        // Mise à jour spéciale badge état (couleur + texte)
                         const badge = tr.querySelector('td:nth-child(4) .badge');
                         if (badge) {
                             const etat = parseInt(data.etat);

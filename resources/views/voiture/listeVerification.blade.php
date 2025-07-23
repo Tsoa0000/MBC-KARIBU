@@ -31,7 +31,6 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
         }
 
-        /* Entête container: titre + bouton aligné eo amin'ny tsipika iray */
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -41,7 +40,6 @@
             gap: 1rem;
         }
 
-        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;
@@ -55,7 +53,6 @@
 
         }
 
-        /* Bouton création vérification */
         .btn-create {
             background: #33897f;
             color: white;
