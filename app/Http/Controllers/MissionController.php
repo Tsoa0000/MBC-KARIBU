@@ -39,7 +39,7 @@ class MissionController extends Controller {
             return $v;
         });
 
-        $chauffeurs = User::where('role', '1')->get()->map(function ($ch) use ($date_depart, $date_arrive) {
+        $chauffeurs = User::where('role', '7')->get()->map(function ($ch) use ($date_depart, $date_arrive) {
             $ch->disponible = !Mission::where('chauffeur_id', $ch->id)
                 ->where(function ($query) use ($date_depart, $date_arrive) {
                     $query->whereBetween('date_depart', [$date_depart, $date_arrive])
@@ -59,7 +59,7 @@ class MissionController extends Controller {
             return $v;
         });
 
-        $chauffeurs = User::where('role', '1')->get()->map(function ($ch) {
+        $chauffeurs = User::where('role', '7')->get()->map(function ($ch) {
             $ch->disponible = true;
             return $ch;
         });
@@ -87,7 +87,7 @@ public function mission(Request $request) {
         'objet' => 'required|string|max:255',
     ]);
 
-   
+
     [$lieu_depart, $lieu_arrivee] = explode(' - ', $request->trajet_id);
 
     $voitureOccupée = Mission::where('voiture_id', $request->voiture_id)
@@ -157,7 +157,7 @@ public function checkDisponibilite(Request $request)
     });
 
     // Chauffeurs disponibles
-    $chauffeurs = User::where('role', '1')->get()->map(function ($c) use ($date_depart, $date_arrive) {
+    $chauffeurs = User::where('role', '7')->get()->map(function ($c) use ($date_depart, $date_arrive) {
         $c->disponible = !Mission::where('chauffeur_id', $c->id)
             ->where(function ($query) use ($date_depart, $date_arrive) {
                 $query->whereBetween('date_depart', [$date_depart, $date_arrive])

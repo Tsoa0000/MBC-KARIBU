@@ -147,8 +147,8 @@
                 $today = Carbon::now()->format('Y-m-d');
                 $dateValue = old('dateValidite', $detailChauff->dateValidite ?? $today);
             @endphp
-            
-            <div class="form-group"> 
+
+            <div class="form-group">
                 <label class="form-label">
                     <svg viewBox="0 0 24 24">
                         <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
@@ -157,7 +157,7 @@
                 </label>
                 <input type="date" name="dateValidite" value="{{ $dateValue }}" min="{{ $today }}" required>
             </div>
-            
+
 
                 <div class="form-group checkbox-group">
                     <label class="form-label" style="width: 100%;">Catégorie(s) du permis</label>

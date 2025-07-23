@@ -10,7 +10,7 @@ class ChauffeurController extends Controller
 {
    public function index()
 {
-    $chauffeurs = User::where('role', '1')
+    $chauffeurs = User::where('role', '7')
         ->whereHas('detailChauff')
         ->with('detailChauff')
         ->get();

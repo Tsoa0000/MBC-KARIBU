@@ -96,32 +96,32 @@ class DetailChaufController extends Controller
         return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
     }
 
-    
+
     public function updateProfilChauffeur(Request $request, $id)
     {
-       
+
         $request->validate([
             'cin' => ['required', 'regex:/^\d{12}$/'],
             'dateValidite' => ['required', 'date', 'after_or_equal:today'],
             'typePermis' => 'required|array',
             'typePermis.*' => 'in:A,A1,B,C,D,E',
         ]);
-    
-     
+
+
         $detailChauff = DetailChauff::findOrFail($id);
-    
-      
+
+
         $detailChauff->cin = $request->input('cin');
         $detailChauff->typePermis = $request->input('typePermis');
         $detailChauff->dateValidite = $request->input('dateValidite');
         $detailChauff->save();
-    
-   
+
+
         return redirect()
             ->route('profil.chauffeur.edit', $id)
             ->with('success', 'Profil du chauffeur mis à jour avec succès.');
     }
-    
+
 
 public function editProfil()
 {
