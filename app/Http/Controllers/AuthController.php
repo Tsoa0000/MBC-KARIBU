@@ -39,7 +39,11 @@ class AuthController extends Controller
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => '2' // Role par défaut
+<<<<<<< HEAD
+            'role' => '2'
+=======
+            'role' => '2'
+>>>>>>> 50440a4175bd320462c51e5bc8c563a2888d3cde
         ]);
 
         Auth::login($user);
@@ -63,16 +67,30 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+<<<<<<< HEAD
             // Redirection selon rôle utilisateur
+            if ($user->role === '2') {
+                return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
+            }
+
+            if ($user->role === '7') {
+                return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
+            }
+            return redirect()->route('dashboard')->with('success', 'Bienvenue !');
+        }
+
+=======
+
             if ($user->role === '0') {
                 return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
             }
 
-            // Ajouter autres rôles ici si besoin
+
             return redirect()->route('dashboard')->with('success', 'Bienvenue !');
         }
 
-        // Retour en cas d'erreur de connexion
+
+>>>>>>> 50440a4175bd320462c51e5bc8c563a2888d3cde
         return back()->with('error', 'Email ou mot de passe incorrect.');
     }
 
