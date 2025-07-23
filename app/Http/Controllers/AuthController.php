@@ -41,7 +41,7 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-
+        toastify()->success('Votre compte a été créé avec succès !');
         return redirect()->route('dashboard')->with('success', 'Votre compte a été créé avec succès !');
     }
 
@@ -63,24 +63,33 @@ class AuthController extends Controller
 
             switch ($user->role) {
                 case '2':
+                    toastify()->success('Connexion réussie !');
                     return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
                 case '7':
+                    toastify()->success('Connexion réussie en tant que chauffeur !');
                     return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
                 case '0':
+                    toastify()->success('Bienvenue, administrateur !');
                     return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
                 default:
+                    toastify()->error('Rôle inconnu. Veuillez contacter l\'administrateur.');
                     return redirect()->route('dashboard')->with('success', 'Bienvenue !');
             }
         }
-
+        toastify()->error('Identifiants invalides. Veuillez réessayer.');
         return redirect()->back()
             ->withErrors(['email' => 'Identifiants invalides.'])
             ->withInput($request->only('email'));
+
+            Auth::login($user);
+        toastify()->success('Connexion réussie !');
+        return redirect()->route('dashboard')->with('success', 'Votre compte a été créé avec succès !');
     }
 
     public function logout()
     {
         Auth::logout();
+        toastify()->success('Vous avez été déconnecté avec succès !');
         return redirect()->route('login')->with('success', 'Déconnexion réussie.');
     }
 }

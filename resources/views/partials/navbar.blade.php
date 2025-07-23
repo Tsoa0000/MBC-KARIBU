@@ -63,8 +63,8 @@
                     </li>
 
                     <li>
-                        @if (Auth::check() && Auth::user()->role === '0')
-                            <a class="dropdown-item d-flex align-items-center" href="">
+                        @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '2' || Auth::user()->role === '5' )
+                            <a class="dropdown-item d-flex align-items-center" href="{{route('profilAdmin')}}">
                                 <i class="bi bi-person"></i>
                                 <span>Mon Profile</span>
                             </a>

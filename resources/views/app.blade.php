@@ -10,14 +10,14 @@
 
     <title>Document</title>
     @yield("style")
-
+    @toastifyCss
 
     @yield("body")
 
 
 
 @yield("script")
-
+@toastifyJs
 
 </body>
 </html>

@@ -472,7 +472,7 @@
     </main>
 @endsection
 @section('script')
-    <!-- JQuery + Select2 -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -606,7 +606,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Remplir les voitures
+
                     const voitureSelect = document.getElementById('voitureSelect');
                     voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
 
@@ -621,13 +621,13 @@
                         voitureSelect.appendChild(option);
                     });
 
-                    // Remplir les chauffeurs
+
                     const chauffeurSelect = document.getElementById('chauffeur_id');
                     chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
 
                     data.chauffeurs.forEach(c => {
                         const option = document.createElement('option');
-                        option.value = c.id; // ou c.user_id si nécessaire
+                        option.value = c.id;
                         option.textContent = `${c.name} ${c.first_name}${c.disponible ? '' : ' - Indisponible'}`;
                         if (!c.disponible) {
                             option.disabled = true;

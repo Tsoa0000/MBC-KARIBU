@@ -30,6 +30,11 @@ Route::get('/', [DashController::class, 'show'])->name('dashboard');
 Route::get('/gestionRole', [DashController::class, 'GestionRole'])->name('gestionRole');
 Route::put('/gestionRole/{id}', [DashController::class, 'updateRole'])->name('gestionRole.update');
 
+// ======= PROFIL ADMIN =======
+Route::get('/profilAdmin', [DashController::class, 'showAdminProfile'])->name('profilAdmin');
+Route::get('/profilAdmin/edit', [DashController::class, 'editProfile'])->name('profilAdmin.edit');
+Route::post('/user/update-info', [DashController::class, 'updateInfo'])->name('user.updateInfo');
+
 
 // ======= GESTION DES VOITURES =======
 Route::get('/voiture/liste', [VoitureController::class,"showVoiture"])->name('voiture');

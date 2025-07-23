@@ -7,6 +7,7 @@ use App\Models\Voiture;
 use App\Models\DetailChauff;
 use App\Models\Mission;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashController extends Controller
 {
@@ -37,7 +38,29 @@ class DashController extends Controller
         $user = User::findOrFail($id);
         $user->role = $request->role;
         $user->save();
-
+        toastify()->success('Rôle mis à jour avec succès !');
         return redirect()->route('gestionRole')->with('success', 'Rôle mis à jour.');
     }
+    public function showAdminProfile()
+    {
+        return view('profilAdmin.admin');
+    }
+    public function editProfile()
+    {
+        return view('profilAdmin.edit');
+    }
+    public function updateInfo(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'first_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+    ]);
+
+    $user = Auth::user();
+    $user->update($request->only(['name', 'first_name', 'email']));
+
+    return redirect()->back()->with('success', 'Informations mises à jour.');
+}
+
 }

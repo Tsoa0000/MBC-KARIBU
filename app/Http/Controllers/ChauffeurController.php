@@ -14,6 +14,7 @@ class ChauffeurController extends Controller
         ->whereHas('detailChauff')
         ->with('detailChauff')
         ->get();
+
     return view('chauffeur.index', compact('chauffeurs'));
 }
 

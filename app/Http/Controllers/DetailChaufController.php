@@ -92,7 +92,7 @@ class DetailChaufController extends Controller
         $detailChauff->save();
 
         $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
-
+        toastify()->success('Profil créé avec succès !');
         return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
     }
 
@@ -116,7 +116,7 @@ class DetailChaufController extends Controller
         $detailChauff->dateValidite = $request->input('dateValidite');
         $detailChauff->save();
 
-
+        toastify()->success('Profil mis à jour avec succès !');
         return redirect()
             ->route('profil.chauffeur.edit', $id)
             ->with('success', 'Profil du chauffeur mis à jour avec succès.');

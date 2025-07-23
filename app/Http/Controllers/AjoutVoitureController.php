@@ -34,7 +34,7 @@ class AjoutVoitureController extends Controller {
         ] );
 
         Voiture::create( $validated );
-
+        toastify()->success( 'Voiture ajoutée avec succès.' );
         return redirect()->route( 'voiture' )->with( 'success', 'Voiture ajoutée avec succès.' );
     }
 
@@ -48,6 +48,7 @@ class AjoutVoitureController extends Controller {
         if ( $voiture ) {
             $voiture->delete();
         }
+        toastify()->success( 'Voiture supprimée.' );
         return redirect()->route( 'voiture' )->with( 'success', 'Voiture supprimée.' );
     }
 
@@ -80,7 +81,7 @@ class AjoutVoitureController extends Controller {
         ] );
 
         $voiture->update( $validated );
-
+        toastify()->success( 'Voiture mise à jour avec succès.' );
         return redirect()->route( 'voiture' )->with( 'success', 'Voiture mise à jour avec succès.' );
     }
 }
