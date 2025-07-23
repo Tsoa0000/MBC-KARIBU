@@ -107,11 +107,18 @@
 </style>
 @endsection
 
+
+
 @section('body')
 <main id="main" class="main">
     <div class="container">
         <div class="form-container">
             <h2>Profil Chauffeur</h2>
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
             <form action="{{ $detailChauff ? route('profil.chauffeur.update', $detailChauff->id) : route('profil.chauffeur.store', $user->id) }}" method="POST">
     @csrf
     @if($detailChauff)
@@ -135,15 +142,22 @@
                     </label>
                     <input type="text" name="numeroPermis" value="{{ old('numeroPermis', $detailChauff->numeroPermis ?? '') }}" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
-                        </svg>
-                        Date de validité
-                    </label>
-                    <input type="date" name="dateValidite" value="{{ old('dateValidite', $detailChauff->dateValidite ?? '') }}" required>
-                </div>
+                @php
+                use Carbon\Carbon;
+                $today = Carbon::now()->format('Y-m-d');
+                $dateValue = old('dateValidite', $detailChauff->dateValidite ?? $today);
+            @endphp
+            
+            <div class="form-group"> 
+                <label class="form-label">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" />
+                    </svg>
+                    Date de validité
+                </label>
+                <input type="date" name="dateValidite" value="{{ $dateValue }}" min="{{ $today }}" required>
+            </div>
+            
 
                 <div class="form-group checkbox-group">
                     <label class="form-label" style="width: 100%;">Catégorie(s) du permis</label>
@@ -165,7 +179,8 @@
                         </svg>
                         Numéro CIN
                     </label>
-                    <input type="text" name="cin" value="{{ old('cin', $detailChauff->cin ?? '') }}" required>
+                    <input type="text" name="cin" inputmode="numeric" maxlength="12" minlength="12" pattern="\d{12}" title="Le numéro CIN doit contenir exactement 12 chiffres" value="{{ old('cin', $detailChauff->cin ?? '') }}" required>
+
                 </div>
 
                 <button type="submit" class="btn">
