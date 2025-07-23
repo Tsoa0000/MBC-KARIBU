@@ -59,7 +59,7 @@
                     <label for="password-login">Mot de passe</label>
                     <span class="toggle-password" data-target="password-login" title="Afficher / masquer le mot de passe"
                         role="button" tabindex="0">
-                        <i class="fas fa-eye-slash"></i>
+                        <i class="fas fa-eye"></i>
                     </span>
 
                 </div>
@@ -93,7 +93,7 @@
                     <label for="password-register">Mot de passe</label>
                     <span class="toggle-password" data-target="password-register" title="Afficher / masquer le mot de passe"
                         role="button" tabindex="0">
-                        <i class="fas fa-eye-slash"></i>
+                        <i class="fas fa-eye"></i>
                     </span>
 
                 </div>
@@ -121,14 +121,17 @@
             }, 6000);
 
             document.querySelectorAll('.toggle-password').forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const input = document.getElementById(toggle.dataset.target);
-                    const isVisible = input.type === 'text';
-                    input.type = isVisible ? 'password' : 'text';
-                    toggle.innerHTML = isVisible ? '<i class="fas fa-eye-slash"></i>' :
-                        '<i class="fas fa-eye"></i>';
+            toggle.addEventListener('click', () => {
+            const input = document.getElementById(toggle.dataset.target);
+            if (!input) return;
+            const isVisible = input.type === 'text';
+            input.type = isVisible ? 'password' : 'text';
+            toggle.innerHTML = isVisible
+            ? '<i class="fas fa-eye-slash"></i>'
+            : '<i class="fas fa-eye"></i>';
                 });
             });
+
 
             document.getElementById('sign-up-btn')?.addEventListener('click', () => {
                 document.getElementById('container')?.classList.add("sign-up-mode");
