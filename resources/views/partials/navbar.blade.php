@@ -105,7 +105,7 @@
 <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-        @if (Auth::check() && Auth::user()->role === '0')
+        @if (Auth::check() && Auth::user()->role === '2' || Auth::user()->role === '0' || Auth::user()->role === '5')
             <li class="nav-item">
                 <a class="nav-link " href="{{ route('dashboard') }}">
                     <i class="ri-dashboard-line"></i>
@@ -150,13 +150,6 @@
                     </li>
                 </ul>
             </li><!-- End mission et trajet Nav -->
-            <!-- chauffeur Page Nav
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('chauffeur.index') }}">
-                    <i class="ri-gas-station-fill"></i>
-                    <span>Carburant</span>
-                </a>
-            </li>End chauffeur Page Nav -->
 
 
             <li class="nav-item">
@@ -171,9 +164,16 @@
                     <i class=" ri-file-excel-2-line"></i>
                     <span>Rapport</span>
                 </a>
+            </li><!-- End rapport Page Nav -->
+            @if (Auth::check() && Auth::user()->role === '0')
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('gestionRole') }}">
+                    <i class="ri-user-settings-line"></i>
+                    <span>Gestion des rôles</span>
+                </a>
+            @endif
         @endif
-        </li><!-- End rapport Page Nav -->
-        @if (Auth::check() && Auth::user()->role === '1')
+        @if (Auth::check() && Auth::user()->role === '7')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('mission.show') }}">
                     <i class="ri-file-list-2-line"></i>

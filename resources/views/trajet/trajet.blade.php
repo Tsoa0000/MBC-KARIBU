@@ -40,6 +40,8 @@
             gap: 1.25rem;
             align-items: flex-end;
             margin-bottom: 2rem;
+            text-transform: capitalize;
+
         }
 
         .form-group {
@@ -141,6 +143,7 @@
 
         thead th,
         td {
+            text-transform: capitalize;
             padding: 0.75rem;
             font-size: 15px;
         }
@@ -290,6 +293,7 @@
     <main id="main" class="main">
         <div class="container">
             <div class="card">
+        @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
             <h2 class="page-title">Ajouter un trajet</h2>
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
@@ -327,9 +331,8 @@
                         <button type="submit">Valider</button>
                     </div>
                 </form>
-
                 <div class="divider"></div>
-
+                @endif
                 <h2 class="page-title mt-16">Liste des trajets</h2>
                 <div class="table-wrapper mt-6">
                     <table class="table voiture-table align-middle mb-0">

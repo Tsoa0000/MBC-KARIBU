@@ -30,8 +30,6 @@
             border-radius: 1.5rem;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
         }
-
-        /* Entête container: titre + bouton aligné eo amin'ny tsipika iray */
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -40,8 +38,6 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
-        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;
@@ -55,7 +51,6 @@
 
         }
 
-        /* Bouton création vérification */
         .btn-create {
             background: #33897f;
             color: white;
@@ -182,7 +177,9 @@
 
             <div class="header-top">
                 <h2 class="page-title">Liste des vérifications de véhicules</h2>
+                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                 <a href="{{ route('verification.form') }}" class="btn-create">+ Nouvelle vérification</a>
+                @endif
             </div>
 
             <div class="table-wrapper">

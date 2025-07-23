@@ -97,9 +97,11 @@
 
             <div class="header-top">
                 <h1 class="page-title">Liste des voitures</h1>
+                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                 <a href="{{ route('voiture.ajout') }}" class="btn-ajouter">
                     + Ajouter une voiture
                 </a>
+                @endif
             </div>
 
             <div class="table-wrapper">

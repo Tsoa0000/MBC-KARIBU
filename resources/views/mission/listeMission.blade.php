@@ -2,6 +2,7 @@
 @include('partials.navbar')
 
 @section('style')
+
     <style>
         @import url('https://fonts.cdnfonts.com/css/skia');
 
@@ -115,6 +116,8 @@
             font-size: 1rem;
             vertical-align: middle;
             border-bottom: none;
+            text-transform: capitalize;
+
         }
 
         td:last-child {
@@ -132,7 +135,7 @@
 
             thead th,
             td {
-
+                text-transform: capitalize;
                 font-size: 0.9rem;
             }
         }
@@ -207,8 +210,12 @@
             border: none;
             box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
             font-size: 0.95rem;
-        }
 
+
+        }
+        select{
+            text-transform: capitalize;
+        }
         input:focus,
         select:focus,
         textarea:focus {
@@ -283,7 +290,7 @@
             @endif
             <div class="header-top">
                 <h2 class="page-title">Liste des missions</h2>
-                @if (Auth::check() && Auth::user()->role === '0')
+                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                 <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
                 @endif
             </div>
@@ -307,8 +314,7 @@
                             <tr>
                                 <td>{{ $mission->date_depart }}</td>
                                 <td>{{ $mission->date_arrive }}</td>
-                                <td>{{ $mission->lieuDepart->nomLieu ?? '' }}</td>
-                                <td>{{ $mission->lieuArrive->nomLieu ?? '' }}</td>
+                                <td>{{ $mission->lieuDepart }}-{{ $mission->lieuArrive }}</td>
                                 <td>{{ $mission->voiture->modele ?? '' }}</td>
                                 <td>{{ $mission->objet }}</td>
                                 @if (Auth::check() && Auth::user()->role === '0')
@@ -342,28 +348,19 @@
                             <input type="date" id="dateDepart" name="date_depart" required>
                         </div>
                         <div>
-                            <label for="dateArrivee">Date d'arrivée</label>
+                            <la bel for="dateArrivee">Date d'arrivée</label>
                             <input type="date" id="dateArrivee" name="date_arrive" required>
                         </div>
                         <div>
-                            <label for="">Lieu de départ</label>
-                            <select id="lieuDepart" name="lieu_depart" required>
-                                <option value="" disabled selected>-- Choisir --</option>
-                                @forelse ($trajets as $t)
-                                    <option value="{{ $t->lieu_depart_id }}">{{ $t->lieuDepart->nomLieu }}</option>
+                            <label for="">Lieu</label>
+                            <select select2 name="trajet_id">
+                                <option value="" disabled selected>--Choisir--</option>
+                                @forelse ( $trajets as $t )
+                                    <option value="{{$t-> lieu_depart_id}} - {{$t-> lieu_arrive_id}}">
+                                        {{ $t->lieuDepart->nomLieu ?? '' }} - {{ $t->lieuArrivee->nomLieu ?? '' }}
+                                    </option>
                                 @empty
-                                    <option value="" disabled>Aucun lieu disponible</option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div>
-                            <label for="">Lieu d'arrivée</label>
-                            <select id="lieuArrivee" name="lieu_arrivee" required>
-                                <option value="" disabled selected>-- Choisir --</option>
-                                @forelse ($trajets as $t)
-                                    <option value="{{ $t->lieu_arrive_id }}">{{ $t->lieuArrivee->nomLieu }}</option>
-                                @empty
-                                    <option value="" disabled>Aucun lieu disponible</option>
+                                    <option value="" disabled>Aucun trajet disponible</option>
                                 @endforelse
                             </select>
                         </div>
@@ -378,10 +375,10 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
+                    </div>
+                    <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
                         <div>
-                            <label for="voiture_id">Voiture proposée</label>
+                            <label for="voiture_id" class="mt-4">Voiture proposée</label>
                             <select id="voitureSelect" name="voiture_id" required>
                                 <option value="">-- Choisir une voiture --</option>
                                 @foreach ($voitures as $v)
@@ -393,7 +390,6 @@
 
                         </div>
 
-                    </div>
                     <div class="width mt-3">
                         <label for="objet">Objet</label>
                         <textarea id="objet" name="objet" placeholder="Motif..." required></textarea>
@@ -405,7 +401,7 @@
             </div>
         </div>
     </main>
-
+@endsection
     @section('script')
         <script>
             const modal = document.getElementById('missionModal');
@@ -419,41 +415,13 @@
             }
         </script>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const lieuDepartSelect = document.getElementById("lieuDepart");
-                const lieuArriveeSelect = document.getElementById("lieuArrivee");
-
-                // Tableau des trajets (lieu_depart_id -> lieu_arrivee_id et nom)
-                const trajets = [
-                    @foreach ($trajets as $t)
-                        {
-                            departId: "{{ $t->lieu_depart_id }}",
-                            arriveeId: "{{ $t->lieu_arrive_id }}",
-                            arriveeNom: "{{ $t->lieuArrivee->nomLieu }}"
-                        },
-                    @endforeach
-                ];
-
-                lieuDepartSelect.addEventListener("change", function() {
-                    const selectedDepart = this.value;
-
-                    // Vide les options précédentes du select lieu d'arrivée
-                    lieuArriveeSelect.innerHTML = '<option value="" disabled selected>-- Choisir --</option>';
-
-                    // Recherche du trajet correspondant
-                    const trajet = trajets.find(t => t.departId === selectedDepart);
-
-                    if (trajet) {
-                        const option = document.createElement("option");
-                        option.value = trajet.arriveeId;
-                        option.textContent = trajet.arriveeNom;
-                        option.selected = true;
-                        lieuArriveeSelect.appendChild(option);
-                    }
-                });
-            });
-        </script>
+       <script>
+    (document).ready(function()('select[name="trajet_id"]').select2({
+            placeholder: "--Choisir un trajet--",
+            allowClear: true
+        });
+    );
+</script>
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -474,7 +442,7 @@
 
                 const compatibilite = {
                     "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus","camionnette"],
-                    "mixte": ["4x4", "suv", "camionnette", "pick-up"],
+                    "mixte": ["4x4", "suv", "camionnette", "pick-up","berline"],
                     "secondaire": ["4x4", "pick-up", "camionnette"]
                 };
 
@@ -503,6 +471,4 @@
                 });
             });
         </script>
-    @endsection
-    </main>
 @endsection

@@ -35,12 +35,13 @@ class AuthController extends Controller
             'password.confirmed' => 'Les mots de passe saisis ne sont pas identiques.',
         ]);
 
+
         $user = User::create([
             'name' => $request->name,
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => '0' // Role par défaut
+            'role' => '2'
         ]);
 
         Auth::login($user);
@@ -66,15 +67,16 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // Redirection selon rôle utilisateur
-            if ($user->role === '0') {
+            if ($user->role === '2') {
                 return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
             }
 
-            // Ajouter autres rôles ici si besoin
+            if ($user->role === '7') {
+                return redirect()->route('mission.show')->with('success', 'Connexion réussie en tant qu\'administrateur !');
+            }
             return redirect()->route('dashboard')->with('success', 'Bienvenue !');
         }
 
-        // Retour en cas d'erreur de connexion
         return back()->with('error', 'Email ou mot de passe incorrect.');
     }
 
