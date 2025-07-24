@@ -11,19 +11,6 @@
 
 @section('body')
 
-    {{-- TOAST MESSAGES --}}
-    @if (session('success'))
-        <div class="toast-message toast-success">{{ session('success') }}</div>
-    @endif
-    @if (session('error'))
-        <div class="toast-message toast-error">{{ session('error') }}</div>
-    @endif
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-            <div class="toast-message toast-error">{{ $error }}</div>
-        @endforeach
-    @endif
-
     <div class="container" id="container">
         {{-- OVERLAY --}}
         <div class="overlay-container">
