@@ -9,7 +9,7 @@ body {
   overflow: hidden;
 }
 
-/* Formulaire */
+
 form#checklistForm {
   width: 100%;
 
@@ -22,21 +22,19 @@ form#checklistForm {
   box-sizing: border-box;
 }
 
-/* Titre */
 form#checklistForm h2 {
   text-align: center;
   color: #2d5c4a;
   margin-bottom: 2rem;
 }
 
-/* Grille */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
-/* Éléments */
 .item {
   display: flex;
   flex-direction: column;
@@ -56,7 +54,6 @@ select, input[type="date"], textarea {
   font-family: inherit;
 }
 
-/* Boutons radio */
 .btns {
   display: flex;
   gap: 1rem;
@@ -98,7 +95,7 @@ input[type="radio"]:checked + label.nok {
   color: white;
 }
 
-/* Feedback */
+
 .feedback {
   margin-top: 0.4rem;
   font-weight: bold;
@@ -120,13 +117,12 @@ input[type="radio"]:checked + label.nok {
   color: #e2a346;
 }
 
-/* Observation area */
+
 .observation {
   grid-column: span 2;
   height: 80px;
 }
 
-/* Bouton de validation */
 .button-wrapper {
   text-align: center;
   margin-top: 2rem;
@@ -142,7 +138,6 @@ button.submit {
   cursor: pointer;
 }
 
-/* Résumé */
 #resume {
   margin: 3rem auto;
   background: #f0f4f8;

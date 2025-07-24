@@ -79,6 +79,7 @@
         .table-wrapper {
             overflow-x: auto;
             border-radius: 1rem;
+              margin-top: -30px;
         }
 
         table {

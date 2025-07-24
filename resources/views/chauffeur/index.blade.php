@@ -71,6 +71,7 @@
         .table-wrapper {
             overflow-x: auto;
             border-radius: 1rem;
+              margin-top: -30px;
         }
 
         table {
@@ -83,6 +84,9 @@
         thead th {
             background: #2d5c4a;
             color: #fff;
+            width: 150px;
+            text-align: center;
+            font-weight: 600;
             padding: 0.5rem;
             font-size: 1rem;
             text-transform: uppercase;
@@ -103,6 +107,7 @@
 
         td {
             padding: 0.5rem;
+            width: 150px;
             text-align: center;
             font-size: 1rem;
             vertical-align: middle;

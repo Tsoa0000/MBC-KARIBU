@@ -13,6 +13,34 @@
             padding-bottom: 0.3rem;
 
         }
+        .card-header{
+            border: none
+        }
+        th {
+            background: #2d5c4a !important;
+            color: #fff !important;
+            padding: 0.5rem;
+            width: 150px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+        td {
+            padding: 0.5rem;
+            width: 150px;
+            text-align: center;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+       thead th:first-child {
+            border-top-left-radius: 0.85rem;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 0.85rem;
+        }
     </style>
 @endsection
 @section('body')
@@ -22,12 +50,6 @@
                 <div class="page-inner">
                     <div class="row">
                         <div class="col-md-12">
-                            @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
-
                             <div class="card">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
@@ -78,6 +100,7 @@
                                                                         <i class="fa fa-pencil-alt"></i>
                                                                         Mettre à jour</button></center>
                                                             </td>
+
                                                         </form>
                                                     </tr>
                                                 @endforeach
