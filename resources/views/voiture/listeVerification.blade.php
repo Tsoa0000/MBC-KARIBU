@@ -40,7 +40,6 @@
             gap: 1rem;
         }
 
-        /* Titre entête */
         .page-title {
             text-align: center;
             font-size: 1.8rem;
@@ -199,7 +198,7 @@
                             <th id="obs-cell">observation</th>
                             <th>Action</th>
                         </tr>
-                       
+
                     </thead>
                     <tbody>
                         @forelse ($verifications as $v)

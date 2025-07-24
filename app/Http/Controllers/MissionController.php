@@ -22,8 +22,6 @@ class MissionController extends Controller {
     $date_arrive = $request->input('date_arrive');
 
     $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
-
-    // Si les dates sont fournies, on vérifie la disponibilité
     if ($date_depart && $date_arrive) {
         $voitures = Voiture::all()->map(function ($v) use ($date_depart, $date_arrive) {
             $v->disponible = !Mission::where('voiture_id', $v->id)
@@ -53,7 +51,7 @@ class MissionController extends Controller {
             return $ch;
         });
     } else {
-        // Si pas encore de dates, on marque tout comme disponible par défaut
+
         $voitures = Voiture::all()->map(function ($v) {
             $v->disponible = true;
             return $v;
@@ -124,7 +122,6 @@ public function mission(Request $request) {
         ])->withInput();
     }
 
-    // Si tout est libre, création de la mission
     $mission = new Mission();
     $mission->voiture_id = $request->voiture_id;
     $mission->chauffeur_id = $request->chauffeur_id;
@@ -142,7 +139,7 @@ public function checkDisponibilite(Request $request)
     $date_depart = $request->date_depart;
     $date_arrive = $request->date_arrive;
 
-    // Voitures disponibles
+
     $voitures = Voiture::all()->map(function ($v) use ($date_depart, $date_arrive) {
         $v->disponible = !Mission::where('voiture_id', $v->id)
             ->where(function ($query) use ($date_depart, $date_arrive) {
@@ -156,7 +153,6 @@ public function checkDisponibilite(Request $request)
         return $v;
     });
 
-    // Chauffeurs disponibles
     $chauffeurs = User::where('role', '7')->get()->map(function ($c) use ($date_depart, $date_arrive) {
         $c->disponible = !Mission::where('chauffeur_id', $c->id)
             ->where(function ($query) use ($date_depart, $date_arrive) {

@@ -184,7 +184,7 @@
     <div class="form-container">
       <h2>Tableau de bord Chauffeur</h2>
 
-      {{-- Affichage des erreurs --}}
+
       @if ($errors->any())
         <div class="alert alert-danger">
           <ul>
@@ -195,7 +195,7 @@
         </div>
       @endif
 
-      {{-- Message de succès --}}
+
       @if (session('success'))
         <div class="alert alert-success">
           {{ session('success') }}
@@ -213,7 +213,6 @@
             </div>
           </div>
 
-          {{-- Champ chauffeur (en hidden) --}}
           <input type="hidden" name="idChauff" value="{{ $user->id }}">
           <div class="item"><label for="chauffeur">Chauffeur</label>
             <div class="input-icon">

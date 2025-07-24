@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class DetailChaufController extends Controller
-{
-    public function create()
+{ /*public function create()
     {
         return view('Authentification.auth');
     }
@@ -55,7 +54,7 @@ class DetailChaufController extends Controller
             'email' => 'Email incorrect.',
             'password' => 'Mot de passe incorrect.',
         ]);
-    }
+    }*/
 
     public function showProfilChauffeur()
     {

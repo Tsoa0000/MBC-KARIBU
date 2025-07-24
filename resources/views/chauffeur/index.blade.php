@@ -157,9 +157,9 @@
 @section('body')
     <main class="main" id="main">
         <div class="container">
-        <div class="header-top">
-        <h2 class="page-title">Liste des Chauffeurs</h2>
-        </div>
+            <div class="header-top">
+                <h2 class="page-title">Liste des Chauffeurs</h2>
+            </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -174,29 +174,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($chauffeurs as $c)
-                        <tr>
-                            <td>{{ $c->name }}</td>
-                            <td>{{ $c->first_name }}</td>
-                            <td>{{ $c->email }}</td>
-                            <td>{{ $c->detailChauff->numeroPermis}}</td>
-                            <td>{{ $c->detailChauff->dateValidite }}</td>
-                            <td>
-    @if(isset($c->detailChauff->typePermis))
-        {{ is_array($c->detailChauff->typePermis) ? implode(', ', $c->detailChauff->typePermis) : $c->detailChauff->typePermis }}
-    @else
-        Non renseigné
-    @endif
-</td>
+                        @forelse ($chauffeurs as $c)
+                            <tr>
+                                <td>{{ $c->name }}</td>
+                                <td>{{ $c->first_name }}</td>
+                                <td>{{ $c->email }}</td>
+                                <td>{{ $c->detailChauff->numeroPermis }}</td>
+                                <td>{{ $c->detailChauff->dateValidite }}</td>
+                                <td>
+                                    @if (isset($c->detailChauff->typePermis))
+                                        {{ is_array($c->detailChauff->typePermis) ? implode(', ', $c->detailChauff->typePermis) : $c->detailChauff->typePermis }}
+                                    @else
+                                        Non renseigné
+                                    @endif
+                                </td>
 
-                            <td>{{ $c->detailChauff->cin }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center">Aucun chauffeur trouvé.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
+                                <td>{{ $c->detailChauff->cin }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center">Aucun chauffeur trouvé.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
 
                 </table>
             </div>

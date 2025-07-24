@@ -46,7 +46,7 @@
             color: #c0c0c0;
         }
 
-        /* Form Floating Range */
+
 
         .form-floating-range {
             position: relative;
@@ -132,9 +132,7 @@
             user-select: none;
         }
 
-        /* Places badges */
-
-        .places-badges {
+    .places-badges {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -180,8 +178,6 @@
             color: #33897f;
             font-size: 1rem;
         }
-
-        /* Form wrapper */
 
         .form-wrapper {
             max-width: 480px;

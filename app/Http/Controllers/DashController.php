@@ -22,13 +22,13 @@ class DashController extends Controller
         ->get();
         return view('dashboard.dasboard', compact('nombreVoitures','nombresChauffeurs','nombresMission','missions'));
     }
-    // GESTION ROLE
+
     public function gestionRole()
     {
         $users = User::where('role', '!=', '0')->get();
         return view('gestionRole.users', compact('users'));
     }
-    // MODIFICATION ROLE
+
     public function updateRole(Request $request, $id)
     {
         $request->validate([
