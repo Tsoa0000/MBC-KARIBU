@@ -686,7 +686,6 @@
             });
         });
     </script>
-
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
             const obsCells = document.querySelectorAll('td:nth-child(8)');

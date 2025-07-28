@@ -29,18 +29,26 @@ class DashController extends Controller
         return view('gestionRole.users', compact('users'));
     }
 
-    public function updateRole(Request $request, $id)
-    {
-        $request->validate([
-            'role' => 'required|in:2,5,7,0',
-        ]);
+public function updateRole(Request $request, $id)
+{
+    $request->validate([
+        'role' => 'required|in:2,5,7',
+    ]);
 
-        $user = User::findOrFail($id);
-        $user->role = $request->role;
-        $user->save();
-        toastify()->success('Rôle mis à jour avec succès !');
-        return redirect()->route('gestionRole')->with('success', 'Rôle mis à jour.');
+    $user = User::findOrFail($id);
+
+    if ($user->detailChauff && $request->role != 7) {
+        toastify()->error('Ce chauffeur a déjà rempli son profil. Son rôle ne peut plus être modifié.');
+        return back()->with('error', 'Ce chauffeur a déjà rempli son profil. Son rôle ne peut plus être modifié.');
     }
+
+    $user->role = $request->role;
+    $user->save();
+
+    return back()->with('success', 'Rôle mis à jour avec succès');
+}
+
+
     public function showAdminProfile()
     {
         return view('profilAdmin.admin');
