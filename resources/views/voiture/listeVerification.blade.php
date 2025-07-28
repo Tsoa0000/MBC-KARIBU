@@ -196,8 +196,10 @@
                             <th>Freins</th>
                             <th>Transmission</th>
                             <th>Pneu</th>
-                            <th id="obs-cell">observation</th>
+                            <th id="obs-cell">Observation</th>
+                            @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                             <th>Action</th>
+                            @endif
                         </tr>
 
                     </thead>
@@ -212,11 +214,13 @@
                                 <td class="{{ $v->eau ? 'ok' : 'nok' }}">{{ $v->eau ? 'OUI' : 'NON' }}</td>
                                 <td class="{{ $v->pneu ? 'ok' : 'nok' }}">{{ $v->pneu ? 'OUI' : 'NON' }}</td>
                                 <td>{{ $v->obs }}</td>
+                                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                                 <td>
                                     <a href="{{ route('verification.delete', $v['id']) }}" class="action-btn btn-delete">
                                         <i class="ri-delete-bin-line"></i>
                                     </a>
                                 </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

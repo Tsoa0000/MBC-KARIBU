@@ -97,20 +97,18 @@
                                     <table class="table table-borderless datatable">
                                         <thead>
                                             <tr>
-                                                <th scope="col">#</th>
+                                                <th scope="col">Lieu</th>
                                                 <th scope="col">Voiture pour la mission</th>
                                                 <th scope="col">Chauffeur</th>
-                                                <th scope="col">Destination</th>
                                                 <th scope="col">Date du mission</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($missions as $index => $mission)
                                                 <tr>
-                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $mission->lieuDepart->nomLieu}} - {{ $mission->lieuArrive->nomLieu }}</td>
                                                     <td>{{ $mission->voiture->modele ?? 'Non défini' }}</td>
                                                     <td>{{ $mission->chauffeur->name ?? 'Non défini' }}</td>
-                                                    <td>{{ $mission->lieuArrive->nomLieu }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($mission->date_mission)->format('d/m/Y') }}
                                                     </td>
                                                 </tr>

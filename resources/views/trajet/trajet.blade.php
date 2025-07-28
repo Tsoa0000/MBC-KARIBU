@@ -40,8 +40,6 @@
             gap: 1.25rem;
             align-items: flex-end;
             margin-bottom: 2rem;
-            text-transform: capitalize;
-
         }
 
         .form-group {
@@ -137,6 +135,8 @@
             color: #fff !important;
             padding: 1.1rem;
             font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.7px;
         }
@@ -159,6 +159,7 @@
 
         td {
             padding: 1rem;
+            text-align: center !important;
             color: #2d5c4a !important;
 
 
@@ -342,7 +343,9 @@
                                 <th>Arrivée</th>
                                 <th>Type de route</th>
                                 <th>Kilométrage</th>
+                                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                                 <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -352,11 +355,13 @@
                                     <td>{{ $trajet->lieuArrivee?->nomLieu ?? '-' }}</td>
                                     <td>{{ $trajet->typeRoute }}</td>
                                     <td>{{ $trajet->km ?? '-' }} km</td>
+                                    @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                                     <td>
                                         <a href="{{ route('trajet.destroy', $trajet->id) }}" class="action-btn btn-delete">
                                             <i class="ri-delete-bin-line"></i>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>

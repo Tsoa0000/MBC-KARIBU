@@ -131,7 +131,7 @@
                                         {{ $v['etat'] }}/10
                                     </span>
                                 </td>
-                                <td>{{ $v['conso'] }}</td>
+                                <td>{{ $v['conso'] }} L/100</td>
                                 <td>{{ $v['nbrPlace'] }}</td>
                                 @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
                                 <td class="text-center">

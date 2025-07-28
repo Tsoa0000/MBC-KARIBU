@@ -63,7 +63,6 @@
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Email</th>
-                                                    <th>Rôle actuel</th>
                                                     <th>Changer le rôle</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -73,7 +72,7 @@
                                                     <tr>
                                                         <td>{{ $user->name }}</td>
                                                         <td>{{ $user->email }}</td>
-                                                        <td>{{ $user->role }}</td>
+
                                                         <form action="{{ route('gestionRole.update', $user->id) }}"
                                                             method="POST" class="d-flex align-items-center gap-2">
                                                             @csrf

@@ -34,12 +34,12 @@ class AuthController extends Controller {
             'first_name' => $request->first_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => '2',
+            'role' => '7',
         ]);
 
         Auth::login($user);
         toastify()->success('Votre compte a été créé avec succès !');
-        return redirect()->route('dashboard')->with('success', 'Votre compte a été créé avec succès !');
+        return redirect()->route('mission.show')->with('success', 'Votre compte a été créé avec succès !');
     }
 
     public function login(Request $request)
@@ -69,7 +69,7 @@ class AuthController extends Controller {
                     toastify()->success('Bienvenue, administrateur !');
                     return redirect()->route('dashboard')->with('success', 'Connexion réussie !');
                 default:
-                    toastify()->error('Rôle inconnu. Veuillez contacter l\'administrateur.' );
+                    toastify()->success('Bienvenue !');
                 return redirect()->route( 'dashboard' )->with( 'success', 'Bienvenue !' );
             }
         }

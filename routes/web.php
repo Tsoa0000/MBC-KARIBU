@@ -20,13 +20,13 @@ use App\Http\Controllers\ConsommationController;
 */
 
 // ======= AUTHENTIFICATION =======
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/', [AuthController::class, 'login'])->name('login.attempt');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ======= DASHBOARD =======
-Route::get('/', [DashController::class, 'show'])->name('dashboard');
+Route::get('/dashboard', [DashController::class, 'show'])->name('dashboard');
 Route::get('/gestionRole', [DashController::class, 'GestionRole'])->name('gestionRole');
 Route::put('/gestionRole/{id}', [DashController::class, 'updateRole'])->name('gestionRole.update');
 
@@ -71,7 +71,7 @@ Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.d
 // ======= MISSION =======
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
-Route::post('/disponibilites', [MissionController::class, 'checkDisponibilite'])->name('check.disponibilite');
+Route::post('/disponibilites', [MissionController::class, 'disponibilite'])->name('check.disponibilite');
 
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
 
@@ -87,7 +87,7 @@ Route::get('/carburants', [ConsommationController::class, 'create'])->name('cons
 Route::get('/carburant', [ConsommationController::class, 'store'])->name('consommation.store');
 
 
-
-
+// ======= RAPPORT =======
+Route::get('/rapport', [RapportController::class, 'index'])->name('rapport.index');
 
 

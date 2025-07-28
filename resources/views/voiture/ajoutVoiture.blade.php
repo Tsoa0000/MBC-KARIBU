@@ -132,7 +132,7 @@
             user-select: none;
         }
 
-    .places-badges {
+        .places-badges {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -216,16 +216,25 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <select class="form-select text-uppercase custom-select" name="typeVehi" id="type" required>
+                    <select class="form-select text-uppercase custom-select" name="typeVehi" id="type" required
+                        onchange="toggleInput(this)">
                         <option value="" disabled {{ old('typeVehi') ? '' : 'selected' }}>Choisir un type</option>
                         @foreach ($types as $type)
                             <option value="{{ $type }}" {{ old('typeVehi') == $type ? 'selected' : '' }}>
                                 {{ $type }}
                             </option>
                         @endforeach
+                        <option value="autre" {{ old('typeVehi') == 'autre' ? 'selected' : '' }}>Autre...</option>
                     </select>
                     <label for="type">Type de véhicule</label>
                 </div>
+
+                <div class="form-floating mb-3 d-none" id="autreTypeDiv">
+                    <input type="text" class="form-control text-uppercase" name="typeVehiAutre" id="typeVehiAutre"
+                        placeholder="Autre type" value="{{ old('typeVehiAutre') }}">
+                    <label for="typeVehiAutre">Entrez le nouveau type</label>
+                </div>
+
 
                 <div class="form-floating-range">
                     <label for="etat">État (1-10)</label>
@@ -284,6 +293,24 @@
                     this.value = this.value.toUpperCase().replace(/[^0-9A-Z]/g, '').substring(0, 7);
                 });
             }
+        });
+    </script>
+    <script>
+        function toggleInput(selectElement) {
+            const autreDiv = document.getElementById('autreTypeDiv');
+            if (selectElement.value === 'autre') {
+                autreDiv.classList.remove('d-none');
+                document.getElementById('typeVehiAutre').setAttribute('required', 'required');
+            } else {
+                autreDiv.classList.add('d-none');
+                document.getElementById('typeVehiAutre').removeAttribute('required');
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('type');
+            toggleInput(select);
         });
     </script>
 @endsection

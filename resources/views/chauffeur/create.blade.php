@@ -5,7 +5,7 @@
          @import url('https://fonts.cdnfonts.com/css/skia');
     :root {
       --bg: #e0e5ec;
-      --shadow-light: #ffffff;
+      --shadow-light: #221c1c;
       --shadow-dark: #a3b1c6;
       --text: #2a2a2a;
       --accent: #2a736d;

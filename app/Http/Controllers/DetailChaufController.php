@@ -70,30 +70,44 @@ class DetailChaufController extends Controller
         return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
     }
     public function storeProfilChauffeur(Request $request)
-    {
-        $request->validate([
-            'numeroPermis' => 'required|string|max:20',
-            'dateValidite' => 'required|date',
-            'typePermis' => 'required|array',
-            'typePermis.*' => 'in:A,A1,B,C,D,E',
-            'cin' => 'required|string|max:12',
-        ]);
+{
+    $user = Auth::user();
 
-        $user = Auth::user();
 
-        $detailChauff = DetailChauff::firstOrNew(['user_id' => $user->id]);
-
-        $detailChauff->numeroPermis = $request->numeroPermis;
-        $detailChauff->dateValidite = $request->dateValidite;
-        $detailChauff->typePermis = $request->typePermis;
-        $detailChauff->cin = $request->cin;
-        $detailChauff->user_id = $user->id;
-        $detailChauff->save();
-
-        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
-        toastify()->success('Profil créé avec succès !');
-        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
+    if (DetailChauff::where('numeroPermis', $request->numeroPermis)->where('user_id', '!=', $user->id)->exists()) {
+        toastify()->error('Ce numéro de permis est déjà utilisé par un autre utilisateur.');
+        return redirect()->back()->withErrors(['numeroPermis' => 'Ce numéro de permis est déjà utilisé par un autre utilisateur.']);
     }
+
+    if (DetailChauff::where('cin', $request->cin)->where('user_id', '!=', $user->id)->exists()) {
+        toastify()->error('Ce numéro de CIN est déjà utilisé par un autre utilisateur.');
+        return redirect()->back()->withErrors(['cin' => 'Ce numéro de CIN est déjà utilisé par un autre utilisateur.']);
+    }
+
+
+    $request->validate([
+        'numeroPermis' => ['required','string','max:20','regex:/^[A-Z0-9]+$/'],
+        'dateValidite' => 'required|date',
+        'typePermis' => 'required|array',
+        'typePermis.*' => 'in:A,A1,B,C,D,E',
+        'cin' => ['required','string','max:12','regex:/^\d{12}$/'],
+    ]);
+
+    $detailChauff = DetailChauff::firstOrNew(['user_id' => $user->id]);
+    $detailChauff->numeroPermis = $request->numeroPermis;
+    $detailChauff->dateValidite = $request->dateValidite;
+    $detailChauff->typePermis = $request->typePermis;
+    $detailChauff->cin = $request->cin;
+    $detailChauff->user_id = $user->id;
+    $detailChauff->save();
+
+    $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
+
+    toastify()->success('Profil créé avec succès !');
+
+    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
+}
+
 
 
     public function updateProfilChauffeur(Request $request, $id)

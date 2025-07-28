@@ -22,47 +22,9 @@ class MissionController extends Controller {
     $date_arrive = $request->input('date_arrive');
 
     $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
-    if ($date_depart && $date_arrive) {
-        $voitures = Voiture::all()->map(function ($v) use ($date_depart, $date_arrive) {
-            $v->disponible = !Mission::where('voiture_id', $v->id)
-                ->where(function ($query) use ($date_depart, $date_arrive) {
-                    $query->whereBetween('date_depart', [$date_depart, $date_arrive])
-                          ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
-                          ->orWhere(function ($query) use ($date_depart, $date_arrive) {
-                              $query->where('date_depart', '<=', $date_depart)
-                                    ->where('date_arrive', '>=', $date_arrive);
-                          });
-                })
-                ->exists();
-            return $v;
-        });
 
-        $chauffeurs = User::where('role', '7')->get()->map(function ($ch) use ($date_depart, $date_arrive) {
-            $ch->disponible = !Mission::where('chauffeur_id', $ch->id)
-                ->where(function ($query) use ($date_depart, $date_arrive) {
-                    $query->whereBetween('date_depart', [$date_depart, $date_arrive])
-                          ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
-                          ->orWhere(function ($query) use ($date_depart, $date_arrive) {
-                              $query->where('date_depart', '<=', $date_depart)
-                                    ->where('date_arrive', '>=', $date_arrive);
-                          });
-                })
-                ->exists();
-            return $ch;
-        });
-    } else {
-
-        $voitures = Voiture::all()->map(function ($v) {
-            $v->disponible = true;
-            return $v;
-        });
-
-        $chauffeurs = User::where('role', '7')->get()->map(function ($ch) {
-            $ch->disponible = true;
-            return $ch;
-        });
-    }
-
+    $voitures = Voiture::all();
+    $chauffeurs = User::where('role', '7')->get();
     $user = Auth::user();
     if ($user->role === '0') {
         $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])->get();
@@ -88,39 +50,6 @@ public function mission(Request $request) {
 
     [$lieu_depart, $lieu_arrivee] = explode(' - ', $request->trajet_id);
 
-    $voitureOccupée = Mission::where('voiture_id', $request->voiture_id)
-        ->where(function ($query) use ($request) {
-            $query->whereBetween('date_depart', [$request->date_depart, $request->date_arrive])
-                  ->orWhereBetween('date_arrive', [$request->date_depart, $request->date_arrive])
-                  ->orWhere(function ($query) use ($request) {
-                      $query->where('date_depart', '<=', $request->date_depart)
-                            ->where('date_arrive', '>=', $request->date_arrive);
-                  });
-        })
-        ->exists();
-
-    if ($voitureOccupée) {
-        return back()->withErrors([
-            'voiture_id' => ' La voiture sélectionnée est déjà affectée à une autre mission pour cette période.',
-        ])->withInput();
-    }
-
-    $chauffeurOccupé = Mission::where('chauffeur_id', $request->chauffeur_id)
-        ->where(function ($query) use ($request) {
-            $query->whereBetween('date_depart', [$request->date_depart, $request->date_arrive])
-                  ->orWhereBetween('date_arrive', [$request->date_depart, $request->date_arrive])
-                  ->orWhere(function ($query) use ($request) {
-                      $query->where('date_depart', '<=', $request->date_depart)
-                            ->where('date_arrive', '>=', $request->date_arrive);
-                  });
-        })
-        ->exists();
-
-    if ($chauffeurOccupé) {
-        return back()->withErrors([
-            'chauffeur_id' => ' Le chauffeur sélectionné est déjà en mission pour cette période.',
-        ])->withInput();
-    }
 
     $mission = new Mission();
     $mission->voiture_id = $request->voiture_id;
@@ -134,11 +63,17 @@ public function mission(Request $request) {
 
     return redirect()->route('mission.show')->with('success', ' Mission créée avec succès.');
 }
-public function checkDisponibilite(Request $request)
+public function disponibilite(Request $request)
 {
     $date_depart = $request->date_depart;
     $date_arrive = $request->date_arrive;
-
+    $typeRoute = strtolower($request->typeRoute);
+    $compatibilite = [
+    "goudronnée" => ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
+    "mixte" => ["4x4", "suv", "camionnette", "pick-up", "berline"],
+    "secondaire" => ["4x4", "pick-up", "camionnette"],
+];
+$typesAcceptes = $compatibilite[$typeRoute] ?? [];
 
     $voitures = Voiture::all()->map(function ($v) use ($date_depart, $date_arrive) {
         $v->disponible = !Mission::where('voiture_id', $v->id)

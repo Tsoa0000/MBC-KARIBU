@@ -2,7 +2,7 @@
 @include('partials.navbar')
 
 @section('style')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
         @import url('https://fonts.cdnfonts.com/css/skia');
@@ -79,7 +79,7 @@
         .table-wrapper {
             overflow-x: auto;
             border-radius: 1rem;
-              margin-top: -30px;
+            margin-top: -30px;
         }
 
         table {
@@ -94,6 +94,7 @@
             color: #fff;
             padding: 0.5rem;
             font-size: 1rem;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 0.7px;
         }
@@ -213,15 +214,16 @@
 
 
         }
+
         .select {
-    text-transform: capitalize;
-    width: 100%;
-    padding: 0.65rem 0.9rem;
-    border-radius: 14px;
-    border: none;
-    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
-    font-size: 0.95rem;
-}
+            text-transform: capitalize;
+            width: 100%;
+            padding: 0.65rem 0.9rem;
+            border-radius: 14px;
+            border: none;
+            box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+            font-size: 0.95rem;
+        }
 
         input:focus,
         select:focus,
@@ -286,35 +288,33 @@
             }
         }
 
-.select2-container--default .select2-selection--single {
-    background-color: #f0f4f8;
-    border: none;
-    border-radius: 14px;
-    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
-    padding: 8px 12px;
-    height: auto;
-    font-size: 0.95rem;
-    text-transform: capitalize;
-    display: flex;
-    align-items: center;
-}
+        .select2-container--default .select2-selection--single {
+            background-color: #f0f4f8;
+            border: none;
+            border-radius: 14px;
+            box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+            padding: 8px 12px;
+            height: auto;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
 
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #333;
-    line-height: 1.5;
-    padding-left: 4px;
-}
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #333;
+            line-height: 1.5;
+            padding-left: 4px;
+        }
 
-.select2-container--default .select2-selection--single:focus {
-    outline: none;
-    box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
-}
+        .select2-container--default .select2-selection--single:focus {
+            outline: none;
+            box-shadow: inset 2px 1px 4px #c1d1db, inset -3px -3px 6px #ffffff;
+        }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 100%;
-}
-
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+        }
     </style>
 @endsection
 @section('body')
@@ -332,8 +332,8 @@
             @endif
             <div class="header-top">
                 <h2 class="page-title">Liste des missions</h2>
-                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
+                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                    <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
                 @endif
             </div>
             <div class="table-wrapper">
@@ -346,7 +346,7 @@
                             <th>Voiture</th>
                             <th id="obs-cell">objet</th>
                             @if (Auth::check() && Auth::user()->role === '0')
-                            <th>Action</th>
+                                <th>Action</th>
                             @endif
                         </tr>
                     </thead>
@@ -368,11 +368,12 @@
                                 <td>{{ $mission->voiture->modele ?? '' }}</td>
                                 <td>{{ $mission->objet }}</td>
                                 @if (Auth::check() && Auth::user()->role === '0')
-                                <td>
-                                    <a href="{{ route('mission.delete', $mission->id) }}" class="action-btn btn-delete">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </a>
-                                </td>
+                                    <td>
+                                        <a href="{{ route('mission.delete', $mission->id) }}"
+                                            class="action-btn btn-delete">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </td>
                                 @endif
                             </tr>
                         @empty
@@ -392,9 +393,10 @@
                     @csrf
                     <h2> Mission</h2>
                     <div class="grid">
-                        <div >
+                        <div>
                             <label for="date_depart">Date de départ</label>
-                            <input type="date" name="date_depart" id="date_depart" class="form-control" min="{{ date('Y-m-d') }}">
+                            <input type="date" name="date_depart" id="date_depart" class="form-control"
+                                min="{{ date('Y-m-d') }}">
                             <div class="invalid-feedback" id="dateDepartError" style="display: none;">
                                 La date de départ doit être aujourd'hui ou une date future.
                             </div>
@@ -402,13 +404,14 @@
 
                         <div>
                             <label for="date_arrive">Date d'arrivée</label>
-                            <input type="date" name="date_arrive" id="date_arrive" class="form-control" min="{{ date('Y-m-d') }}">
+                            <input type="date" name="date_arrive" id="date_arrive" class="form-control"
+                                min="{{ date('Y-m-d') }}">
                             <div class="invalid-feedback" id="dateArriveError" style="display: none;">
                                 La date d'arrivée doit être après ou égale à la date de départ.
                             </div>
                         </div>
-                        <div >
-                            <label for="trajet_id" >Lieu</label>
+                        <div>
+                            <label for="trajet_id">Lieu</label>
                             <select id="trajet_id" name="trajet_id" class="select2" required>
                                 <option value="" disabled selected>--Choisir--</option>
                                 @forelse ($trajets as $t)
@@ -423,14 +426,17 @@
 
                         <div>
                             <label for="chauffeur_id">Chauffeur</label>
-                            <select id="chauffeur_id" name="chauffeur_id" class="@error('chauffeur_id') is-invalid @enderror" required>
+                            <select id="chauffeur_id" name="chauffeur_id"
+                                class="@error('chauffeur_id') is-invalid @enderror" required>
                                 @foreach ($chauffeurs as $c)
-                                <option value="" disabled selected>--Choisir--</option>
+                                    <option value="" disabled selected>--Choisir--</option>
                                     <option value="{{ $c->id }}"
                                         @if (!$c->disponible) disabled style="color:red;" @endif
                                         @if (old('chauffeur_id') == $c->id) selected @endif>
-                                         {{ $c->first_name }}
-                                        @if (!$c->disponible) - Indisponible @endif
+                                        {{ $c->first_name }}
+                                        @if (!$c->disponible)
+                                            - Indisponible
+                                        @endif
                                     </option>
                                 @endforeach
                             </select>
@@ -444,15 +450,17 @@
                     <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
                     <div>
                         <label for="voiture_id">Voiture proposée</label>
-                        <select id="voitureSelect" name="voiture_id" class="form-control @error('voiture_id') is-invalid @enderror" required>
+                        <select id="voitureSelect" name="voiture_id"
+                            class="form-control @error('voiture_id') is-invalid @enderror" required>
                             @foreach ($voitures as $v)
-                            <option value="" disabled selected>--Choisir--</option>
-                                <option value="{{ $v->id }}"
-                                    data-type="{{ $v->typeVehi }}"
+                                <option value="" disabled selected>--Choisir--</option>
+                                <option class="select" value="{{ $v->id }}" data-type="{{ $v->typeVehi }}"
                                     @if (!$v->disponible) disabled style="color:red;" @endif
                                     @if (old('voiture_id') == $v->id) selected @endif>
                                     {{ $v->modele }} ({{ $v->typeVehi }})
-                                    @if (!$v->disponible) -  Indisponible @endif
+                                    @if (!$v->disponible)
+                                        - Indisponible
+                                    @endif
                                 </option>
                             @endforeach
                         </select>
@@ -473,12 +481,11 @@
     </main>
 @endsection
 @section('script')
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             const modal = document.getElementById('missionModal');
             const openBtn = document.getElementById('openModalBtn');
@@ -486,7 +493,7 @@
 
             openBtn.onclick = () => modal.style.display = 'flex';
             closeBtn.onclick = () => modal.style.display = 'none';
-            modal.onclick = function (e) {
+            modal.onclick = function(e) {
                 if (e.target === modal) modal.style.display = 'none';
             };
 
@@ -527,7 +534,7 @@
                 }
             }
 
-            dateDepartInput.on('change', function () {
+            dateDepartInput.on('change', function() {
                 if (dateDepartInput.val()) {
                     dateArriveInput.attr('min', dateDepartInput.val());
                 }
@@ -559,7 +566,7 @@
                 "secondaire": ["4x4", "pick-up", "camionnette"]
             };
 
-            lieuSelect.addEventListener("change", function () {
+            lieuSelect.addEventListener("change", function() {
                 const selected = this.value.trim();
                 const [departId] = selected.split(" - ");
 
@@ -584,76 +591,78 @@
             });
         });
     </script>
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const dateDepartInput = document.getElementById('date_depart');
-        const dateArriveInput = document.getElementById('date_arrive');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateDepartInput = document.getElementById('date_depart');
+            const dateArriveInput = document.getElementById('date_arrive');
 
-        function checkDisponibilite() {
-            const dateDepart = dateDepartInput.value;
-            const dateArrive = dateArriveInput.value;
+            function checkDisponibilite() {
+                const dateDepart = dateDepartInput.value;
+                const dateArrive = dateArriveInput.value;
 
-            if (dateDepart && dateArrive) {
-                fetch("{{ route('check.disponibilite') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        date_depart: dateDepart,
-                        date_arrive: dateArrive
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
+                if (dateDepart && dateArrive) {
+                    fetch("{{ route('check.disponibilite') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                date_depart: dateDepart,
+                                date_arrive: dateArrive
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
 
-                    const voitureSelect = document.getElementById('voitureSelect');
-                    voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
+                            const voitureSelect = document.getElementById('voitureSelect');
+                            voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
 
-                    data.voitures.forEach(v => {
-                        const option = document.createElement('option');
-                        option.value = v.id;
-                        option.textContent = `${v.modele} (${v.typeVehi})${v.disponible ? '' : ' - Indisponible'}`;
-                        if (!v.disponible) {
-                            option.disabled = true;
-                            option.style.color = 'red';
-                        }
-                        voitureSelect.appendChild(option);
-                    });
+                            data.voitures.forEach(v => {
+                                const option = document.createElement('option');
+                                option.value = v.id;
+                                option.textContent =
+                                    `${v.modele} (${v.typeVehi})${v.disponible ? '' : ' - Indisponible'}`;
+                                if (!v.disponible) {
+                                    option.disabled = true;
+                                    option.style.color = 'red';
+                                }
+                                voitureSelect.appendChild(option);
+                            });
 
 
-                    const chauffeurSelect = document.getElementById('chauffeur_id');
-                    chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
+                            const chauffeurSelect = document.getElementById('chauffeur_id');
+                            chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
 
-                    data.chauffeurs.forEach(c => {
-                        const option = document.createElement('option');
-                        option.value = c.id;
-                        option.textContent = `${c.name} ${c.first_name}${c.disponible ? '' : ' - Indisponible'}`;
-                        if (!c.disponible) {
-                            option.disabled = true;
-                            option.style.color = 'red';
-                        }
-                        chauffeurSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error("Erreur lors de la vérification de disponibilité :", error);
-                });
+                            data.chauffeurs.forEach(c => {
+                                const option = document.createElement('option');
+                                option.value = c.id;
+                                option.textContent =
+                                    `${c.name} ${c.first_name}${c.disponible ? '' : ' - Indisponible'}`;
+                                if (!c.disponible) {
+                                    option.disabled = true;
+                                    option.style.color = 'red';
+                                }
+                                chauffeurSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error("Erreur lors de la vérification de disponibilité :", error);
+                        });
+                }
             }
-        }
 
-        dateDepartInput.addEventListener('change', checkDisponibilite);
-        dateArriveInput.addEventListener('change', checkDisponibilite);
-    });
-</script>
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        const obsCells = document.querySelectorAll('td:nth-child(8)');
-        obsCells.forEach(cell => {
-            const text = cell.textContent.trim();
-            cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+            dateDepartInput.addEventListener('change', checkDisponibilite);
+            dateArriveInput.addEventListener('change', checkDisponibilite);
         });
-    });
-</script>
+    </script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const obsCells = document.querySelectorAll('td:nth-child(8)');
+            obsCells.forEach(cell => {
+                const text = cell.textContent.trim();
+                cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+            });
+        });
+    </script>
 @endsection
