@@ -69,6 +69,7 @@
         }
 
         .table-wrapper {
+              margin-top:-60px ;
             overflow-x: auto;
             border-radius: 1rem;
         }

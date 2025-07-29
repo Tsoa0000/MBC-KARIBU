@@ -33,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 2.5rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -47,23 +47,6 @@
             border-bottom: 2px solid #e2a346;
             display: inline-block;
             padding-bottom: 0.3rem;
-        }
-
-        .btn-ajouter {
-            background: #33897f;
-            color: white;
-            padding: 0.65rem 1.6rem;
-            font-weight: 600;
-            border-radius: 0.8rem;
-            font-size: 1rem;
-            text-decoration: none;
-            box-shadow: 0 6px 14px rgba(51, 137, 127, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .btn-ajouter:hover {
-            background: #e2a346;
-            color: #2d5c4a;
         }
 
         .btn-create {
@@ -86,9 +69,9 @@
         }
 
         .table-wrapper {
+            margin-top:-60px ;
             overflow-x: auto;
             border-radius: 1rem;
-            margin-top: -30px;
         }
 
         table {
@@ -101,9 +84,6 @@
         thead th {
             background: #2d5c4a;
             color: #fff;
-            width: 150px;
-            text-align: center;
-            font-weight: 600;
             padding: 0.5rem;
             font-size: 1rem;
             text-transform: uppercase;
@@ -124,10 +104,8 @@
 
         td {
             padding: 0.5rem;
-            width: 150px;
             text-align: center;
             font-size: 1rem;
-            text-transform: capitalize;
             vertical-align: middle;
         }
 
@@ -149,7 +127,20 @@
             color: #a83232;
         }
 
-
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 1rem;
+            transition: 0.3s ease;
+            border: 1px solid #e2a346;
+            color: #e2a346;
+            background: none;
+            cursor: pointer;
+        }
 
         .action-btn:hover {
             background: #e2a346;
@@ -180,54 +171,58 @@
 @section('body')
     <main class="main" id="main">
         <div class="container">
-            <div class="header-top">
-                <h2 class="page-title">Rapport</h2>
-                <a href="" class="btn-ajouter">
-                    <i class="ri-download-2-line"> </i> Telecharger
-                </a>
-            </div>
+        <div class="header-top">
+        <h2 class="page-title">Rapport du chauffeur</h2>
+        </div>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Date de depart</th>
-                            <th>Lieu </th>
-                            <th>Heure de depart</th>
+                            <th>Date</th>
                             <th>Chauffeur</th>
-                            <th>Voiture</th>
-                            <th>Kilometrage</th>
-                            <th>Durée de mission</th>
-                            <th>Objet</th>
+                            <th>Départ</th>
+                            <th>Destination</th>
+                            <th>Motif</th>
+                            <th>Km Départ</th>
+                            <th>Km Arrivée</th>
+                            <th>Heure Départ</th>
+                            <th>Heure Arrivée</th>
+                            <th>Km Effectué</th>
+                            <th>Signature</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($rapports as $rapport)
+                        @forelse ($rapport as $tab)
                             <tr>
-                                <td> {{$rapport->date_mission}} </td>
-                            <td>{{ $lieux[$rapport->lieu_depart] ?? 'Inconnu' }} - {{ $lieux[$rapport->lieu_arrive] ?? 'Inconnu' }} </td>
+                                <td> {{ $tab->date }} </td>
+                                <td>
+                                    {{ $tab->user_name }}{{$tab->user_first_name }}
 
-                                <td>{{$rapport->heure_depart}}</td>
-                                <td>{{ $chauffeurs[$rapport->chauffeur_id] ?? 'Inconnu' }}</td>
-
-                                <td> {{$voiture[$rapport->voiture_id]}} </td>
-                                <td> {{$rapport->kilometrage}} Km</td>
-                                <td> {{$rapport->duree}} jour(s) </td>
-                                <td> {{$rapport->objet}} </td>
+                                </td>
+                                <td> {{ $tab->point_depart }} </td>
+                                <td> {{ $tab->destination }} </td>
+                                <td> {{ $tab->motif }} </td>
+                                <td> {{ $tab->dep_km }} </td>
+                                <td> {{ $tab->arr_km }} </td>
+                                <td> {{ $tab->heure_depart }} </td>
+                                <td> {{ $tab->heure_arrivee }} </td>
+                                <td> {{ $tab->km_effec }} </td>
+                                <td>
+                                    <span class="badge {{ $tab->signature ? 'signed' : 'unsigned' }}">
+                                        {{ $tab->signature ? 'Signé' : 'Non signé' }}
+                                    </span>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center">Aucun rapport</td>
+                                <td colspan="11" class="text-center">Aucune fiche de tableau de bord trouvée.</td>
                             </tr>
                         @endforelse
-
                     </tbody>
-
                 </table>
             </div>
         </div>
-
     </main>
 @endsection
 @section('script')
-    <script></script>
 @endsection
