@@ -29,6 +29,9 @@ class TabBord extends Model
     public function user()
 {
     return $this->belongsTo(User::class, 'idChauff');
+
+} public function mission(){
+    return $this->belongsTo(Mission::class,'lieu');
 }
 
 }

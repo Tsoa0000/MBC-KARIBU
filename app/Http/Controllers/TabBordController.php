@@ -6,6 +6,8 @@ use App\Models\TabBord;
 use App\Models\User;
 use App\Models\ChauffeurDetail;
 use App\Models\DetailChauff;
+use App\Models\Mission;
+use App\Models\Lieu;
 use Illuminate\Support\Facades\Auth;
 
 class TabBordController extends Controller
@@ -14,9 +16,11 @@ class TabBordController extends Controller
     {
 
         $chauffeurs = DetailChauff::all();
+        $mission = Mission::all();
+        $lieux = Lieu::all();
         $user = User::all()->where('id', auth()->user()->id)->first();
 
-        return view('chauffeur.create', compact('chauffeurs', 'user'));
+        return view('chauffeur.create', compact('chauffeurs', 'user','mission','lieux'));
     }
    public function index()
 {
@@ -29,8 +33,8 @@ public function store(Request $request)
     $validated = $request->validate([
         'date' => 'required|date',
         'idChauff' => 'required|exists:users,id',
-        'point_depart' => 'required|string|max:100',
-        'destination' => 'required|string|max:100',
+        'point_depart' => 'required|exists:mission,lieu_depart',
+        'destination' => 'required|exists:mission,lieu_arrive',
         'motif' => 'nullable|string|max:100',
         'dep_km' => 'required|numeric',
         'arr_km' => 'required|numeric|gte:dep_km',

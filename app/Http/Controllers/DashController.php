@@ -44,7 +44,7 @@ public function updateRole(Request $request, $id)
 
     $user->role = $request->role;
     $user->save();
-
+    toastify()->success('Rôle mis à jour avec succès');
     return back()->with('success', 'Rôle mis à jour avec succès');
 }
 

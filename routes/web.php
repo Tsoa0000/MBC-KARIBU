@@ -12,6 +12,8 @@ use App\Http\Controllers\VerifVoitureController;
 use App\Http\Controllers\TabBordController;
 use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\ConsommationController;
+use App\Http\Controllers\RapportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +87,6 @@ Route::get('/chauffeurs', [ChauffeurController::class, 'index'])->name('chauffeu
 // ======= CARBURANT =======
 Route::get('/carburants', [ConsommationController::class, 'create'])->name('consommation');
 Route::get('/carburant', [ConsommationController::class, 'store'])->name('consommation.store');
-
 
 // ======= RAPPORT =======
 Route::get('/rapport', [RapportController::class, 'index'])->name('rapport.index');

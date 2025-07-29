@@ -171,8 +171,8 @@
     <main class="main" id="main">
         <div class="container">
         <div class="header-top">
-        <h2 class="page-title">Tableau de bord</h2>
-        <button class="btn-create" onclick="window.location.href='{{ route('tabbord.create') }}'">+ Nouveau fiche</button>
+        <h2 class="page-title">Fiche de bord</h2>
+        <button class="btn-create" onclick="window.location.href='{{ route('tabbord.create') }}'">+ Nouvelle fiche</button>
         </div>
 
 
