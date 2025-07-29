@@ -143,7 +143,7 @@
 
         thead th,
         td {
-          
+
             padding: 0.75rem;
             font-size: 15px;
         }
@@ -317,7 +317,7 @@
                     <div class="form-group">
                         <select name="typeRoute" required>
                             <option value="" disabled selected hidden></option>
-                            <option value="secondaire">Secondaire</option>
+                            <option value="piste">Piste</option>
                             <option value="goudronnée">Goudronnée</option>
                             <option value="mixte">Mixte</option>
                         </select>
