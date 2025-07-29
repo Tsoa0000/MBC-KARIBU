@@ -13,12 +13,10 @@ class CreateTabBordsTable extends Migration
 
             $table->unsignedBigInteger('idChauff');
             $table->foreign('idChauff')->references('id')->on('users')->onDelete('cascade');
-
             $table->date('date');
             $table->string('point_depart', 100);
             $table->string('destination', 100);
             $table->string('motif', 100)->nullable();
-
             $table->double('dep_km');
             $table->double('arr_km');
             $table->time('heure_depart');

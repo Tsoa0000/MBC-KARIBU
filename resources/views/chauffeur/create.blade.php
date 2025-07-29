@@ -5,7 +5,7 @@
          @import url('https://fonts.cdnfonts.com/css/skia');
     :root {
       --bg: #e0e5ec;
-      --shadow-light: #221c1c;
+      --shadow-light: #ffffff;
       --shadow-dark: #a3b1c6;
       --text: #2a2a2a;
       --accent: #2a736d;
@@ -233,12 +233,7 @@
               <label for="destination">Destination</label>
               <div class="input-icon">
                 <svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
-                <select name="" id="">
-                    <option value="" disabled></option>
-                    @foreach ($mission as $tab)
-                        <option value="{{$tab->lieu_depart}}"></option>
-                    @endforeach
-                </select>
+                <input type="text" id="destination" name="destination" required>
               </div>
             </div>
 
