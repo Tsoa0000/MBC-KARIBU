@@ -143,7 +143,7 @@
 
         thead th,
         td {
-            text-transform: capitalize;
+          
             padding: 0.75rem;
             font-size: 15px;
         }
@@ -158,6 +158,7 @@
         }
 
         td {
+            text-transform: capitalize;
             padding: 1rem;
             text-align: center !important;
             color: #2d5c4a !important;

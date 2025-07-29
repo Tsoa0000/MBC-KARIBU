@@ -17,6 +17,9 @@
                 top: 0;
             }
         }
+        td{
+            text-transform: capitalize;
+        }
     </style>
 @endsection
 
