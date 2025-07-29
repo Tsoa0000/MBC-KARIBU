@@ -167,7 +167,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="pages-faq.html">
+                <a class="nav-link collapsed" href="{{route('rapport.index')}}">
                     <i class=" ri-file-excel-2-line"></i>
                     <span>Rapport</span>
                 </a>
