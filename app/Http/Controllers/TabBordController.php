@@ -26,6 +26,16 @@ class TabBordController extends Controller
 }
 public function store(Request $request)
 {
+
+    $chauffeurId = $request->idChauff;
+
+    $hasMission = \App\Models\Mission::where('chauffeur_id', $chauffeurId)->exists();
+
+    if (!$hasMission) {
+        toastify()->error('Vous devez avoir une mission pour créer une fiche de tableau de bord.');
+        return back()->withInput()->with('error', 'Aucune mission trouvée pour ce chauffeur.');
+    }
+
     $validated = $request->validate([
         'date' => 'required|date',
         'idChauff' => 'required|exists:users,id',
@@ -59,7 +69,7 @@ public function store(Request $request)
     return redirect()->route('tabbord.index');
 }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $tabbord = TabBord::findOrFail($id);
         $tabbord->delete();

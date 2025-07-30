@@ -8,141 +8,134 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class DetailChaufController extends Controller
-{ public function create()
-    {
-        return view('Authentification.auth');
+class DetailChaufController extends Controller {
+    public function create() {
+        return view( 'Authentification.auth' );
     }
 
     // Création de compte
-    public function register(Request $request)
-    {
-        $request->validate([
+
+    public function register( Request $request ) {
+        $request->validate( [
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:4',
-        ]);
+        ] );
 
         $user = new User();
         $user->name = $request->name;
         $user->first_name = $request->first_name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make( $request->password );
         $user->role = '1';
         $user->save();
 
-        return redirect()->route('tabbord.index');
+        return redirect()->route( 'tabbord.index' );
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
+    public function login( Request $request ) {
+        $credentials = $request->validate( [
             'email' => 'required|email',
             'password' => 'required',
-        ]);
+        ] );
 
-        if (Auth::attempt($credentials)) {
+        if ( Auth::attempt( $credentials ) ) {
             $user = Auth::user();
 
-            if ($user->role === '1') {
-                return redirect()->route('tabbord.index')->with('success', 'Connexion réussie !');
+            if ( $user->role === '1' ) {
+                return redirect()->route( 'tabbord.index' )->with( 'success', 'Connexion réussie !' );
             }
         }
 
-        return back()->withErrors([
+        return back()->withErrors( [
             'email' => 'Email incorrect.',
             'password' => 'Mot de passe incorrect.',
-        ]);
+        ] );
     }
 
-    public function showProfilChauffeur()
-    {
+    public function showProfilChauffeur() {
         $user = Auth::user();
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'Vous devez être connecté pour voir votre profil.');
+        if ( !$user ) {
+            return redirect()->route( 'login' )->with( 'error', 'Vous devez être connecté pour voir votre profil.' );
         }
 
-        $detailChauff = DetailChauff::where('user_id', $user->id)->first();
-        $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
+        $detailChauff = DetailChauff::where( 'user_id', $user->id )->first();
+        $typePermis = [ 'A', 'A1', 'B', 'C', 'D', 'E' ];
 
-        return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
-    }
-    public function storeProfilChauffeur(Request $request)
-{
-    $user = Auth::user();
-
-
-    if (DetailChauff::where('numeroPermis', $request->numeroPermis)->where('user_id', '!=', $user->id)->exists()) {
-        toastify()->error('Ce numéro de permis est déjà utilisé par un autre utilisateur.');
-        return redirect()->back()->withErrors(['numeroPermis' => 'Ce numéro de permis est déjà utilisé par un autre utilisateur.']);
+        return view( 'ProfilChauffeur.profilChauff', compact( 'user', 'detailChauff', 'typePermis' ) );
     }
 
-    if (DetailChauff::where('cin', $request->cin)->where('user_id', '!=', $user->id)->exists()) {
-        toastify()->error('Ce numéro de CIN est déjà utilisé par un autre utilisateur.');
-        return redirect()->back()->withErrors(['cin' => 'Ce numéro de CIN est déjà utilisé par un autre utilisateur.']);
-    }
+    public function storeProfilChauffeur( Request $request ) {
+        $user = Auth::user();
 
+        if ( DetailChauff::where( 'numeroPermis', $request->numeroPermis )->where( 'user_id', '!=', $user->id )->exists() ) {
+            toastify()->error( 'Ce numéro de permis est déjà utilisé par un autre utilisateur.' );
+            return redirect()->back()->withErrors( [ 'numeroPermis' => 'Ce numéro de permis est déjà utilisé par un autre utilisateur.' ] );
+        }
 
-    $request->validate([
-        'numeroPermis' => ['required','string','max:20','regex:/^[A-Z0-9]+$/'],
-        'dateValidite' => 'required|date',
-        'typePermis' => 'required|array',
-        'typePermis.*' => 'in:A,A1,B,C,D,E',
-        'cin' => ['required','string','max:12','regex:/^\d{12}$/'],
-    ]);
+        if ( DetailChauff::where( 'cin', $request->cin )->where( 'user_id', '!=', $user->id )->exists() ) {
+            toastify()->error( 'Ce numéro de CIN est déjà utilisé par un autre utilisateur.' );
+            return redirect()->back()->withErrors( [ 'cin' => 'Ce numéro de CIN est déjà utilisé par un autre utilisateur.' ] );
+        }
 
-    $detailChauff = DetailChauff::firstOrNew(['user_id' => $user->id]);
-    $detailChauff->numeroPermis = $request->numeroPermis;
-    $detailChauff->dateValidite = $request->dateValidite;
-    $detailChauff->typePermis = $request->typePermis;
-    $detailChauff->cin = $request->cin;
-    $detailChauff->user_id = $user->id;
-    $detailChauff->save();
-
-    $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
-
-    toastify()->success('Profil créé avec succès !');
-
-    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'))->with('success', 'Profil créé avec succès !');
-}
-
-
-
-    public function updateProfilChauffeur(Request $request, $id)
-    {
-
-        $request->validate([
-            'cin' => ['required', 'regex:/^\d{12}$/'],
-            'dateValidite' => ['required', 'date', 'after_or_equal:today'],
+        $request->validate( [
+            'numeroPermis' => [ 'required', 'string', 'max:20', 'regex:/^[A-Z0-9]+$/' ],
+            'dateValidite' => 'required|date',
             'typePermis' => 'required|array',
             'typePermis.*' => 'in:A,A1,B,C,D,E',
-        ]);
+            'cin' => [ 'required', 'string', 'max:12', 'regex:/^\d{12}$/' ],
+        ] );
 
-
-        $detailChauff = DetailChauff::findOrFail($id);
-
-
-        $detailChauff->cin = $request->input('cin');
-        $detailChauff->typePermis = $request->input('typePermis');
-        $detailChauff->dateValidite = $request->input('dateValidite');
+        $detailChauff = DetailChauff::firstOrNew( [ 'user_id' => $user->id ] );
+        $detailChauff->numeroPermis = $request->numeroPermis;
+        $detailChauff->dateValidite = $request->dateValidite;
+        $detailChauff->typePermis = $request->typePermis;
+        $detailChauff->cin = $request->cin;
+        $detailChauff->user_id = $user->id;
         $detailChauff->save();
 
-        toastify()->success('Profil mis à jour avec succès !');
-        return redirect()
-            ->route('profil.chauffeur.edit', $id)
-            ->with('success', 'Profil du chauffeur mis à jour avec succès.');
+        $typePermis = [ 'A', 'A1', 'B', 'C', 'D', 'E' ];
+
+        toastify()->success( 'Profil créé avec succès !' );
+
+        return view( 'ProfilChauffeur.profilChauff', compact( 'user', 'detailChauff', 'typePermis' ) )->with( 'success', 'Profil créé avec succès !' );
     }
 
+    public function updateProfilChauffeur( Request $request, $id ) {
 
-public function editProfil()
-{
-    $user = auth()->user();
-    $detailChauff = DetailChauff::where('user_id', $user->id)->first();
-    $typePermis = ['A', 'A1', 'B', 'C', 'D', 'E'];
+        $request->validate( [
+            'cin' => [ 'required', 'regex:/^\d{12}$/' ],
+            'dateValidite' => [ 'required', 'date', 'after_or_equal:today' ],
+            'typePermis' => 'required|array',
+            'typePermis.*' => 'in:A,A1,B,C,D,E',
+        ] );
 
-    return view('ProfilChauffeur.profilChauff', compact('user', 'detailChauff', 'typePermis'));
-}
+        $detailChauff = DetailChauff::findOrFail( $id );
+
+        if ( $request->has( 'numeroPermis' ) && $request->numeroPermis !== $detailChauff->numeroPermis ) {
+            toastify()->error( 'Le numéro de permis ne peut pas être modifié.' );
+            return back()->with( 'error', 'Le numéro de permis ne peut pas être modifié.' );
+        }
+
+        $detailChauff->cin = $request->input( 'cin' );
+        $detailChauff->typePermis = $request->input( 'typePermis' );
+        $detailChauff->dateValidite = $request->input( 'dateValidite' );
+        $detailChauff->save();
+
+        toastify()->success( 'Profil mis à jour avec succès !' );
+        return redirect()
+        ->route( 'profil.chauffeur.edit', $id )
+        ->with( 'success', 'Profil du chauffeur mis à jour avec succès.' );
+    }
+
+    public function editProfil() {
+        $user = auth()->user();
+        $detailChauff = DetailChauff::where( 'user_id', $user->id )->first();
+        $typePermis = [ 'A', 'A1', 'B', 'C', 'D', 'E' ];
+
+        return view( 'ProfilChauffeur.profilChauff', compact( 'user', 'detailChauff', 'typePermis' ) );
+    }
 
 }

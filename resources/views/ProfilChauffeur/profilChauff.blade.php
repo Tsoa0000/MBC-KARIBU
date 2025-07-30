@@ -127,11 +127,6 @@
         <div class="container">
             <div class="form-container">
                 <h2>Profil Chauffeur</h2>
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
                 <form
                     action="{{ $detailChauff ? route('profil.chauffeur.update', $detailChauff->id) : route('profil.chauffeur.store', $user->id) }}"
                     method="POST">
