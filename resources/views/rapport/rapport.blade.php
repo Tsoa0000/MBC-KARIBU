@@ -107,6 +107,7 @@
             text-align: center;
             font-size: 1rem;
             vertical-align: middle;
+            text-transform: capitalize;
         }
 
         .badge {

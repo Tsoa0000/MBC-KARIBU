@@ -13,6 +13,7 @@ use App\Http\Controllers\TabBordController;
 use App\Http\Controllers\ChauffeurController;
 use App\Http\Controllers\ConsommationController;
 use App\Http\Controllers\RapportController;
+use App\Http\Controllers\CarTypeController;
 
 
 /*
@@ -90,5 +91,10 @@ Route::get('/carburant', [ConsommationController::class, 'store'])->name('consom
 
 // ======= RAPPORT =======
 Route::get('/rapport', [RapportController::class, 'index'])->name('rapport.index');
+
+
+Route::get('/type-voiture', [CarTypeController::class, 'create'])->name('car_types.create');
+Route::post('/type-voiture', [CarTypeController::class, 'store'])->name('car_types.store');
+
 
 
