@@ -93,7 +93,7 @@
       background: #e8f5ef;
       padding: 16px 22px;
       font-weight: bold;
-      color: #2D5C4A;
+      color: #2d5c4a;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -138,7 +138,7 @@
 
     .value {
       flex: 1;
-      color: #2D5C4A;
+      color: #2d5c4a;
     }
 
     .signature {
@@ -165,7 +165,7 @@
     <main class="main" id="main" >
         <div class="container">
              <div class="header-top">
-        <h2 class="page-title">Mission</h2>
+        <h2 class="page-title">Fiche de bord</h2>
         <button class="btn-create" onclick="window.location.href='{{ route('tabbord.create', $mission->id) }}'">+ Nouvelle fiche</button>
         </div>
          <div class="missions">
