@@ -165,7 +165,6 @@
             justify-content: center;
             align-items: center;
             border-radius: 50%;
-
             font-size: 1rem;
             transition: 0.3s ease;
         }
@@ -345,7 +344,7 @@
                             <th>Lieu du mission</th>
                             <th>Voiture</th>
                             <th id="obs-cell">objet</th>
-                            @if (Auth::check() && Auth::user()->role === '0')
+                            @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5' || Auth::user()->role === '7')
                                 <th>Action</th>
                             @endif
                         </tr>
@@ -367,7 +366,26 @@
                                 <td>{{ $mission->lieuDepart->nomLieu }}-{{ $mission->lieuArrive->nomLieu }}</td>
                                 <td>{{ $mission->voiture->modele ?? '' }}</td>
                                 <td>{{ $mission->objet }}</td>
-                                @if (Auth::check() && Auth::user()->role === '0')
+                                @if (Auth::check() && Auth::user()->role === '7')
+                                    <td>
+                                        <a href="{{route('tabbord.index', $mission->id)}}" class="action-btn">
+                                            <svg class="detail-icon"
+                                                viewBox="0 0 256 256" width="30" height="30" fill="currentColor">
+                                                <circle cx="128" cy="128" r="96" opacity="0.2" />
+                                                <circle cx="128" cy="128" r="96" fill="none"
+                                                    stroke="currentColor" stroke-width="16" />
+                                                <line x1="128" y1="80" x2="128" y2="80"
+                                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="16" />
+                                                <line x1="128" y1="120" x2="128" y2="176"
+                                                    stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="16" />
+                                            </svg>
+
+                                        </a>
+                                    </td>
+                                @endif
+                                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
                                     <td>
                                         <a href="{{ route('mission.delete', $mission->id) }}"
                                             class="action-btn btn-delete">

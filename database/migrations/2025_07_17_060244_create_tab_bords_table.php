@@ -23,6 +23,8 @@ class CreateTabBordsTable extends Migration
             $table->time('heure_arrivee');
             $table->double('km_effec');
             $table->boolean('signature');
+            $table->unsignedBigInteger('mission_id')->nullable();
+            $table->foreign('mission_id')->references('id')->on('missions')->onDelete('cascade');
 
             $table->timestamps();
         });
