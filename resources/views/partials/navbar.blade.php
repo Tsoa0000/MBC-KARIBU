@@ -188,12 +188,6 @@
                     <span>Mission</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('tabbord.index') }}">
-                    <i class="ri-file-edit-line"></i>
-                    <span>Fiche de bord</span>
-                </a>
-            </li>
     </ul>
     @endif
 </aside>

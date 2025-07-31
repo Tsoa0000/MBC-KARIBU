@@ -19,11 +19,11 @@ class Mission extends Model {
         'date_arrive',
         'objet',
     ];
-      public function trajet()
-    {
+
+    public function trajet() {
         // Lier le trajet par lieux de départ et arrivée
-        return $this->hasOne(Trajet::class, 'lieu_depart_id', 'lieu_depart_id')
-                    ->where('lieu_arrive_id', $this->lieu_arrive_id);
+        return $this->hasOne( Trajet::class, 'lieu_depart_id', 'lieu_depart_id' )
+        ->where( 'lieu_arrive_id', $this->lieu_arrive_id );
     }
 
     public function lieuDepart() {
@@ -37,15 +37,17 @@ class Mission extends Model {
     public function voiture() {
         return $this->belongsTo( Voiture::class, 'voiture_id' );
     }
-    public function user()
-{
-    return $this->belongsTo(User::class, 'user_id');
-}
-public function chauffeur()
-{
-    return $this->belongsTo(User::class, 'chauffeur_id');
-}
 
+    public function user() {
+        return $this->belongsTo( User::class, 'user_id' );
+    }
 
+    public function chauffeur() {
+        return $this->belongsTo( User::class, 'chauffeur_id' );
+    }
+
+    public function tabBord() {
+        return $this->hasMany( TabBord::class, 'mission_id' );
+    }
 }
 

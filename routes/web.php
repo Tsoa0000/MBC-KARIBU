@@ -78,8 +78,8 @@ Route::post('/disponibilites', [MissionController::class, 'disponibilite'])->nam
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
 
 // ======= Tableau de bord =======
-Route::get('/tabbord/liste', [TabBordController::class, 'index'])->name('tabbord.index');
-Route::get('/tabbords', [TabBordController::class, 'create'])->name('tabbord.create');
+Route::get('/tabbord/liste/{mission}', [TabBordController::class, 'index'])->name('tabbord.index');
+Route::get('/tabbords/{id}', [TabBordController::class, 'create'])->name('tabbord.create');
 Route::post('/tabbord', [TabBordController::class, 'store'])->name('tabbord.store');
 Route::get('/tabbord/{id}', [TabBordController::class, 'destroy'])->name('tabbord.destroy');
 Route::get('/chauffeurs', [ChauffeurController::class, 'index'])->name('chauffeur.index');
