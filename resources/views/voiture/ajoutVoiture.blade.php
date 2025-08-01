@@ -318,7 +318,7 @@
                     @foreach ($types as $type)
                         <option value="{{ $type }}" {{ old('typeVehi') == $type ? 'selected' : '' }}>{{ $type }}</option>
                     @endforeach
-                    <option value="autre">Autre...</option>
+                    <option value="autre">Ajouter...</option>
                 </select>
                 <label for="type">Type de véhicule</label>
             </div>
