@@ -90,5 +90,6 @@ Route::get('/carburant', [ConsommationController::class, 'store'])->name('consom
 
 // ======= RAPPORT =======
 Route::get('/rapport', [RapportController::class, 'index'])->name('rapport.index');
+Route::get('/rapport/liste/{id?}', [RapportController::class, 'liste'])->name('rapport.liste');
 
 
