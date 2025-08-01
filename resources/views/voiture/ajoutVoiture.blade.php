@@ -2,8 +2,10 @@
 @include('partials.navbar')
 
 @section('style')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('asset/css/voiture/style.css') }}">
     <style>
+
         .custom-select {
             width: 100%;
             padding: 12px 16px;
@@ -194,10 +196,106 @@
             text-align: center;
         }
     </style>
+    <style>
+     @import url('https://fonts.cdnfonts.com/css/skia');
+    @font-face {
+      font-family: 'Skia';
+      src: local('Skia'), local('Skia-Regular');
+    }
+
+
+    .form-container {
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      padding: 2rem 2rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      margin-left: 220px;
+    }
+
+    .form-header {
+      font-size: 20px;
+      font-weight: bold;
+      color: #33897F;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-header span {
+      display: inline-block;
+      border-bottom: 2px solid #E2A346;
+      padding-bottom: 5px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .form-group svg {
+      position: absolute;
+      top: 50%;
+      left: 0.8rem;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      fill: #33897F;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.9rem 0.75rem 0.9rem 2.8rem;
+      font-size: 1rem;
+      border: 2px solid #33897F;
+      border-radius: 12px;
+      outline: none;
+      background-color: transparent;
+      color: #000;
+    }
+
+    .form-group label {
+      position: absolute;
+      left: 2.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+      background:rgb(230, 230, 230);
+      pointer-events: none;
+      transition: 0.3s;
+      padding: 0 0.25rem;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -2px;
+      left: 2.2rem;
+      font-size: 15px;
+      color: #E2A346;
+    }
+
+    .submit-btn {
+      font-family: 'Skia', sans-serif;
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      background-color: #33897F;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #2a6f67;
+    }
+    </style>
 @endsection
 
 @section('body')
-    <main id="main" class="main py-5">
+    <main id="main" class="main">
         <div class="form-wrapper">
             <h3 class="form-title">Ajouter une voiture</h3>
             <form method="POST" action="{{ route('voiture.store') }}" class="row g-3">
@@ -210,30 +308,20 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="modele" id="modele" placeholder="Modèle"
-                        required />
-                    <label for="modele">Modèle</label>
+                   <input type="text" class="form-control" name="modele" id="modele" placeholder="Modèle" required maxlength="30" pattern=".{1,30}" title="Le modèle doit contenir entre 1 et 50 caractères." />
+                   <label for="modele">Modèle</label>
                 </div>
 
-                <div class="form-floating mb-3">
-                    <select class="form-select text-uppercase custom-select" name="typeVehi" id="type" required
-                        onchange="toggleInput(this)">
-                        <option value="" disabled {{ old('typeVehi') ? '' : 'selected' }}>Choisir un type</option>
-                        @foreach ($types as $type)
-                            <option value="{{ $type }}" {{ old('typeVehi') == $type ? 'selected' : '' }}>
-                                {{ $type }}
-                            </option>
-                        @endforeach
-                        <option value="autre" {{ old('typeVehi') == 'autre' ? 'selected' : '' }}>Autre...</option>
-                    </select>
-                    <label for="type">Type de véhicule</label>
-                </div>
-
-                <div class="form-floating mb-3 d-none" id="autreTypeDiv">
-                    <input type="text" class="form-control text-uppercase" name="typeVehiAutre" id="typeVehiAutre"
-                        placeholder="Autre type" value="{{ old('typeVehiAutre') }}">
-                    <label for="typeVehiAutre">Entrez le nouveau type</label>
-                </div>
+               <div class="form-floating mb-3">
+                <select class="form-select text-uppercase custom-select" name="typeVehi" id="type" required onchange="handleTypeChange(this)">
+                    <option value="" disabled {{ old('typeVehi') ? '' : 'selected' }}>Choisir un type</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type }}" {{ old('typeVehi') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                    @endforeach
+                    <option value="autre">Autre...</option>
+                </select>
+                <label for="type">Type de véhicule</label>
+            </div>
 
 
                 <div class="form-floating-range">
@@ -245,15 +333,15 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="conso" id="consommation" placeholder="Consommation"
-                        required />
-                    <label for="consommation">Consommation (L/100km)</label>
+                <input type="number" class="form-control" name="conso" id="consommation" min="1" max="20" step="0.1" placeholder="Consommation" required />
+                <label for="consommation">Consommation (L/100km)</label>
                 </div>
+
 
                 <div class="mb-3">
                     <label class="place-label">Nombre de places</label>
                     <div class="places-badges" id="placeBadges">
-                        @foreach ([5, 7, 9, 15, 18, 22, 29, 32] as $place)
+                        @foreach ([2, 5, 7, 9, 15, 18, 22, 29, 32] as $place)
                             <div class="badge-place" data-value="{{ $place }}">{{ $place }}</div>
                         @endforeach
                     </div>
@@ -266,51 +354,69 @@
             </form>
         </div>
     </main>
+<div class="modal fade" id="ajoutTypeModal" tabindex="-1" aria-labelledby="ajoutTypeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
+      <div class="modal-body p-0">
+        <form class="form-container" method="POST" action="{{ route('car_types.store') }}">
+          @csrf
+          <div class="form-header"><span>Ajouter un type de voiture</span></div>
+
+          @if(session('success'))
+            <p style="color: green; text-align:center;">{{ session('success') }}</p>
+          @endif
+
+          <div class="form-group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M5 11l1.5-4.5h11L19 11h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v1a1 1 0 1 1-2 0v-1H7v1a1 1 0 1 1-2 0v-1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1zm2.16-3L6.5 11h11l-.66-3H7.16zM6 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+            </svg>
+            <input type="text" id="name" name="name" required placeholder=" " />
+            <label for="name">Type de voiture</label>
+          </div>
+
+          <button type="submit" class="submit-btn">Enregistrer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const badges = document.querySelectorAll('.badge-place');
-            const input = document.getElementById('nbrPlaceInput');
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function handleTypeChange(select) {
+        if (select.value === "autre") {
+            const modal = new bootstrap.Modal(document.getElementById('ajoutTypeModal'));
+            modal.show();
+            select.value = '';
+        }
+    }
 
-            function activateBadge(value) {
-                badges.forEach(b => b.classList.toggle('active', b.dataset.value === value));
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+        const badges = document.querySelectorAll('.badge-place');
+        const input = document.getElementById('nbrPlaceInput');
 
-            badges.forEach(badge => {
-                badge.addEventListener('click', () => {
-                    input.value = badge.dataset.value;
-                    activateBadge(badge.dataset.value);
-                });
-            });
-
-            activateBadge(input.value);
-
-            const immat = document.getElementById('immat');
-            if (immat) {
-                immat.addEventListener('input', function() {
-                    this.value = this.value.toUpperCase().replace(/[^0-9A-Z]/g, '').substring(0, 7);
-                });
-            }
-        });
-    </script>
-    <script>
-        function toggleInput(selectElement) {
-            const autreDiv = document.getElementById('autreTypeDiv');
-            if (selectElement.value === 'autre') {
-                autreDiv.classList.remove('d-none');
-                document.getElementById('typeVehiAutre').setAttribute('required', 'required');
-            } else {
-                autreDiv.classList.add('d-none');
-                document.getElementById('typeVehiAutre').removeAttribute('required');
-            }
+        function activateBadge(value) {
+            badges.forEach(b => b.classList.toggle('active', b.dataset.value === value));
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const select = document.getElementById('type');
-            toggleInput(select);
+        badges.forEach(badge => {
+            badge.addEventListener('click', () => {
+                input.value = badge.dataset.value;
+                activateBadge(badge.dataset.value);
+            });
         });
-    </script>
+
+        activateBadge(input.value);
+
+        const immat = document.getElementById('immat');
+        if (immat) {
+            immat.addEventListener('input', function() {
+                this.value = this.value.toUpperCase().replace(/[^0-9A-Z]/g, '').substring(0, 7);
+            });
+        }
+    });
+</script>
 @endsection
+
