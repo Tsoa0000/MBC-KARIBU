@@ -49,9 +49,96 @@
             padding-bottom: 0.3rem;
         }
 
+<<<<<<< HEAD
         .chauffeur-card {
             display: flex;
             justify-content: space-between;
+=======
+        .btn-create {
+            background: #33897f;
+            color: white;
+            padding: 0.65rem 1.7rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .btn-create:hover {
+            background: #e2a346;
+            color: #2d5c4a;
+        }
+
+        .table-wrapper {
+            margin-top:-60px ;
+            overflow-x: auto;
+            border-radius: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 14px;
+            background: transparent;
+        }
+
+        thead th {
+            background: #2d5c4a;
+            color: #fff;
+            padding: 0.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        tbody tr {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 9px 28px rgba(0, 0, 0, 0.22);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        tbody tr:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
+            transform: translateY(-9px);
+        }
+
+        td {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            vertical-align: middle;
+            text-transform: capitalize;
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .badge.signed {
+            background-color: #d1f5e4;
+            color: #23725c;
+        }
+
+        .badge.unsigned {
+            background-color: #fddede;
+            color: #a83232;
+        }
+
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            justify-content: center;
+>>>>>>> 247e1e8615c15ad61cbd313f70aac1cd90f13b89
             align-items: center;
             background-color: white;
             padding: 20px 24px;
