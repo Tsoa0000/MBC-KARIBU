@@ -48,12 +48,9 @@
             display: inline-block;
             padding-bottom: 0.3rem;
         }
-
-<<<<<<< HEAD
         .chauffeur-card {
             display: flex;
-            justify-content: space-between;
-=======
+            justify-content: space-between;}
         .btn-create {
             background: #33897f;
             color: white;
@@ -138,7 +135,6 @@
             height: 38px;
             display: inline-flex;
             justify-content: center;
->>>>>>> 247e1e8615c15ad61cbd313f70aac1cd90f13b89
             align-items: center;
             background-color: white;
             padding: 20px 24px;
