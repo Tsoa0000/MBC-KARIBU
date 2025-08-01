@@ -27,7 +27,7 @@
     @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5' || Auth::user()->role === '2')
         <main id="main" class="main">
             <div class="pagetitle">
-                <h1>Dashboard</h1>
+                <h1>Tableau de bord</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Accueil</a></li>

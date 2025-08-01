@@ -21,7 +21,7 @@ class CarTypeController extends Controller
         CarType::create([
             'name' => $request->name
         ]);
-
+        toastify()->success('Type de voiture ajouté avec succès.');
         return redirect()->back()->with('success', 'Type de voiture ajouté avec succès.');
     }
 }

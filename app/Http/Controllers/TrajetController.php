@@ -32,13 +32,14 @@ class TrajetController extends Controller {
             'km' => floatval( $request->km ),
         ] );
 
+        toastify()->success( 'Trajet ajouté avec succès.');
         return redirect()->back()->with( 'success', 'Trajet ajouté avec succès.' );
     }
 
     public function destroy( $id ) {
         $trajet = Trajet::findOrFail( $id );
         $trajet->delete();
-
+        toastify()->success('Trajet supprimé avec succès.');
         return redirect()->back()->with( 'success', 'Trajet supprimé avec succès.' );
     }
 }

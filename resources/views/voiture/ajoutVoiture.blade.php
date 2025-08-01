@@ -362,10 +362,6 @@
           @csrf
           <div class="form-header"><span>Ajouter un type de voiture</span></div>
 
-          @if(session('success'))
-            <p style="color: green; text-align:center;">{{ session('success') }}</p>
-          @endif
-
           <div class="form-group">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M5 11l1.5-4.5h11L19 11h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1v1a1 1 0 1 1-2 0v-1H7v1a1 1 0 1 1-2 0v-1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h1zm2.16-3L6.5 11h11l-.66-3H7.16zM6 14a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
