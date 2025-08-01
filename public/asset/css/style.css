@@ -74,7 +74,7 @@ h6 {
   right: 15px;
   bottom: 15px;
   z-index: 99999;
-  background: #4154f1;
+  background: #33897f;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -88,7 +88,7 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
+  background: #33897f;
   color: #fff;
 }
 
@@ -275,7 +275,7 @@ h6 {
 }
 
 .accordion-button:not(.collapsed) {
-  color: #012970;
+  color: #33897f;
   background-color: #f6f9ff;
 }
 
@@ -287,7 +287,7 @@ h6 {
 
 .accordion-flush .accordion-button:not(.collapsed) {
   box-shadow: none;
-  color: #4154f1;
+  color: #33897f;
 }
 
 .accordion-flush .accordion-body {
@@ -335,13 +335,13 @@ h6 {
 
 .nav-tabs-bordered .nav-link:hover,
 .nav-tabs-bordered .nav-link:focus {
-  color: #4154f1;
+  color: #33897f;
 }
 
 .nav-tabs-bordered .nav-link.active {
   background-color: #fff;
-  color: #4154f1;
-  border-bottom: 2px solid #4154f1;
+  color: #33897f;
+  border-bottom: 2px solid #33897f;
 }
 
 /*--------------------------------------------------------------
@@ -897,12 +897,12 @@ h6 {
 }
 
 .dashboard .news h4 a {
-  color: #012970;
+  color: #33897f;
   transition: 0.3s;
 }
 
 .dashboard .news h4 a:hover {
-  color: #4154f1;
+  color: #33897f;
 }
 
 .dashboard .news p {
@@ -969,7 +969,7 @@ h6 {
   background-color: #fff;
   border-radius: 0.25rem;
   text-align: center;
-  color: #012970;
+  color: #33897f;
   padding: 15px 0;
 }
 
@@ -1018,7 +1018,7 @@ h6 {
 }
 
 .profile .profile-card .social-links a:hover {
-  color: #012970;
+  color: #33897f;
 }
 
 .profile .profile-overview .row {
@@ -1027,7 +1027,7 @@ h6 {
 }
 
 .profile .profile-overview .card-title {
-  color: #012970;
+  color: #33897f;
 }
 
 .profile .profile-overview .label {
@@ -1050,7 +1050,7 @@ h6 {
 .faq .basic h6 {
   font-size: 18px;
   font-weight: 600;
-  color: #4154f1;
+  color: #33897f;
 }
 
 .faq .basic p {
@@ -1067,12 +1067,12 @@ h6 {
 .contact .info-box i {
   font-size: 38px;
   line-height: 0;
-  color: #4154f1;
+  color: #33897f;
 }
 
 .contact .info-box h3 {
   font-size: 20px;
-  color: #012970;
+  color: #33897f;
   font-weight: 700;
   margin: 20px 0 10px 0;
 }
@@ -1134,7 +1134,7 @@ h6 {
 
 .contact .php-email-form input:focus,
 .contact .php-email-form textarea:focus {
-  border-color: #4154f1;
+  border-color: #33897f;
 }
 
 .contact .php-email-form input {
@@ -1146,7 +1146,7 @@ h6 {
 }
 
 .contact .php-email-form button[type=submit] {
-  background: #4154f1;
+  background: #33897f;
   border: 0;
   padding: 10px 30px;
   color: #fff;
@@ -1155,7 +1155,7 @@ h6 {
 }
 
 .contact .php-email-form button[type=submit]:hover {
-  background: #5969f3;
+  background: #33897f;
 }
 
 @keyframes animate-loading {
@@ -1178,7 +1178,7 @@ h6 {
 .error-404 h1 {
   font-size: 180px;
   font-weight: 700;
-  color: #4154f1;
+  color: #33897f;
   margin-bottom: 0;
   line-height: 150px;
 }
@@ -1186,7 +1186,7 @@ h6 {
 .error-404 h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #012970;
+  color: #33897f;
   margin-bottom: 30px;
 }
 
@@ -1218,14 +1218,14 @@ h6 {
 
 .footer .copyright {
   text-align: center;
-  color: #012970;
+  color: #33897f;
 }
 
 .footer .credits {
   padding-top: 5px;
   text-align: center;
   font-size: 13px;
-  color: #012970;
+  color: #33897f;
 }
 .hidden {
   display: none;
