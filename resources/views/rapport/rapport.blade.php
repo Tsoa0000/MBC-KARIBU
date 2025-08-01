@@ -49,6 +49,11 @@
             padding-bottom: 0.3rem;
         }
 
+<<<<<<< HEAD
+        .chauffeur-card {
+            display: flex;
+            justify-content: space-between;
+=======
         .btn-create {
             background: #33897f;
             color: white;
@@ -133,20 +138,75 @@
             height: 38px;
             display: inline-flex;
             justify-content: center;
+>>>>>>> 247e1e8615c15ad61cbd313f70aac1cd90f13b89
             align-items: center;
-            border-radius: 50%;
-            font-size: 1rem;
-            transition: 0.3s ease;
-            border: 1px solid #e2a346;
-            color: #e2a346;
-            background: none;
+            background-color: white;
+            padding: 20px 24px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
             cursor: pointer;
         }
 
-        .action-btn:hover {
-            background: #e2a346;
-            color: white;
+        .chauffeur-card:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
         }
+
+        .chauffeur-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chauffeur-info h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: #111827;
+        }
+
+        .chauffeur-info p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .arrow {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .chauffeur-card:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #d1fae5;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 16px;
+            font-size: 18px;
+        }
+
+        .chauffeur-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
 
         @media (max-width: 768px) {
             .header-top {
@@ -172,57 +232,32 @@
 @section('body')
     <main class="main" id="main">
         <div class="container">
-        <div class="header-top">
-        <h2 class="page-title">Rapport du chauffeur</h2>
-        </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Chauffeur</th>
-                            <th>Départ</th>
-                            <th>Destination</th>
-                            <th>Motif</th>
-                            <th>Km Départ</th>
-                            <th>Km Arrivée</th>
-                            <th>Heure Départ</th>
-                            <th>Heure Arrivée</th>
-                            <th>Km Effectué</th>
-                            <th>Signature</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($rapport as $tab)
-                            <tr>
-                                <td> {{ $tab->date }} </td>
-                                <td>
-                                    {{ $tab->user_name }}{{$tab->user_first_name }}
-
-                                </td>
-                                <td> {{ $tab->point_depart }} </td>
-                                <td> {{ $tab->destination }} </td>
-                                <td> {{ $tab->motif }} </td>
-                                <td> {{ $tab->dep_km }} </td>
-                                <td> {{ $tab->arr_km }} </td>
-                                <td> {{ $tab->heure_depart }} </td>
-                                <td> {{ $tab->heure_arrivee }} </td>
-                                <td> {{ $tab->km_effec }} </td>
-                                <td>
-                                    <span class="badge {{ $tab->signature ? 'signed' : 'unsigned' }}">
-                                        {{ $tab->signature ? 'Signé' : 'Non signé' }}
-                                    </span>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="11" class="text-center">Aucune fiche de tableau de bord trouvée.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <div class="header-top">
+                <h2 class="page-title">Rapport du chauffeur</h2>
             </div>
+            @foreach ($rapport->unique('idChauff') as $r)
+                <div class="space">
+                    <a href="{{ route('rapport.liste', ['id' => $r->idChauff]) }}">
+
+                        <div class="chauffeur-left">
+                            <div class="avatar">
+                                {{ strtoupper(substr($r->user_name, 0, 1) . substr($r->user_first_name, 0, 1)) }}
+                            </div>
+                            <div class="chauffeur-info">
+                                <h2>{{ $r->user_name }} {{ $r->user_first_name }}</h2>
+                                <p>{{ $r->user_email }}</p>
+                            </div>
+                        </div>
+                        <svg class="arrow" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+
+                </div>
+            @endforeach
         </div>
+
+
     </main>
 @endsection
 @section('script')

@@ -91,6 +91,7 @@ Route::get('/carburant', [ConsommationController::class, 'store'])->name('consom
 
 // ======= RAPPORT =======
 Route::get('/rapport', [RapportController::class, 'index'])->name('rapport.index');
+Route::get('/rapport/liste/{id?}', [RapportController::class, 'liste'])->name('rapport.liste');
 
 
 Route::get('/type-voiture', [CarTypeController::class, 'create'])->name('car_types.create');
