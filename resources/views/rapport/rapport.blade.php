@@ -202,6 +202,14 @@
             gap: 12px;
         }
 
+        .space{
+            background:white;
+            box-shadow: 2px 2px 3px 4px rgba(0, 0, 0, 0.04);
+            width:100%;
+            border-radius:10px;
+            padding-left:15px; 
+            padding-top:15px;
+        }
 
 
         @media (max-width: 768px) {
