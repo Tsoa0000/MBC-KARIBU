@@ -42,7 +42,7 @@ public function index(Request $request)
 
 public function liste($id = null)
 {
-    $query = DB::table('tab_bords')
+    $liste = DB::table('tab_bords')
         ->join('users', 'tab_bords.idChauff', '=', 'users.id')
         ->join('missions', 'tab_bords.mission_id', '=', 'missions.id')
         ->join('lieux as ld', 'missions.lieu_depart_id', '=', 'ld.id')
@@ -57,10 +57,10 @@ public function liste($id = null)
         );
 
     if ($id) {
-        $query->where('tab_bords.idChauff', $id);
+        $liste->where('tab_bords.idChauff', $id);
     }
 
-    $rapport = $query->get();
+    $rapport = $liste->get();
 
     $missions = $rapport->groupBy(function ($item) {
         return $item->lieu_depart_nom . ' - ' . $item->lieu_arrive_nom;
