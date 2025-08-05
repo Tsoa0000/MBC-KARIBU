@@ -157,16 +157,51 @@
       background: #e2a346;
       border-radius: 10px;
     }
+    .btn-retour {
+    position: fixed;
+    top: 85px;
+    right: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    box-shadow: 3px 3px 5px #d1d9e6, -5px -5px 10px #ffffff;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: #333;
+    z-index: 9999;
+}
+
+.btn-retour:hover {
+    box-shadow: inset 2px 2px 5px #d1d9e6, inset -2px -2px 5px #ffffff;
+    color: #000;
+    background: #eaeaea;
+}
+
 
   </style>
 
 @endsection
 @section('body')
     <main class="main" id="main" >
+
         <div class="container">
+        <a href="{{ url()->previous() }}" class="btn-retour" title="Retour">
+        <svg width="25" height="25" fill="none" color="#2d4c5F" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+        </svg>
+    </a>
              <div class="header-top">
+
         <h2 class="page-title">Fiche de bord</h2>
-        <button class="btn-create" onclick="window.location.href='{{ route('tabbord.create', $mission->id) }}'">+ Nouvelle fiche</button>
+      @if (\Carbon\Carbon::parse($mission->date_arrive)->isFuture())
+    <button class="btn-create" onclick="window.location.href='{{ route('tabbord.create', $mission->id) }}'">+ Nouvelle fiche</button>
+@endif
         </div>
          <div class="missions">
 @forelse ($tabbords as $tab)

@@ -7,6 +7,7 @@ use App\Models\TabBord;
 use App\Models\User;
 use App\Models\DetailChauff;
 use App\Models\Mission;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TabBordController extends Controller
@@ -36,13 +37,14 @@ class TabBordController extends Controller
     public function store(Request $request)
     {
         $chauffeurId = $request->idChauff;
-
+    
         $hasMission = Mission::where('chauffeur_id', $chauffeurId)->exists();
-
+    
         if (!$hasMission) {
             toastify()->error('Vous devez avoir une mission pour créer une fiche de bord.');
             return back()->withInput()->with('error', 'Aucune mission trouvée pour ce chauffeur.');
         }
+    
 
         $validated = $request->validate([
             'date' => 'required|date',
@@ -58,7 +60,15 @@ class TabBordController extends Controller
             'signature' => 'required|boolean',
             'mission_id' => 'required|exists:missions,id',
         ]);
+    
 
+        $mission = Mission::findOrFail($request->mission_id);
+        if (Carbon::parse($mission->date_arrive)->isPast()) {
+            toastify()->error('Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
+            return redirect()->back()->with('error', 'Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
+        }
+    
+   
         $tabbord = new TabBord();
         $tabbord->date = $request->date;
         $tabbord->idChauff = $request->idChauff;
@@ -73,10 +83,10 @@ class TabBordController extends Controller
         $tabbord->signature = $request->signature;
         $tabbord->mission_id = $request->mission_id;
         $tabbord->save();
-
+    
         return redirect()->route('tabbord.index', ['mission' => $request->mission_id]);
-
     }
+    
 
     public function destroy($id)
     {
