@@ -43,7 +43,7 @@
                         <div class="col-xxl-4 col-md-4">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Nombre des voitures</h5>
+                                    <h5 class="card-title">Nombre de voiture</h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -61,7 +61,7 @@
                         <div class="col-xxl-4 col-md-4">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Nombre des chauffeurs</h5>
+                                    <h5 class="card-title">Nombre de chauffeur</h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
