@@ -143,6 +143,7 @@
                             <i class="bi bi-circle"></i><span>Trajet</span>
                         </a>
                     </li>
+                    
                     <li>
                         <a href="{{ route('mission.show') }}">
                             <i class="bi bi-circle"></i><span>Mission</span>

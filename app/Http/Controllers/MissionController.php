@@ -16,6 +16,8 @@ class MissionController extends Controller {
 
     public function showMission(Request $request)
 {
+    $type = $request->query('type', 'recente'); // Valeur par défaut
+
     $lieu_depart = $request->input('lieu_depart');
     $lieu_arrivee = $request->input('lieu_arrive');
     $date_depart = $request->input('date_depart');
@@ -23,28 +25,36 @@ class MissionController extends Controller {
 
     $trajets = Trajet::with(['lieuDepart', 'lieuArrivee'])->get();
 
+    $voitures = Voiture::all()->map(function ($v) {
+        $v->disponible = true;
+        return $v;
+    });
 
-        $voitures = Voiture::all()->map(function ($v) {
-            $v->disponible = true;
-            return $v;
-        });
-
-        $chauffeurs = User::where('role', '7')->get()->map(function ($ch) {
-            $ch->disponible = true;
-            return $ch;
-        });
+    $chauffeurs = User::where('role', '7')->get()->map(function ($ch) {
+        $ch->disponible = true;
+        return $ch;
+    });
 
     $user = Auth::user();
-    if ($user->role === '0') {
-        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])->get();
-    } else {
-        $missions = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur'])
-            ->where('chauffeur_id', $user->id)
-            ->get();
+    $query = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur']);
+
+    // Filtrer par utilisateur si ce n’est pas un admin
+    if ($user->role !== '0') {
+        $query->where('chauffeur_id', $user->id);
     }
 
-    return view('mission.listeMission', compact('missions', 'trajets', 'voitures', 'chauffeurs', 'user', 'date_depart', 'date_arrive'));
+    // Appliquer filtre de type
+    if ($type === 'faite') {
+        $query->where('date_arrive', '<', now());
+    } else {
+        $query->where('date_arrive', '>=', now());
+    }
+
+    $missions = $query->get();
+
+    return view('mission.listeMission', compact('missions', 'trajets', 'voitures', 'chauffeurs', 'user', 'date_depart', 'date_arrive', 'type'));
 }
+
 
 public function mission(Request $request) {
     $request->validate([

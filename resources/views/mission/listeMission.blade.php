@@ -57,23 +57,43 @@
 
 
         .btn-create {
-            background: #33897f;
-            color: white;
-            padding: 0.65rem 1.7rem;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            border-radius: 0.8rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            white-space: nowrap;
-        }
+    background: #33897f;
+    color: white;
+    padding: 0.65rem 1.7rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    white-space: nowrap;
+}
 
-        .btn-create:hover {
-            background: #e2a346;
-            color: #2d5c4a
-        }
+.btn-create:hover {
+    background: #e2a346;
+    color: #2d5c4a;
+}
+
+.btn-create1 {
+    background: #33897f;
+    color: white;
+    padding: 0.65rem 1.7rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.btn-create1:hover {
+    background: #2d5c4a;
+    color: #e2a346;
+}
+
 
 
         .table-wrapper {
@@ -385,6 +405,7 @@
                                         </a>
                                     </td>
                                 @endif
+
                                 @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
                                     <td>
                                         <a href="{{ route('mission.delete', $mission->id) }}"
@@ -401,7 +422,18 @@
                         @endforelse
                     </tbody>
                 </table>
+  
             </div>
+            <div style="margin-top: 50px; text-align: center;">
+    <a href="{{ route('mission.show', ['type' => 'recente']) }}"
+       class="btn-create" style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
+        Missions récentes
+    </a>
+    <a href="{{ route('mission.show', ['type' => 'faite']) }} "
+       class="btn-create1" style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }}; margin-left: 50px;">
+        Missions effectuées
+    </a>
+</div>
         </div>
         <div id="missionModal"
             style="display:none; position:fixed; top:0; left:0; width:105vw; height:105vh; background:rgba(0,0,0,0.3); z-index:1000; justify-content:center; align-items:center;">
