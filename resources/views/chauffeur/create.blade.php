@@ -240,7 +240,7 @@
                         </div>
                     </div>
 
-                    <div class="item">
+                                        <div class="item">
                         <label for="dep_km">Km départ</label>
                         <div class="input-icon">
                             <svg viewBox="0 0 24 24"><path d="M5 12h14v2H5z"/></svg>
@@ -258,6 +258,9 @@
                             <input type="number" id="arr_km" name="arr_km" min="0" step="0.01" required>
                         </div>
                     </div>
+
+
+
 
                     <div class="item"><label for="heure_depart">Heure de départ</label>
                         <div class="input-icon">
@@ -319,6 +322,22 @@
         if (depInput) depInput.addEventListener("input", calcKM);
         if (arrInput) arrInput.addEventListener("input", calcKM);
     </script>
+    <script>
+    document.getElementById('dep_km').addEventListener('input', function () {
+        let depKm = parseFloat(this.value) || 0;
+        let arrInput = document.getElementById('arr_km');
+        arrInput.min = depKm + 0.01; // Toujours supérieur
+    });
+
+    document.getElementById('arr_km').addEventListener('input', function () {
+        let depKm = parseFloat(document.getElementById('dep_km').value) || 0;
+        if (parseFloat(this.value) <= depKm) {
+            this.setCustomValidity("Le km d'arrivée doit être supérieur au km de départ");
+        } else {
+            this.setCustomValidity("");
+        }
+    });
+</script>
 </main>
 @endsection
 
