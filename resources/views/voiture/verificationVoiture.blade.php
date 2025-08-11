@@ -5,7 +5,7 @@
 @section('style')
     <link rel="stylesheet" href="{{ asset('asset/css/voiture/verifVehi.css') }}">
     <style>
-
+        /* --- TITRE --- */
         .verif-title {
             text-align: center;
             font-size: 1.8rem;
@@ -15,6 +15,74 @@
             border-bottom: 2px solid #e2a346;
             display: inline-block;
             padding-bottom: 0.3rem;
+        }
+
+        /* --- SCROLL FIX --- */
+        html, body {
+            height: auto;
+            min-height: 100%;
+            overflow-y: auto;
+        }
+
+        main.main {
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        #checklistForm {
+            max-height: none; /* pas de limite */
+            overflow-y: visible;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .item {
+                width: 100%;
+            }
+
+            .item .btns {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .verif-title {
+                font-size: 1.5rem;
+            }
+
+            textarea {
+                width: 100%;
+            }
+
+            .button-wrapper {
+                text-align: center;
+            }
+
+            .submit {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .verif-title {
+                font-size: 1.3rem;
+            }
+
+            select, input[type="date"], textarea {
+                font-size: 0.9rem;
+            }
+
+            label.ok, label.nok {
+                flex: 1 1 auto;
+                text-align: center;
+            }
         }
     </style>
 @endsection
@@ -39,13 +107,10 @@
                     </select>
                 </div>
 
-
                 <div class="item">
                     <span class="label">Date de vérification</span>
                     <input type="date" name="date" min="{{ date('Y-m-d') }}" required>
-
                 </div>
-
 
                 @php
                     $items = [
@@ -63,8 +128,7 @@
                         <div class="btns">
                             <input type="radio" name="{{ $key }}" id="{{ $key }}-ok" value="1" />
                             <label for="{{ $key }}-ok" class="ok">OUI</label>
-                            <input type="radio" name="{{ $key }}" id="{{ $key }}-nok"
-                                value="0" />
+                            <input type="radio" name="{{ $key }}" id="{{ $key }}-nok" value="0" />
                             <label for="{{ $key }}-nok" class="nok">NON</label>
                         </div>
                         <div class="feedback"></div>

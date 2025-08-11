@@ -1,6 +1,7 @@
 @extends('app')
 @include('partials.navbar')
 @section('style')
+
     <style>
         body {
             font-family: 'Skia', sans-serif;
@@ -123,6 +124,12 @@
                 grid-template-columns: 1fr;
             }
         }
+
+   .font {
+             font-size: 30px;
+             color: #33897f;
+
+        }
     </style>
 @endsection
 @section('body')
@@ -130,9 +137,15 @@
 
     <main class="main" id="main">
         <div class="container">
-            <div class="header-top">
+
+            <div class="header-top" style="display: flex; align-items: center; gap: 10px;">
                 <h2 class="page-title">Liste des missions</h2>
+                <a href="{{ url()->previous() }}" class="btn-retour" style="text-decoration: none; color: inherit;">
+                    <i class="ri-arrow-left-circle-line font"></i>
+                </a>
+
             </div>
+
             <div class="mission-liste">
                 @foreach ($missions as $missionTitre => $fiches)
                     <div class="mission" onclick="toggleFiches('{{ Str::slug($missionTitre) }}')">
@@ -144,28 +157,23 @@
                             <div class="fiche">
                                 <h3>Fiche {{ $index + 1 }} – {{ $fiche->user_name }} {{ $fiche->user_first_name }}</h3>
                                 <div class="details">
-                                    <div class="detail-item"><span class="label">Départ :</span> {{ $fiche->point_depart }}
-                                    </div>
-                                    <div class="detail-item"><span class="label">Destination :</span>
-                                        {{ $fiche->destination }}</div>
+                                    <div class="detail-item"><span class="label">Départ :</span> {{ $fiche->point_depart }}</div>
+                                    <div class="detail-item"><span class="label">Destination :</span> {{ $fiche->destination }}</div>
                                     <div class="detail-item"><span class="label">Motif :</span> {{ $fiche->motif }}</div>
-                                    <div class="detail-item"><span class="label">Km Départ :</span> {{ $fiche->dep_km }}
-                                    </div>
-                                    <div class="detail-item"><span class="label">Km Arrivée :</span> {{ $fiche->arr_km }}
-                                    </div>
-                                    <div class="detail-item"><span class="label">Heure Départ :</span>
-                                        {{ $fiche->heure_depart }}</div>
-                                    <div class="detail-item"><span class="label">Heure Arrivée :</span>
-                                        {{ $fiche->heure_arrivee }}</div>
+                                    <div class="detail-item"><span class="label">Km Départ :</span> {{ $fiche->dep_km }}</div>
+                                    <div class="detail-item"><span class="label">Km Arrivée :</span> {{ $fiche->arr_km }}</div>
+                                    <div class="detail-item"><span class="label">Heure Départ :</span> {{ $fiche->heure_depart }}</div>
+                                    <div class="detail-item"><span class="label">Heure Arrivée :</span> {{ $fiche->heure_arrivee }}</div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 @endforeach
             </div>
-
+        </div>
     </main>
 @endsection
+
 @section('script')
     <script>
         function toggleFiches(id) {

@@ -334,39 +334,40 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 100%;
         }
-    .btn-mission-modern {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-decoration: none;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        backdrop-filter: blur(5px);
-        transition: all 0.3s ease;
-    }
 
-    .btn-mission-modern:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 5px 12px rgba(0,0,0,0.2);
-    }
+        .btn-mission-modern {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
 
-    .btn-mission-label {
-        margin-top: 5px;
-        font-size: 15px ;
+        .btn-mission-modern:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+        }
 
-        color: #494949 !important;
-        text-align: center;
-    }
+        .btn-mission-label {
+            margin-top: 5px;
+            font-size: 15px;
 
-    .mission-wrapper {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 15px;
-    }
+            color: #494949 !important;
+            text-align: center;
+        }
+
+        .mission-wrapper {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 15px;
+        }
 
         @media (max-width: 768px) {
             main.main {
@@ -566,6 +567,7 @@
 
 
         @media (prefers-reduced-motion: reduce) {
+
             .btn-mission-modern,
             .mission-wrapper,
             .btn-mission-label,
@@ -682,16 +684,18 @@
                 </table>
 
             </div>
-      @if (Auth::check() && in_array(Auth::user()->role, ['0', '5', '2']))
+            @if (Auth::check() && in_array(Auth::user()->role, ['0', '5', '2']))
                 <div style="margin-top: 50px; text-align: center;">
                     <div class="mission-wrapper">
-                        <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern" style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
+                        <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern"
+                            style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
                             <i class="ri-time-line ri-lg"></i>
                         </a>
                         <span class="btn-mission-label">Récentes</span>
                     </div>
                     <div class="mission-wrapper">
-                        <a href="{{ route('mission.show', ['type' => 'faite']) }}" class="btn-mission-modern" style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }};">
+                        <a href="{{ route('mission.show', ['type' => 'faite']) }}" class="btn-mission-modern"
+                            style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }};">
                             <i class="ri-check-double-line ri-lg"></i>
                         </a>
                         <span class="btn-mission-label">Effectuées</span>
@@ -759,8 +763,6 @@
                                 <div style="color:red; font-style: italic;">{{ $message }}</div>
                             @enderror
                         </div>
-
-
                     </div>
                     <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
                     <div>
@@ -978,7 +980,6 @@
                             }
                         });
 
-                        // Chauffeurs
                         chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
                         data.chauffeurs.forEach(c => {
                             const option = document.createElement('option');
