@@ -38,12 +38,12 @@ class MissionController extends Controller {
     $user = Auth::user();
     $query = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur']);
 
-    // Filtrer par utilisateur si ce n’est pas un admin
+
     if ($user->role !== '0') {
         $query->where('chauffeur_id', $user->id);
     }
 
-    // Appliquer filtre de type
+
     if ($type === 'faite') {
         $query->where('date_arrive', '<', now());
     } else {

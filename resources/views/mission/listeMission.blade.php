@@ -57,42 +57,42 @@
 
 
         .btn-create {
-    background: #33897f;
-    color: white;
-    padding: 0.65rem 1.7rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 0.8rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    white-space: nowrap;
-}
+            background: #33897f;
+            color: white;
+            padding: 0.65rem 1.7rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
 
-.btn-create:hover {
-    background: #e2a346;
-    color: #2d5c4a;
-}
+        .btn-create:hover {
+            background: #e2a346;
+            color: #2d5c4a;
+        }
 
-.btn-create1 {
-    background: #33897f;
-    color: white;
-    padding: 0.65rem 1.7rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 0.8rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    white-space: nowrap;
-}
+        .btn-create1 {
+            background: #33897f !important;
+            color: white;
+            padding: 0.65rem 1.7rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
 
-.btn-create1:hover {
-    background: #2d5c4a;
-    color: #e2a346;
-}
+        .btn-create1:hover {
+            background: #2d5c4a !important;
+            color: #e2a346 !important;
+        }
 
 
 
@@ -334,6 +334,264 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 100%;
         }
+    .btn-mission-modern {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+
+    .btn-mission-modern:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+    }
+
+    .btn-mission-label {
+        margin-top: 5px;
+        font-size: 15px ;
+
+        color: #494949 !important;
+        text-align: center;
+    }
+
+    .mission-wrapper {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 15px;
+    }
+
+        @media (max-width: 768px) {
+            main.main {
+                padding: 2rem 0.5rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+                margin: 0 0.5rem;
+                border-radius: 1rem;
+            }
+
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.4rem;
+                text-align: left;
+            }
+
+            .btn-create {
+                width: 100%;
+                margin-bottom: 1rem;
+                text-align: center;
+                padding: 0.8rem 1rem;
+            }
+
+            thead th,
+            td {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.2rem;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            .action-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .btn-delete {
+                width: 25px;
+                height: 25px;
+                margin-left: 10px;
+            }
+
+
+            .btn-mission-modern {
+                width: 50px;
+                height: 50px;
+            }
+
+            .mission-wrapper {
+                margin: 0 10px;
+            }
+
+            .btn-mission-label {
+                font-size: 10px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+            main.main {
+                padding: 1rem 0.25rem;
+            }
+
+            .container {
+                padding: 1rem 0.75rem;
+                margin: 0 0.25rem;
+            }
+
+            .page-title {
+                font-size: 1.2rem;
+            }
+
+            .btn-create {
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+                padding: 0.7rem 0.8rem;
+            }
+
+            thead th,
+            td {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.1rem;
+            }
+
+            table {
+                min-width: 500px;
+            }
+
+            td:last-child {
+                max-width: 150px;
+                font-size: 0.7rem;
+            }
+
+            .action-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+
+            .btn-delete {
+                width: 22px;
+                height: 22px;
+                margin-left: 5px;
+            }
+
+
+            .form {
+                margin: 1rem;
+                padding: 1.2rem;
+                max-width: calc(100vw - 2rem);
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+
+            .btn-mission-modern {
+                width: 45px;
+                height: 45px;
+            }
+
+            .mission-wrapper {
+                margin: 0 8px;
+            }
+
+            .btn-mission-label {
+                font-size: 9px;
+                margin-top: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.8rem 0.5rem;
+            }
+
+            .page-title {
+                font-size: 1.1rem;
+            }
+
+            thead th,
+            td {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.05rem;
+            }
+
+            table {
+                min-width: 450px;
+            }
+
+            .btn-mission-modern {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mission-wrapper {
+                margin: 0 5px;
+            }
+
+            .btn-mission-label {
+                font-size: 8px;
+            }
+        }
+
+        @media (max-height: 500px) and (orientation: landscape) {
+            main.main {
+                padding: 1rem 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                margin-bottom: 0.8rem;
+            }
+
+            .table-wrapper {
+                margin-top: -15px;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+            .btn-mission-modern,
+            .mission-wrapper,
+            .btn-mission-label,
+            tbody tr,
+            .action-btn,
+            .button {
+                transition: none;
+                animation: none;
+            }
+
+            .btn-mission-modern {
+                animation: none;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+
+
+            .btn-mission-label {
+                color: #ffffff;
+            }
+
+            .mission-wrapper:hover .btn-mission-label {
+                color: #e2a346;
+            }
+        }
     </style>
 @endsection
 @section('body')
@@ -388,9 +646,9 @@
                                 <td>{{ $mission->objet }}</td>
                                 @if (Auth::check() && Auth::user()->role === '7')
                                     <td>
-                                        <a href="{{route('tabbord.index', $mission->id)}}" class="action-btn">
-                                            <svg class="detail-icon"
-                                                viewBox="0 0 256 256" width="30" height="30" fill="currentColor">
+                                        <a href="{{ route('tabbord.index', $mission->id) }}" class="action-btn">
+                                            <svg class="detail-icon" viewBox="0 0 256 256" width="30" height="30"
+                                                fill="currentColor">
                                                 <circle cx="128" cy="128" r="96" opacity="0.2" />
                                                 <circle cx="128" cy="128" r="96" fill="none"
                                                     stroke="currentColor" stroke-width="16" />
@@ -422,18 +680,25 @@
                         @endforelse
                     </tbody>
                 </table>
-  
+
             </div>
-            <div style="margin-top: 50px; text-align: center;">
-    <a href="{{ route('mission.show', ['type' => 'recente']) }}"
-       class="btn-create" style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
-        Missions récentes
-    </a>
-    <a href="{{ route('mission.show', ['type' => 'faite']) }} "
-       class="btn-create1" style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }}; margin-left: 50px;">
-        Missions effectuées
-    </a>
-</div>
+      @if (Auth::check() && in_array(Auth::user()->role, ['0', '5', '2']))
+                <div style="margin-top: 50px; text-align: center;">
+                    <div class="mission-wrapper">
+                        <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern" style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
+                            <i class="ri-time-line ri-lg"></i>
+                        </a>
+                        <span class="btn-mission-label">Récentes</span>
+                    </div>
+                    <div class="mission-wrapper">
+                        <a href="{{ route('mission.show', ['type' => 'faite']) }}" class="btn-mission-modern" style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }};">
+                            <i class="ri-check-double-line ri-lg"></i>
+                        </a>
+                        <span class="btn-mission-label">Effectuées</span>
+                    </div>
+                </div>
+            @endif
+
         </div>
         <div id="missionModal"
             style="display:none; position:fixed; top:0; left:0; width:105vw; height:105vh; background:rgba(0,0,0,0.3); z-index:1000; justify-content:center; align-items:center;">
@@ -695,7 +960,7 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Voitures
+
                         voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
                         const typesAcceptes = compatibilite[typeRouteActuel] || [];
 

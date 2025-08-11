@@ -88,6 +88,7 @@ class DetailChaufController extends Controller {
             'cin' => [ 'required', 'string', 'max:12', 'regex:/^\d{12}$/' ],
         ] );
 
+
         $detailChauff = DetailChauff::firstOrNew( [ 'user_id' => $user->id ] );
         $detailChauff->numeroPermis = $request->numeroPermis;
         $detailChauff->dateValidite = $request->dateValidite;

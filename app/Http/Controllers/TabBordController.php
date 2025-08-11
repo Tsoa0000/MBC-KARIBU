@@ -21,7 +21,13 @@ class TabBordController extends Controller
         $mission = Mission::where('id', $mission_id)
                           ->where('chauffeur_id', auth()->id())
                           ->firstOrFail();
-        return view('chauffeur.create', compact('chauffeurs', 'user','mission'));
+       $lastTab = TabBord::where('mission_id', $mission_id)
+        ->orderBy('date', 'desc')
+        ->orderBy('id', 'desc')
+        ->first();
+
+
+        return view('chauffeur.create', compact('chauffeurs', 'user','mission', 'lastTab'));
     }
 
     public function index($mission_id)
@@ -34,59 +40,68 @@ class TabBordController extends Controller
         return view('chauffeur.listeTab', compact('tabbords','mission'));
     }
 
-    public function store(Request $request)
-    {
-        $chauffeurId = $request->idChauff;
-    
-        $hasMission = Mission::where('chauffeur_id', $chauffeurId)->exists();
-    
-        if (!$hasMission) {
-            toastify()->error('Vous devez avoir une mission pour créer une fiche de bord.');
-            return back()->withInput()->with('error', 'Aucune mission trouvée pour ce chauffeur.');
-        }
-    
+   public function store(Request $request)
+{
+    $chauffeurId = $request->idChauff;
 
-        $validated = $request->validate([
-            'date' => 'required|date',
-            'idChauff' => 'required|exists:users,id',
-            'point_depart' => 'required|string|max:100',
-            'destination' => 'required|string|max:100',
-            'motif' => 'nullable|string|max:100',
-            'dep_km' => 'required|numeric',
-            'arr_km' => 'required|numeric|gte:dep_km',
-            'heure_depart' => 'required|date_format:H:i',
-            'heure_arrivee' => 'required|date_format:H:i',
-            'km_effec' => 'required|numeric',
-            'signature' => 'required|boolean',
-            'mission_id' => 'required|exists:missions,id',
-        ]);
-    
+    $hasMission = Mission::where('chauffeur_id', $chauffeurId)->exists();
 
-        $mission = Mission::findOrFail($request->mission_id);
-        if (Carbon::parse($mission->date_arrive)->isPast()) {
-            toastify()->error('Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
-            return redirect()->back()->with('error', 'Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
-        }
-    
-   
-        $tabbord = new TabBord();
-        $tabbord->date = $request->date;
-        $tabbord->idChauff = $request->idChauff;
-        $tabbord->point_depart = $request->point_depart;
-        $tabbord->destination = $request->destination;
-        $tabbord->motif = $request->motif;
-        $tabbord->dep_km = $request->dep_km;
-        $tabbord->arr_km = $request->arr_km;
-        $tabbord->heure_depart = $request->heure_depart;
-        $tabbord->heure_arrivee = $request->heure_arrivee;
-        $tabbord->km_effec = $request->km_effec;
-        $tabbord->signature = $request->signature;
-        $tabbord->mission_id = $request->mission_id;
-        $tabbord->save();
-    
-        return redirect()->route('tabbord.index', ['mission' => $request->mission_id]);
+    if (!$hasMission) {
+        toastify()->error('Vous devez avoir une mission pour créer une fiche de bord.');
+        return back()->withInput()->with('error', 'Aucune mission trouvée pour ce chauffeur.');
     }
-    
+
+   $lastTab = TabBord::where('mission_id', $request->mission_id)
+    ->orderBy('date', 'desc')
+    ->orderBy('id', 'desc')
+    ->first();
+
+
+
+
+    $validated = $request->validate([
+        'date' => 'required|date',
+        'idChauff' => 'required|exists:users,id',
+        'point_depart' => 'required|string|max:100',
+        'destination' => 'required|string|max:100',
+        'motif' => 'nullable|string|max:100',
+        'arr_km' => 'required|numeric',
+        'heure_depart' => 'required|date_format:H:i',
+        'heure_arrivee' => 'required|date_format:H:i',
+        'km_effec' => 'required|numeric',
+        'signature' => 'required|boolean',
+        'mission_id' => 'required|exists:missions,id',
+        'dep_km' => $lastTab ? 'nullable' : 'required|numeric',
+    ]);
+
+    $mission = Mission::findOrFail($request->mission_id);
+    if (\Carbon\Carbon::parse($mission->date_arrive)->isPast()) {
+        toastify()->error('Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
+        return redirect()->back()->with('error', 'Vous ne pouvez plus ajouter une fiche : la date de mission est déjà passée.');
+    }
+
+    $dep_km = $lastTab ? $lastTab->arr_km : $request->dep_km;
+
+    $tabbord = new TabBord();
+    $tabbord->date = $request->date;
+    $tabbord->idChauff = $request->idChauff;
+    $tabbord->point_depart = $request->point_depart;
+    $tabbord->destination = $request->destination;
+    $tabbord->motif = $request->motif;
+    $tabbord->dep_km = $dep_km;
+    $tabbord->arr_km = $request->arr_km;
+    $tabbord->heure_depart = $request->heure_depart;
+    $tabbord->heure_arrivee = $request->heure_arrivee;
+    $tabbord->km_effec = $request->km_effec;
+    $tabbord->signature = $request->signature;
+    $tabbord->mission_id = $request->mission_id;
+    $tabbord->save();
+
+    toastify()->success('Fiche de bord créée avec succès.');
+    return redirect()->route('tabbord.index', ['mission' => $request->mission_id]);
+}
+
+
 
     public function destroy($id)
     {
