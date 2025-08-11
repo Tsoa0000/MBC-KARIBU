@@ -684,7 +684,7 @@
                 </table>
 
             </div>
-            @if (Auth::check() && in_array(Auth::user()->role, ['0', '5', '2']))
+
                 <div style="margin-top: 50px; text-align: center;">
                     <div class="mission-wrapper">
                         <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern"
@@ -701,7 +701,7 @@
                         <span class="btn-mission-label">Effectuées</span>
                     </div>
                 </div>
-            @endif
+
 
         </div>
         <div id="missionModal"
@@ -747,8 +747,8 @@
                             <label for="chauffeur_id">Chauffeur</label>
                             <select id="chauffeur_id" name="chauffeur_id"
                                 class="@error('chauffeur_id') is-invalid @enderror" required>
+                                <option value="" disabled selected>Choisir</option>
                                 @foreach ($chauffeurs as $c)
-                                    <option value="" disabled selected>--Choisir--</option>
                                     <option value="{{ $c->id }}"
                                         @if (!$c->disponible) disabled style="color:red;" @endif
                                         @if (old('chauffeur_id') == $c->id) selected @endif>
@@ -769,8 +769,9 @@
                         <label for="voiture_id">Voiture proposée</label>
                         <select id="voitureSelect" name="voiture_id"
                             class="form-control @error('voiture_id') is-invalid @enderror" required>
+                            <option value="" disabled selected>Choisir</option>
                             @foreach ($voitures as $v)
-                                <option value="" disabled selected>--Choisir--</option>
+
                                 <option class="select" value="{{ $v->id }}" data-type="{{ $v->typeVehi }}"
                                     @if (!$v->disponible) disabled style="color:red;" @endif
                                     @if (old('voiture_id') == $v->id) selected @endif>

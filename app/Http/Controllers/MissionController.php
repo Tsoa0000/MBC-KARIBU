@@ -16,7 +16,7 @@ class MissionController extends Controller {
 
     public function showMission(Request $request)
 {
-    $type = $request->query('type', 'recente'); // Valeur par défaut
+    $type = $request->query('type', 'recente');
 
     $lieu_depart = $request->input('lieu_depart');
     $lieu_arrivee = $request->input('lieu_arrive');
@@ -38,11 +38,9 @@ class MissionController extends Controller {
     $user = Auth::user();
     $query = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur']);
 
-
-    if ($user->role !== '0') {
+    if($user->role === '7') {
         $query->where('chauffeur_id', $user->id);
     }
-
 
     if ($type === 'faite') {
         $query->where('date_arrive', '<', now());
@@ -51,6 +49,7 @@ class MissionController extends Controller {
     }
 
     $missions = $query->get();
+
 
     return view('mission.listeMission', compact('missions', 'trajets', 'voitures', 'chauffeurs', 'user', 'date_depart', 'date_arrive', 'type'));
 }
