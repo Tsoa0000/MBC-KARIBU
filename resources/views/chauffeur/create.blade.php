@@ -326,7 +326,7 @@
     document.getElementById('dep_km').addEventListener('input', function () {
         let depKm = parseFloat(this.value) || 0;
         let arrInput = document.getElementById('arr_km');
-        arrInput.min = depKm + 0.01; // Toujours supérieur
+        arrInput.min = depKm + 0.01; 
     });
 
     document.getElementById('arr_km').addEventListener('input', function () {
