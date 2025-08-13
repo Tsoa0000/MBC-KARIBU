@@ -13,9 +13,11 @@
             padding-bottom: 0.3rem;
 
         }
-        .card-header{
+
+        .card-header {
             border: none
         }
+
         th {
             background: #2d5c4a !important;
             color: #fff !important;
@@ -27,6 +29,7 @@
             text-transform: uppercase;
             letter-spacing: 0.7px;
         }
+
         td {
             padding: 0.5rem;
             width: 150px;
@@ -34,7 +37,8 @@
             font-size: 1rem;
             vertical-align: middle;
         }
-       thead th:first-child {
+
+        thead th:first-child {
             border-top-left-radius: 0.85rem;
         }
 
@@ -92,19 +96,63 @@
                                                                 </select>
                                                             </td>
                                                             <td>
-                                                                <center><button type="submit" class="btn btn-sm"
-                                                                        style="background-color: #2d5c4a;color:aliceblue"
+                                                                <center>
+                                                                    <a href="#" class="btn btn-sm"
+                                                                        style="background-color: #2d5c4a; color: aliceblue"
                                                                         onmouseover="this.style.backgroundColor='#1f6047'"
-                                                                        onmouseout="this.style.backgroundColor='#267653'">
+                                                                        onmouseout="this.style.backgroundColor='#267653'"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#updateModal{{ $user->id }}">
                                                                         <i class="fa fa-pencil-alt"></i>
-                                                                        Mettre à jour</button></center>
+                                                                        Mettre à jour
+                                                                    </a>
+                                                                    <div class="modal fade"
+                                                                        id="updateModal{{ $user->id }}" tabindex="-1"
+                                                                        aria-labelledby="updateModalLabel{{ $user->id }}"
+                                                                        aria-hidden="true">
+                                                                        <div
+                                                                            class="modal-dialog modal-dialog-centered modal-sm">
+                                                                            <div class="modal-content modern-modal">
+                                                                                <div class="modal-header border-0 pb-0">
+                                                                                    <h5 class="modal-title fw-bold"
+                                                                                        style="color: #2a736d;"
+                                                                                        id="updateModalLabel{{ $user->id }}">
+                                                                                        Confirmation
+                                                                                    </h5>
+                                                                                    <button type="button"
+                                                                                        class="btn-close shadow-none"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Fermer"></button>
+                                                                                </div>
+                                                                                <div class="modal-body"
+                                                                                    style="color: #848686;">
+                                                                                    Voulez-vous vraiment mettre à jour le
+                                                                                    rôle de cet utilisateur ?
+                                                                                </div>
+                                                                                <div class="modal-footer border-0 pt-0">
+                                                                                    <button type="submit"
+                                                                                        class="btn px-3 rounded-pill shadow-sm"
+                                                                                        style="background-color: #2a736d; color: white;">
+                                                                                        Oui, mettre à jour
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-light px-3 rounded-pill border shadow-sm"
+                                                                                        data-bs-dismiss="modal">
+                                                                                        Annuler
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                </center>
                                                             </td>
+
 
                                                         </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
+
                                     </div>
                                 </div>
                             </div>

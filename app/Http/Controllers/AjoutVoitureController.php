@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Voiture;
-use App\Models\CarType; 
+use App\Models\CarType;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -23,7 +23,7 @@ class AjoutVoitureController extends Controller {
             ? ucfirst($request->input('typeVehiAutre'))
             : $request->input('typeVehi');
 
-       
+
         if (!CarType::where('name', $type)->exists()) {
             CarType::create(['name' => $type]);
         }
@@ -40,7 +40,7 @@ class AjoutVoitureController extends Controller {
             'modele'    => 'required|string|max:255',
             'etat'      => 'required|integer|min:1|max:10',
             'conso'     => 'required|numeric|min:0',
-            'nbrPlace'  => ['required', 'integer', Rule::in([5, 7, 9, 15, 18, 22, 29, 32])],
+            'nbrPlace'  => ['required', 'integer', Rule::in([2,5, 7, 9, 15, 18, 22, 29, 32])],
             'typeVehi'  => ['required', Rule::in(array_merge($typesFromDb, ['autre']))],
             'typeVehiAutre' => [
                 Rule::requiredIf($request->input('typeVehi') === 'autre'),
@@ -98,7 +98,7 @@ class AjoutVoitureController extends Controller {
             'typeVehi' => ['required', Rule::in($typesFromDb)],
             'etat' => 'required|integer|min:1|max:10',
             'conso' => 'required|numeric|min:0',
-            'nbrPlace' => ['required', 'integer', Rule::in([5, 7, 9, 15, 18, 22, 29, 32])],
+            'nbrPlace' => ['required', 'integer', Rule::in([2,5, 7, 9, 15, 18, 22, 29, 32])],
         ]);
 
         $voiture->update($validated);

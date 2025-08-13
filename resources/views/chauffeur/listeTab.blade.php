@@ -190,7 +190,7 @@
     <main class="main" id="main">
 
         <div class="container">
-            <a href="{{ url()->previous() }}" class="btn-retour" title="Retour">
+            <a href="{{ route('mission.show') }}" class="btn-retour" title="Retour">
                 <svg width="25" height="25" fill="none" color="#2d4c5F" stroke="currentColor" stroke-width="1.5"
                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
                     <line x1="19" y1="12" x2="5" y2="12" />

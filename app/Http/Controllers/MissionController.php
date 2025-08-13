@@ -118,6 +118,7 @@ public function checkDisponibilite(Request $request)
         'chauffeurs' => $chauffeurs
     ]);
 }
+
 public function delete( $id ) {
     $mission = Mission::findOrFail( $id );
     $mission->delete();

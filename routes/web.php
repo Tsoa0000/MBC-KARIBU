@@ -69,12 +69,15 @@ Route::put('/profilChauffeur/update/{id}', [DetailChaufController::class, 'updat
 // ======= TRAJET =======
 Route::get('/trajet', [TrajetController::class, 'create'])->name('trajet.create');
 Route::post('/trajet', [TrajetController::class, 'store'])->name('trajet.store');
+Route::get('/trajet/{id}/edit', [TrajetController::class, 'edit'])->name('trajet.edit');
+Route::put('/trajet/{id}', [TrajetController::class, 'update'])->name('trajet.update');
 Route::get('/trajet/{id}', [TrajetController::class, 'destroy'])->name('trajet.destroy');
 
 // ======= MISSION =======
 Route::get('/mission', [MissionController::class, 'showMission'])->name('mission.show');
 Route::post('/mission', [MissionController::class, 'mission'])->name('mission.store');
 Route::post('/disponibilites', [MissionController::class, 'disponibilite'])->name('check.disponibilite');
+Route::get('/missions/chart', [DashController::class, 'missionsParMois'])->name('missions.chart');
 
 Route::get('/mission/{id}', [MissionController::class, 'delete'])->name('mission.delete');
 

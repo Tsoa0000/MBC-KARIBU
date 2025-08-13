@@ -144,6 +144,10 @@ td {
     border: 1px #2d5c4a solid;
     color: #2d5c4a;
 }
+.btn-edit:hover {
+  background: #33897f;
+  color: white;
+}
 
 
 
@@ -153,6 +157,10 @@ td {
     border: 1px #e2a346 solid;
   color: #e2a346 ;
 
+}
+.btn-delete:hover {
+  background: #e2a346;
+  color: white;
 }
 .text-uppercase {
   text-transform: uppercase;

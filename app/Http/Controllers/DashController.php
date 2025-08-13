@@ -7,12 +7,21 @@ use App\Models\Voiture;
 use App\Models\DetailChauff;
 use App\Models\Mission;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Auth;
 
 class DashController extends Controller
 {
     public function show()
-    {
+    { $year = date('Y');
+        $nombresMission = Mission::count();
+
+
+    $labels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
+    $data = [];
+
         $nombreVoitures = Voiture::count();
         $nombresChauffeurs = DetailChauff::count();
         $nombresMission = Mission::count();
@@ -20,7 +29,7 @@ class DashController extends Controller
         ->orderByDesc('created_at')
         ->take(3)
         ->get();
-        return view('dashboard.dasboard', compact('nombreVoitures','nombresChauffeurs','nombresMission','missions'));
+           return view('dashboard.dasboard', compact('nombreVoitures', 'nombresChauffeurs', 'nombresMission', 'missions', 'labels', 'data', 'year'));
     }
 
     public function gestionRole()
@@ -70,5 +79,37 @@ public function updateRole(Request $request, $id)
 
     return redirect()->back()->with('success', 'Informations mises à jour.');
 }
+public function missionsParMois(Request $request)
+    {
 
+        $year = $request->input('year', date('Y'));
+
+
+        $missions = Mission::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('COUNT(*) as total')
+        )
+        ->whereYear('created_at', $year)
+        ->groupBy('month')
+        ->orderBy('month')
+        ->get();
+
+        $data = array_fill(1, 12, 0);
+
+        foreach ($missions as $m) {
+            $data[$m->month] = $m->total;
+        }
+
+
+        $labels = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $labels[] = Carbon::create()->month($i)->format('M'); // Jan, Feb, ...
+        }
+
+      return view('dashboard.dasboard', [
+        'labels' => $labels,
+        'data' => array_values($data),
+        'year' => $year,
+    ]);
+    }
 }

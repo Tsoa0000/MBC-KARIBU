@@ -2,6 +2,8 @@
 @include('partials.navbar')
 
 @section('style')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         @import url('https://fonts.cdnfonts.com/css/skia');
 
@@ -19,6 +21,11 @@
             background: var(--bg);
             color: var(--dark);
             padding: 2rem;
+        }
+        a {
+            text-decoration: none;
+
+            transition: color 0.2s ease;
         }
 
         .container {
@@ -69,10 +76,10 @@
             pointer-events: none;
         }
 
-        .form-group input:focus + label,
-        .form-group input:not(:placeholder-shown) + label,
-        .form-group select:focus + label,
-        .form-group select:not([value=""]) + label {
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label,
+        .form-group select:focus+label,
+        .form-group select:not([value=""])+label {
             top: -0.6rem;
             left: 0.8rem;
             font-size: 0.8rem;
@@ -181,6 +188,10 @@
             border: 1px #e2a346 solid;
             color: #e2a346;
         }
+        .btn-delete:hover {
+            background: #e2a346;
+            color: white;
+        }
 
         .action-btn {
             width: 38px;
@@ -223,6 +234,109 @@
                 font-size: 0.9rem;
             }
         }
+
+        .modern-modal {
+            border-radius: 1rem;
+            background: #fff;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            animation: modalFadeIn 0.25s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+.btn-edit {
+    height: 38px;
+    width: 38px;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    background: #f0fdfa;
+}
+
+.btn-edit:hover {
+    background: var(--primary);
+    color: white;
+}
+.modern-modal {
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    animation: modalFadeIn 0.25s ease-out;
+    padding: 0.5rem 0;
+}
+
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+.modern-modal .modal-header {
+    border: none;
+    padding: 0.8rem 1rem;
+}
+
+
+.modern-modal .modal-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2d5c4a;
+}
+
+
+.modern-modal .modal-body {
+    padding: 0.8rem 1.2rem;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+
+.modern-modal .modal-footer {
+    border: none;
+    padding: 0.8rem 1rem;
+    gap: 0.5rem;
+}
+
+
+.btn-modern-danger {
+
+     background: #2a736d;
+    color: white;
+    border: none;
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+.btn-modern-danger:hover {
+     background: #e2a346;
+    transform: translateY(-1px);
+}
+
+.btn-modern-light {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+.btn-modern-light:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
     </style>
 @endsection
 
@@ -268,7 +382,6 @@
                     <div class="divider"></div>
                 @endif
 
-
                 <h2 class="page-title mt-16">Liste des trajets</h2>
                 <div class="table-wrapper mt-6">
                     <table class="table voiture-table align-middle mb-0">
@@ -292,7 +405,13 @@
                                     <td>{{ $trajet->km ?? '-' }} km</td>
                                     @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
                                         <td>
-                                            <a href="{{ route('trajet.destroy', $trajet->id) }}" class="action-btn btn-delete">
+                                            <a href="#" class="action-btn btn-edit" data-bs-toggle="modal"
+                                                data-bs-target="#editModal{{ $trajet->id }}">
+                                                <i class="ri-edit-2-line"></i>
+                                            </a>
+
+                                            <a href="#" class="action-btn btn-delete" data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal{{ $trajet->id }}">
                                                 <i class="ri-delete-bin-line"></i>
                                             </a>
                                         </td>
@@ -309,7 +428,91 @@
                     </table>
                 </div>
 
+
+                @foreach ($trajets as $trajet)
+                    @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
+
+<div class="modal fade" id="editModal{{ $trajet->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $trajet->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content modern-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $trajet->id }}">Modifier le trajet</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('trajet.update', $trajet->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label">Lieu de départ</label>
+                        <input type="text" name="lieu_depart" class="form-control" value="{{ $trajet->lieuDepart?->nomLieu }}">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Lieu d’arrivée</label>
+                        <input type="text" name="lieu_arrivee" class="form-control" value="{{ $trajet->lieuArrivee?->nomLieu }}">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Type de route</label>
+                        <select name="typeRoute" class="form-select">
+                            <option value="piste" {{ $trajet->typeRoute == 'piste' ? 'selected' : '' }}>Piste</option>
+                            <option value="goudronnée" {{ $trajet->typeRoute == 'goudronnée' ? 'selected' : '' }}>Goudronnée</option>
+                            <option value="mixte" {{ $trajet->typeRoute == 'mixte' ? 'selected' : '' }}>Mixte</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Kilométrage</label>
+                        <input type="number" step="0.1" name="km" class="form-control" value="{{ $trajet->km }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-modern-danger">Sauvegarder</button>
+                    <button type="button" class="btn-modern-light" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+                        <div class="modal fade" id="deleteModal{{ $trajet->id }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $trajet->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content modern-modal">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title fw-bold text-danger"
+                                            id="deleteModalLabel{{ $trajet->id }}">
+                                            Confirmation
+                                        </h5>
+                                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
+                                            aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body text-secondary">
+                                        Êtes-vous sûr de vouloir supprimer ce trajet ?
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <form action="{{ route('trajet.destroy', $trajet->id) }}" method="get"
+                                            class="d-flex gap-2">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger px-3 rounded-pill shadow-sm">
+                                                Supprimer
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-light px-3 rounded-pill border shadow-sm"
+                                                data-bs-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+
             </div>
         </div>
     </main>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

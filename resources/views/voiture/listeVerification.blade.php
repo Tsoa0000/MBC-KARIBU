@@ -1,214 +1,228 @@
 @extends('app')
 @include('partials.navbar')
 @section('style')
-<style>
-    @import url('https://fonts.cdnfonts.com/css/skia');
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/skia');
 
-    body {
-        font-family: 'Skia', sans-serif;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f4f3;
-        position: relative;
-        overflow-x: hidden;
-    }
-
-    main.main {
-        display: flex;
-        justify-content: center;
-        padding: 4rem 1rem;
-    }
-
-    .container {
-        width: 100%;
-        max-width: 1100px;
-        background: white;
-        padding: 3rem 2.5rem;
-        border-radius: 1.5rem;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-    }
-
-    .header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2.5rem;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .page-title {
-        text-align: center;
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #2a736d;
-        margin-bottom: 1.5rem;
-        border-bottom: 2px solid #e2a346;
-        display: inline-block;
-        padding-bottom: 0.3rem;
-    }
-
-    .btn-create {
-        background: #33897f;
-        color: white;
-        padding: 0.65rem 1.7rem;
-        text-decoration: none;
-        border-radius: 0.8rem;
-        font-weight: 600;
-        box-shadow: 0 7px 16px rgba(51, 137, 127, 0.1);
-        transition: all 0.3s ease;
-        font-size: 1rem;
-        white-space: nowrap;
-    }
-
-    .btn-create:hover {
-        background: #e2a346;
-        color: #2d5c4a;
-    }
-
-    .table-wrapper {
-        overflow-x: auto;
-        border-radius: 1rem;
-        margin-top: -40px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 14px;
-        background: transparent;
-        min-width: 700px;
-    }
-
-    thead th {
-        background: #2d5c4a;
-        color: #fff;
-        padding: 0.5rem;
-        font-size: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.7px;
-    }
-
-    tbody tr {
-        background: white;
-        border-radius: 1rem;
-        box-shadow: 0 9px 28px rgba(0, 0, 0, 0.22);
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-    }
-
-    tbody tr:hover {
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
-        transform: translateY(-9px);
-    }
-
-    td {
-        padding: 0.5rem;
-        text-align: center;
-        font-size: 1rem;
-        vertical-align: middle;
-        border-bottom: none;
-        white-space: nowrap;
-    }
-    td:last-child {
-        text-align: left;
-        max-width: 280px;
-        white-space: normal;
-        word-wrap: break-word;
-    }
-
-    .ok {
-        color: #33897f;
-        font-weight: 700;
-    }
-
-    .nok {
-        color: #e53935;
-        font-weight: 700;
-    }
-
-    thead th:first-child {
-        border-top-left-radius: 0.85rem;
-    }
-
-    thead th:last-child {
-        border-top-right-radius: 0.85rem;
-    }
-
-    .btn-delete {
-        height: 30px;
-        width: 30px;
-        margin-left: 20px;
-        border: 1px #e2a346 solid;
-        color: #e2a346;
-    }
-
-    .action-btn {
-        width: 38px;
-        height: 38px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        font-size: 1rem;
-        transition: 0.3s ease;
-    }
-
-    @media (max-width: 992px) {
-        .container {
-            padding: 2rem 1.5rem;
+        body {
+            font-family: 'Skia', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f3;
+            position: relative;
+            overflow-x: hidden;
         }
-        thead th,
-        td {
-            font-size: 0.95rem;
-            padding: 0.4rem;
-        }
-    }
 
-    @media (max-width: 768px) {
-        .header-top {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0.8rem;
-        }
-        .page-title {
-            font-size: 1.5rem;
-        }
-        .btn-create {
-            align-self: flex-start;
-            font-size: 0.9rem;
-            padding: 0.5rem 1.3rem;
-        }
-        table {
-            min-width: 600px;
-        .table-wrapper {
-            border: 1px solid #ddd;
-            border-radius: 0.8rem;
-            padding-bottom: 0.5rem;
-        }
-    }
-
-    @media (max-width: 480px) {
         main.main {
-            padding: 2rem 0.5rem;
+            display: flex;
+            justify-content: center;
+            padding: 4rem 1rem;
         }
+
         .container {
-            padding: 1.5rem;
-        }
-        .page-title {
-            font-size: 1.3rem;
-        }
-        thead th,
-        td {
-            font-size: 0.85rem;
-            padding: 0.35rem;
-        }
-        .btn-create {
             width: 100%;
-            text-align: center;
+            max-width: 1100px;
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
         }
-    }
-</style>
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2a736d;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e2a346;
+            display: inline-block;
+            padding-bottom: 0.3rem;
+        }
+
+        .btn-create {
+            background: #33897f;
+            color: white;
+            padding: 0.65rem 1.7rem;
+            text-decoration: none;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 7px 16px rgba(51, 137, 127, 0.1);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+
+        .btn-create:hover {
+            background: #e2a346;
+            color: #2d5c4a;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 1rem;
+            margin-top: -40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 14px;
+            background: transparent;
+            min-width: 700px;
+        }
+
+        thead th {
+            background: #2d5c4a;
+            color: #fff;
+            padding: 0.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        tbody tr {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 9px 28px rgba(0, 0, 0, 0.22);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        tbody tr:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
+            transform: translateY(-9px);
+        }
+
+        td {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            vertical-align: middle;
+            border-bottom: none;
+            white-space: nowrap;
+        }
+
+        td:last-child {
+            text-align: left;
+            max-width: 280px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .ok {
+            color: #33897f;
+            font-weight: 700;
+        }
+
+        .nok {
+            color: #e53935;
+            font-weight: 700;
+        }
+
+        thead th:first-child {
+            border-top-left-radius: 0.85rem;
+        }
+
+        thead th:last-child {
+            border-top-right-radius: 0.85rem;
+        }
+
+        .btn-delete {
+            height: 30px;
+            width: 30px;
+            margin-left: 20px;
+            border: 1px #e2a346 solid;
+            color: #e2a346;
+        }
+        .btn-delete:hover {
+            background: #e2a346;
+            color: white;
+        }
+
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            thead th,
+            td {
+                font-size: 0.95rem;
+                padding: 0.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .btn-create {
+                align-self: flex-start;
+                font-size: 0.9rem;
+                padding: 0.5rem 1.3rem;
+            }
+
+            table {
+                min-width: 600px;
+
+                .table-wrapper {
+                    border: 1px solid #ddd;
+                    border-radius: 0.8rem;
+                    padding-bottom: 0.5rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                main.main {
+                    padding: 2rem 0.5rem;
+                }
+
+                .container {
+                    padding: 1.5rem;
+                }
+
+                .page-title {
+                    font-size: 1.3rem;
+                }
+
+                thead th,
+                td {
+                    font-size: 0.85rem;
+                    padding: 0.35rem;
+                }
+
+                .btn-create {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+    </style>
 @endsection
 
 
@@ -218,8 +232,8 @@
 
             <div class="header-top">
                 <h2 class="page-title">Liste des vérifications</h2>
-                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                <a href="{{ route('verification.form') }}" class="btn-create">+ Nouvelle vérification</a>
+                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                    <a href="{{ route('verification.form') }}" class="btn-create">+ Nouvelle vérification</a>
                 @endif
             </div>
 
@@ -235,8 +249,8 @@
                             <th>Transmission</th>
                             <th>Pneu</th>
                             <th id="obs-cell">Observation</th>
-                            @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                            <th>Action</th>
+                            @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                                <th>Action</th>
                             @endif
                         </tr>
 
@@ -252,13 +266,15 @@
                                 <td class="{{ $v->eau ? 'ok' : 'nok' }}">{{ $v->eau ? 'OUI' : 'NON' }}</td>
                                 <td class="{{ $v->pneu ? 'ok' : 'nok' }}">{{ $v->pneu ? 'OUI' : 'NON' }}</td>
                                 <td>{{ $v->obs }}</td>
-                                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                                <td>
-                                    <a href="{{ route('verification.delete', $v['id']) }}" class="action-btn btn-delete">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </a>
-                                </td>
+                                @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
+                                    <td>
+                                        <a href="" class="action-btn btn-delete" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $v->id }}">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </td>
                                 @endif
+                            </tr>
                             </tr>
                         @empty
                             <tr>
@@ -267,20 +283,53 @@
                         @endforelse
                     </tbody>
                 </table>
+                @foreach ($verifications as $v)
+                    @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
+                        <div class="modal fade" id="deleteModal{{ $v->id }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $v->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content modern-modal">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title fw-bold text-danger"
+                                            id="deleteModalLabel{{ $v->id }}">
+                                            Confirmation
+                                        </h5>
+                                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
+                                            aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body text-secondary">
+                                        Êtes-vous sûr de vouloir supprimer ce trajet ?
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <form action="{{ route('verification.delete', $v->id) }}" method="get"
+                                            class="d-flex gap-2">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger px-3 rounded-pill shadow-sm">
+                                                Supprimer
+                                            </button>
+                                            <button type="button" class="btn btn-light px-3 rounded-pill border shadow-sm"
+                                                data-bs-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </main>
 @endsection
 @section('script')
-<script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-        const obsCells = document.querySelectorAll('td:nth-child(8)');
-        obsCells.forEach(cell => {
-            const text = cell.textContent.trim();
-            cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const obsCells = document.querySelectorAll('td:nth-child(8)');
+            obsCells.forEach(cell => {
+                const text = cell.textContent.trim();
+                cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+            });
         });
-    });
-</script>
-
+    </script>
 @endsection
-

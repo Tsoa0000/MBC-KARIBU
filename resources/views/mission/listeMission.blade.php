@@ -177,6 +177,10 @@
             color: #e2a346;
 
         }
+        .btn-delete:hover {
+            background: #e2a346;
+            color: white;
+        }
 
         .action-btn {
             width: 38px;
@@ -610,11 +614,21 @@
                 </div>
             @endif
             <div class="header-top">
-                <h2 class="page-title">Liste des missions</h2>
+                <h2 class="page-title">
+                    @if ($type === 'recente')
+                        Liste des missions récentes
+                    @elseif($type === 'faite')
+                        Liste des missions effectuées
+                    @else
+                        Liste des missions
+                    @endif
+                </h2>
+
                 @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
                     <button id="openModalBtn" class="btn-create" type="button">+ Nouvelle mission</button>
                 @endif
             </div>
+
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -666,10 +680,10 @@
                                     </td>
                                 @endif
 
-                                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                                @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
                                     <td>
-                                        <a href="{{ route('mission.delete', $mission->id) }}"
-                                            class="action-btn btn-delete">
+                                        <a href="" class="action-btn btn-delete" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $mission->id }}">
                                             <i class="ri-delete-bin-line"></i>
                                         </a>
                                     </td>
@@ -682,25 +696,59 @@
                         @endforelse
                     </tbody>
                 </table>
-
+                @foreach ($missions as $v)
+                    @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
+                        <div class="modal fade" id="deleteModal{{ $v->id }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $v->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content modern-modal">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title fw-bold text-danger"
+                                            id="deleteModalLabel{{ $v->id }}">
+                                            Confirmation
+                                        </h5>
+                                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
+                                            aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body text-secondary">
+                                        Êtes-vous sûr de vouloir supprimer ce trajet ?
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <form action="{{ route('mission.delete', $v->id) }}" method="get"
+                                            class="d-flex gap-2">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger px-3 rounded-pill shadow-sm">
+                                                Supprimer
+                                            </button>
+                                            <button type="button" class="btn btn-light px-3 rounded-pill border shadow-sm"
+                                                data-bs-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
-                <div style="margin-top: 50px; text-align: center;">
-                    <div class="mission-wrapper">
-                        <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern"
-                            style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
-                            <i class="ri-time-line ri-lg"></i>
-                        </a>
-                        <span class="btn-mission-label">Récentes</span>
-                    </div>
-                    <div class="mission-wrapper">
-                        <a href="{{ route('mission.show', ['type' => 'faite']) }}" class="btn-mission-modern"
-                            style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }};">
-                            <i class="ri-check-double-line ri-lg"></i>
-                        </a>
-                        <span class="btn-mission-label">Effectuées</span>
-                    </div>
+            <div style="margin-top: 50px; text-align: center;">
+                <div class="mission-wrapper">
+                    <a href="{{ route('mission.show', ['type' => 'recente']) }}" class="btn-mission-modern"
+                        style="background: {{ $type === 'recente' ? '#2d5c4a' : '#e2a346' }};">
+                        <i class="ri-time-line ri-lg"></i>
+                    </a>
+                    <span class="btn-mission-label">Récentes</span>
                 </div>
+                <div class="mission-wrapper">
+                    <a href="{{ route('mission.show', ['type' => 'faite']) }}" class="btn-mission-modern"
+                        style="background: {{ $type === 'faite' ? '#2d5c4a' : '#e2a346' }};">
+                        <i class="ri-check-double-line ri-lg"></i>
+                    </a>
+                    <span class="btn-mission-label">Effectuées</span>
+                </div>
+            </div>
 
 
         </div>
@@ -771,7 +819,6 @@
                             class="form-control @error('voiture_id') is-invalid @enderror" required>
                             <option value="" disabled selected>Choisir</option>
                             @foreach ($voitures as $v)
-
                                 <option class="select" value="{{ $v->id }}" data-type="{{ $v->typeVehi }}"
                                     @if (!$v->disponible) disabled style="color:red;" @endif
                                     @if (old('voiture_id') == $v->id) selected @endif>

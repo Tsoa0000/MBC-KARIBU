@@ -97,10 +97,10 @@
 
             <div class="header-top">
                 <h1 class="page-title">Liste des voitures</h1>
-                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                <a href="{{ route('voiture.ajout') }}" class="btn-ajouter">
-                    + Ajouter une voiture
-                </a>
+                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                    <a href="{{ route('voiture.ajout') }}" class="btn-ajouter">
+                        + Ajouter une voiture
+                    </a>
                 @endif
             </div>
 
@@ -114,8 +114,8 @@
                             <th>État</th>
                             <th>Consommation</th>
                             <th>Places</th>
-                            @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                            <th class="text-center">Action</th>
+                            @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                                <th class="text-center">Action</th>
                             @endif
                         </tr>
                     </thead>
@@ -133,17 +133,18 @@
                                 </td>
                                 <td>{{ $v['conso'] }} L/100</td>
                                 <td>{{ $v['nbrPlace'] }}</td>
-                                @if (Auth::check() &&  Auth::user()->role === '0' || Auth::user()->role === '5' )
-                                <td class="text-center">
-                                    <a href="#" class="action-btn btn-edit me-2" data-bs-toggle="modal"
-                                        data-bs-target="#modifierVoitureModal"
-                                        onclick='remplirModal(@json($v))'>
-                                        <i class="ri-pencil-line"></i>
-                                    </a>
-                                    <a href="{{ route('voiture.delete', $v['id']) }}" class="action-btn btn-delete">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </a>
-                                </td>
+                                @if ((Auth::check() && Auth::user()->role === '0') || Auth::user()->role === '5')
+                                    <td class="text-center">
+                                        <a href="#" class="action-btn btn-edit me-2" data-bs-toggle="modal"
+                                            data-bs-target="#modifierVoitureModal"
+                                            onclick='remplirModal(@json($v))'>
+                                            <i class="ri-pencil-line"></i>
+                                        </a>
+                                        <a href="" class="action-btn btn-delete" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $v->id }}">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </td>
                                 @endif
                             </tr>
                         @empty
@@ -154,6 +155,41 @@
 
                     </tbody>
                 </table>
+                @foreach ($voiture as $v)
+                    @if (Auth::check() && (Auth::user()->role === '0' || Auth::user()->role === '5'))
+                        <div class="modal fade" id="deleteModal{{ $v->id }}" tabindex="-1"
+                            aria-labelledby="deleteModalLabel{{ $v->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content modern-modal">
+                                    <div class="modal-header border-0 pb-0">
+                                        <h5 class="modal-title fw-bold text-danger"
+                                            id="deleteModalLabel{{ $v->id }}">
+                                            Confirmation
+                                        </h5>
+                                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
+                                            aria-label="Fermer"></button>
+                                    </div>
+                                    <div class="modal-body text-secondary">
+                                        Êtes-vous sûr de vouloir supprimer ce trajet ?
+                                    </div>
+                                    <div class="modal-footer border-0 pt-0">
+                                        <form action="{{ route('voiture.delete', $v->id) }}" method="get"
+                                            class="d-flex gap-2">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger px-3 rounded-pill shadow-sm">
+                                                Supprimer
+                                            </button>
+                                            <button type="button" class="btn btn-light px-3 rounded-pill border shadow-sm"
+                                                data-bs-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
             <!-- Modal -->
@@ -201,8 +237,8 @@
 
                                 <div class="mb-3">
                                     <label for="edit-nbrPlace" class="form-label">Nombre de places</label>
-                                    <input type="number" min="2" max="100" name="nbrPlace" id="edit-nbrPlace"
-                                        class="form-control" required>
+                                    <input type="number" min="2" max="100" name="nbrPlace"
+                                        id="edit-nbrPlace" class="form-control" required>
                                 </div>
                             </div>
                             <div class="modal-footer">
