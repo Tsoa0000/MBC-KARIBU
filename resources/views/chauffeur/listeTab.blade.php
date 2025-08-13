@@ -207,9 +207,17 @@
                 @endif
             </div>
 
-            <h3 class="mission-title" style=" margin-bottom: 1rem; color: #33897F;">
-                Mission : {{ $mission->lieuDepart->nomLieu ?? 'Inconnu' }} - {{ $mission->lieuArrive->nomLieu ?? 'Inconnu' }}
+
+            <h3 class="mission-title" style=" margin-bottom: 0.5rem; color: #33897F;">
+                Mission : {{ $mission->lieuDepart->nomLieu ?? 'Inconnu' }} -
+                {{ $mission->lieuArrive->nomLieu ?? 'Inconnu' }}
             </h3>
+           <div style="color:#666; margin-bottom: 1rem; font-size: 0.95rem;">
+    <strong>Date  :</strong> {{ \Carbon\Carbon::parse($mission->date_depart)->format('d/m/Y') }} -
+ {{ \Carbon\Carbon::parse($mission->date_arrive)->format('d/m/Y') }}
+</div>
+
+
 
             @php $totalParcouru = 0; @endphp
 
@@ -257,7 +265,8 @@
                                 <div class="value">{{ number_format($tab->km_effec, 2) }} km</div>
                             </div>
                             <div class="signature">
-                                Signature : {{ $tab->user ? $tab->user->name . ' ' . $tab->user->first_name : 'Utilisateur inconnu' }}
+                                Signature :
+                                {{ $tab->user ? $tab->user->name . ' ' . $tab->user->first_name : 'Utilisateur inconnu' }}
                             </div>
                         </div>
                     </div>
@@ -291,4 +300,3 @@
         }
     </script>
 @endsection
-
