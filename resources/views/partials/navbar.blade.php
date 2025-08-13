@@ -72,7 +72,7 @@
                         @if (Auth::check() && Auth::user()->role === '7')
                             <a class="dropdown-item d-flex align-items-center" href="{{ route('profil.chauffeur') }}">
                                 <i class="bi bi-person"></i>
-                                <span>Mon Profile</span>
+                                <span>Mon Profil</span>
                             </a>
                         @endif
                     </li>
@@ -143,7 +143,7 @@
                             <i class="bi bi-circle"></i><span>Trajet</span>
                         </a>
                     </li>
-                    
+
                     <li>
                         <a href="{{ route('mission.show') }}">
                             <i class="bi bi-circle"></i><span>Mission</span>
