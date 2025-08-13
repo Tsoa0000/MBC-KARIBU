@@ -48,7 +48,7 @@
                                             <i class="ri-roadster-fill"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6></h6>
+                                            <h6>{{ $nombreVoitures }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +64,7 @@
                                             <i class="ri-team-line"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6></h6>
+                                            <h6> {{ $nombresChauffeurs }} </h6>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                             <i class="ri-draft-line"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6></h6>
+                                            <h6>{{ $nombresMission }}</h6>
                                         </div>
                                     </div>
                                 </div>

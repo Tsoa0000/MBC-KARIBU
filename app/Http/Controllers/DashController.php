@@ -80,36 +80,40 @@ public function updateRole(Request $request, $id)
     return redirect()->back()->with('success', 'Informations mises à jour.');
 }
 public function missionsParMois(Request $request)
-    {
+{
+    $year = $request->input('year', date('Y'));
 
-        $year = $request->input('year', date('Y'));
+    $missions = Mission::select(
+        DB::raw('MONTH(created_at) as month'),
+        DB::raw('COUNT(*) as total')
+    )
+    ->whereYear('created_at', $year)
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
 
+    $data = array_fill(1, 12, 0);
+    foreach ($missions as $m) {
+        $data[$m->month] = $m->total;
+    }
 
-        $missions = Mission::select(
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('COUNT(*) as total')
-        )
-        ->whereYear('created_at', $year)
-        ->groupBy('month')
-        ->orderBy('month')
-        ->get();
+    $labels = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $labels[] = Carbon::create()->month($i)->format('M');
+    }
 
-        $data = array_fill(1, 12, 0);
+    $nombreVoitures = Voiture::count();
+    $nombresChauffeurs = DetailChauff::count();
+    $nombresMission = Mission::count();
 
-        foreach ($missions as $m) {
-            $data[$m->month] = $m->total;
-        }
-
-
-        $labels = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $labels[] = Carbon::create()->month($i)->format('M'); // Jan, Feb, ...
-        }
-
-      return view('dashboard.dasboard', [
+    return view('dashboard.dasboard', [
         'labels' => $labels,
         'data' => array_values($data),
         'year' => $year,
+        'nombreVoitures' => $nombreVoitures,
+        'nombresChauffeurs' => $nombresChauffeurs,
+        'nombresMission' => $nombresMission,
     ]);
-    }
+}
+
 }
