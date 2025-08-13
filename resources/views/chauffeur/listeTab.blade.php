@@ -212,10 +212,10 @@
                 Mission : {{ $mission->lieuDepart->nomLieu ?? 'Inconnu' }} -
                 {{ $mission->lieuArrive->nomLieu ?? 'Inconnu' }}
             </h3>
-           <div style="color:#666; margin-bottom: 1rem; font-size: 0.95rem;">
-    <strong>Date  :</strong> {{ \Carbon\Carbon::parse($mission->date_depart)->format('d/m/Y') }} -
- {{ \Carbon\Carbon::parse($mission->date_arrive)->format('d/m/Y') }}
-</div>
+            <div style="color:#666; margin-bottom: 1rem; font-size: 0.95rem;">
+                <strong>Date :</strong> {{ \Carbon\Carbon::parse($mission->date_depart)->format('d/m/Y') }} -
+                {{ \Carbon\Carbon::parse($mission->date_arrive)->format('d/m/Y') }}
+            </div>
 
 
 
