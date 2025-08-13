@@ -80,7 +80,7 @@
                                             <i class="ri-draft-line"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{ $nombresMission }}</h6>
+                                            <h6> {{$nombresMission}} </h6>
                                         </div>
                                     </div>
                                 </div>
