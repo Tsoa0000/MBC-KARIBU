@@ -53,7 +53,10 @@ public function liste($id = null)
             'users.first_name as user_first_name',
             'users.email as user_email',
             'ld.nomLieu as lieu_depart_nom',
-            'la.nomLieu as lieu_arrive_nom'
+            'la.nomLieu as lieu_arrive_nom',
+            'missions.date_depart',
+            'missions.date_arrive'
+
         );
 
     if ($id) {
@@ -63,8 +66,17 @@ public function liste($id = null)
     $rapport = $liste->get();
 
     $missions = $rapport->groupBy(function ($item) {
-        return $item->lieu_depart_nom . ' - ' . $item->lieu_arrive_nom;
-    });
+    return $item->lieu_depart_nom . ' - ' . $item->lieu_arrive_nom;
+})->map(function ($items, $key) {
+    return [
+        'titre' => $key,
+        'dtepart' => $items->first()->date_depart,
+        'dtearive' => $items->first()->date_arrive,
+
+        'items' => $items,
+    ];
+});
+
 
     return view('rapport.listeM', compact('missions'));
 }

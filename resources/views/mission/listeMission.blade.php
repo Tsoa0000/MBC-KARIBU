@@ -812,7 +812,8 @@
                             @enderror
                         </div>
                     </div>
-                    <div id="typeRouteDisplay" style="color: #2d5c4a; font-style: italic; display: none;"></div>
+                    <div id="typeRouteDisplay" style="display:none; color:#2d5c4a; font-style: italic;"></div>
+
                     <div>
                         <label for="voiture_id">Voiture proposée</label>
                         <select id="voitureSelect" name="voiture_id"
@@ -844,219 +845,146 @@
     </main>
 @endsection
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
+<script>
+$(function () {
+    const modal = document.getElementById('missionModal');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
 
-            const modal = document.getElementById('missionModal');
-            const openBtn = document.getElementById('openModalBtn');
-            const closeBtn = document.getElementById('closeModalBtn');
+    if (openBtn) openBtn.onclick = () => modal.style.display = 'flex';
+    if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+    if (modal) modal.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 
-            openBtn.onclick = () => modal.style.display = 'flex';
-            closeBtn.onclick = () => modal.style.display = 'none';
-            modal.onclick = function(e) {
-                if (e.target === modal) modal.style.display = 'none';
-            };
+    $('#trajet_id').select2({
+        placeholder: "--Choisir un trajet--",
+        allowClear: true,
+        width: '100%'
+    });
 
-            $('select[name="trajet_id"]').select2({
-                placeholder: "--Choisir un trajet--",
-                allowClear: true,
-                width: '100%'
+    const $dateDepart = $('#date_depart');
+    const $dateArrive = $('#date_arrive');
+    const $trajet = $('#trajet_id');
+    const $typeRouteDisplay = $('#typeRouteDisplay');
+    const voitureSelect = document.getElementById('voitureSelect');
+    const chauffeurSelect = document.getElementById('chauffeur_id');
+    const trajets = [
+        @foreach ($trajets as $t)
+            { departId: "{{ $t->lieu_depart_id }}", arriveId: "{{ $t->lieu_arrive_id }}", typeRoute: "{{ strtolower($t->typeRoute) }}" },
+        @endforeach
+    ];
+    const compatibilite = {
+        "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
+        "mixte": ["4x4", "suv", "camionnette", "pick-up", "berline"],
+        "secondaire": ["4x4", "pick-up", "camionnette"]
+    };
+    const $dateDepartError = $('#dateDepartError');
+    const $dateArriveError = $('#dateArriveError');
+
+    function validateDates() {
+        const today = new Date(); today.setHours(0,0,0,0);
+        const dDep = $dateDepart.val() ? new Date($dateDepart.val()) : null;
+        const dArr = $dateArrive.val() ? new Date($dateArrive.val()) : null;
+
+        if (dDep && dDep < today) { $dateDepart.addClass('is-invalid'); $dateDepartError.show(); }
+        else { $dateDepart.removeClass('is-invalid'); $dateDepartError.hide(); }
+
+        if (dArr) {
+            if (dArr < today || (dDep && dArr < dDep)) { $dateArrive.addClass('is-invalid'); $dateArriveError.show(); }
+            else { $dateArrive.removeClass('is-invalid'); $dateArriveError.hide(); }
+        }
+
+        if ($dateDepart.val()) $dateArrive.attr('min', $dateDepart.val());
+    }
+
+    function getTypeRouteFromSelect() {
+        const val = $trajet.val();
+        if (!val) return null;
+        const departId = val.split(' - ')[0]?.trim();
+        const t = trajets.find(x => x.departId === departId);
+        return t ? t.typeRoute : null;
+    }
+
+    function buildOption(text, value, disabled) {
+        const opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = text;
+        if (disabled) { opt.disabled = true; opt.style.color = 'red'; }
+        return opt;
+    }
+
+    function refreshDisponibilites() {
+        const date_depart = $dateDepart.val();
+        const date_arrive = $dateArrive.val();
+        const typeRoute = getTypeRouteFromSelect();
+
+        if (!date_depart || !date_arrive || !typeRoute) {
+            $typeRouteDisplay.hide();
+            return;
+        }
+
+        $typeRouteDisplay.text('Type de route détecté : ' + typeRoute);
+
+
+        fetch("{{ route('check.disponibilite') }}", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ date_depart, date_arrive, typeRoute })
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        })
+        .then(data => {
+            const voitures = Array.isArray(data.voitures) ? data.voitures : [];
+            const chauffeurs = Array.isArray(data.chauffeurs) ? data.chauffeurs : [];
+
+            voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
+            chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
+
+            const typesAcceptes = (compatibilite[typeRoute] || []).map(s => s.toLowerCase());
+
+            voitures.forEach(v => {
+                if (!v || !v.typeVehi) return;
+                if (!typesAcceptes.includes(String(v.typeVehi).toLowerCase())) return;
+
+                const txt = `${v.modele} (${v.typeVehi})` + (v.disponible ? '' : ' - Indisponible');
+                voitureSelect.appendChild(buildOption(txt, v.id, !v.disponible));
             });
 
-            const dateDepartInput = $('#date_depart');
-            const dateArriveInput = $('#date_arrive');
-            const dateDepartError = $('#dateDepartError');
-            const dateArriveError = $('#dateArriveError');
-
-            function validateDates() {
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-
-                const dateDepart = new Date(dateDepartInput.val());
-                const dateArrive = new Date(dateArriveInput.val());
-
-                if (dateDepartInput.val() && dateDepart < today) {
-                    dateDepartInput.addClass('is-invalid');
-                    dateDepartError.show();
-                } else {
-                    dateDepartInput.removeClass('is-invalid');
-                    dateDepartError.hide();
-                }
-
-                if (dateArriveInput.val()) {
-                    if (dateArrive < today || dateArrive < dateDepart) {
-                        dateArriveInput.addClass('is-invalid');
-                        dateArriveError.show();
-                    } else {
-                        dateArriveInput.removeClass('is-invalid');
-                        dateArriveError.hide();
-                    }
-                }
-            }
-
-            dateDepartInput.on('change', function() {
-                if (dateDepartInput.val()) {
-                    dateArriveInput.attr('min', dateDepartInput.val());
-                }
-                validateDates();
+            chauffeurs.forEach(c => {
+                const nom = `${c.name ?? ''} ${c.first_name ?? ''}`.trim();
+                const txt = nom || `Chauffeur #${c.id}`;
+                const finalTxt = txt + (c.disponible ? '' : ' - Indisponible');
+                chauffeurSelect.appendChild(buildOption(finalTxt, c.id, !c.disponible));
             });
-
-            dateArriveInput.on('change', validateDates);
-
-
-            const voitureSelect = document.getElementById("voitureSelect");
-            const typeRouteDisplay = document.getElementById("typeRouteDisplay");
-            const lieuSelect = document.querySelector('select[name="trajet_id"]');
-
-            const trajets = [
-                @foreach ($trajets as $t)
-                    {
-                        departId: "{{ $t->lieu_depart_id }}",
-                        arriveId: "{{ $t->lieu_arrive_id }}",
-                        typeRoute: "{{ strtolower($t->typeRoute) }}"
-                    },
-                @endforeach
-            ];
-
-            const originalVoitures = Array.from(voitureSelect.querySelectorAll("option")).slice(1);
-
-            const compatibilite = {
-                "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
-                "mixte": ["4x4", "suv", "camionnette", "pick-up", "berline"],
-                "secondaire": ["4x4", "pick-up", "camionnette"]
-            };
-
-            lieuSelect.addEventListener("change", function() {
-                const selected = this.value.trim();
-                const [departId] = selected.split(" - ");
-
-                voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
-                typeRouteDisplay.textContent = "";
-
-                const trajet = trajets.find(t => t.departId === departId);
-
-                if (!trajet) return;
-
-                const typeRoute = trajet.typeRoute;
-                const typesAcceptes = compatibilite[typeRoute] || [];
-
-                typeRouteDisplay.textContent = "Type de route détecté : " + typeRoute;
-
-                originalVoitures.forEach(opt => {
-                    const typeVoiture = opt.getAttribute("data-type").toLowerCase();
-                    if (typesAcceptes.includes(typeVoiture)) {
-                        voitureSelect.appendChild(opt.cloneNode(true));
-                    }
-                });
-            });
+        })
+        .catch(err => {
+            console.error('Disponibilités – erreur:', err);
+            alert("Erreur lors de la vérification de disponibilités. Vérifie la route 'check.disponibilite' et le token CSRF.");
         });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateDepartInput = document.getElementById('date_depart');
-            const dateArriveInput = document.getElementById('date_arrive');
-            const trajetSelect = document.getElementById('trajet_id');
-            const voitureSelect = document.getElementById('voitureSelect');
-            const chauffeurSelect = document.getElementById('chauffeur_id');
-            const typeRouteDisplay = document.getElementById("typeRouteDisplay");
-            const trajets = [
-                @foreach ($trajets as $t)
-                    {
-                        departId: "{{ $t->lieu_depart_id }}",
-                        arriveId: "{{ $t->lieu_arrive_id }}",
-                        typeRoute: "{{ strtolower($t->typeRoute) }}"
-                    },
-                @endforeach
-            ];
+    }
 
-            const compatibilite = {
-                "goudronnée": ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
-                "mixte": ["4x4", "suv", "camionnette", "pick-up", "berline"],
-                "secondaire": ["4x4", "pick-up", "camionnette"]
-            };
+    $dateDepart.on('change', function(){ validateDates(); refreshDisponibilites(); });
+    $dateArrive.on('change', function(){ validateDates(); refreshDisponibilites(); });
+    $trajet.on('change', function(){ validateDates(); refreshDisponibilites(); });
 
-            let typeRouteActuel = null;
-
-            function getSelectedTrajetTypeRoute() {
-                const selected = trajetSelect.value.trim();
-                const [departId] = selected.split(" - ");
-                const trajet = trajets.find(t => t.departId === departId);
-                return trajet ? trajet.typeRoute : null;
-            }
-
-            function updateDisponibiliteEtCompatibilite() {
-                const dateDepart = dateDepartInput.value;
-                const dateArrive = dateArriveInput.value;
-                typeRouteActuel = getSelectedTrajetTypeRoute();
-
-                if (!dateDepart || !dateArrive || !typeRouteActuel) return;
-
-                typeRouteDisplay.textContent = "Type de route détecté : " + typeRouteActuel;
-
-                fetch("{{ route('check.disponibilite') }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            date_depart: dateDepart,
-                            date_arrive: dateArrive,
-                            typeRoute: typeRouteActuel
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        voitureSelect.innerHTML = '<option value="">-- Choisir une voiture --</option>';
-                        const typesAcceptes = compatibilite[typeRouteActuel] || [];
-
-                        data.voitures.forEach(v => {
-                            if (typesAcceptes.includes(v.typeVehi.toLowerCase())) {
-                                const option = document.createElement('option');
-                                option.value = v.id;
-                                option.textContent =
-                                    `${v.modele} (${v.typeVehi})${v.disponible ? '' : ' - Indisponible'}`;
-                                if (!v.disponible) {
-                                    option.disabled = true;
-                                    option.style.color = 'red';
-                                }
-                                voitureSelect.appendChild(option);
-                            }
-                        });
-
-                        chauffeurSelect.innerHTML = '<option value="">-- Choisir --</option>';
-                        data.chauffeurs.forEach(c => {
-                            const option = document.createElement('option');
-                            option.value = c.id;
-                            option.textContent =
-                                `${c.name ?? ''} ${c.first_name}${c.disponible ? '' : ' - Indisponible'}`;
-                            if (!c.disponible) {
-                                option.disabled = true;
-                                option.style.color = 'red';
-                            }
-                            chauffeurSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => {
-                        console.error("Erreur lors de la vérification de disponibilité :", error);
-                    });
-            }
-            [dateDepartInput, dateArriveInput, trajetSelect].forEach(el => {
-                el.addEventListener('change', updateDisponibiliteEtCompatibilite);
-            });
+    const obsHeader = document.getElementById('obs-cell');
+    if (obsHeader) {
+        const index = Array.from(obsHeader.parentNode.children).indexOf(obsHeader) + 1;
+        document.querySelectorAll(`tbody td:nth-child(${index})`).forEach(cell => {
+            const t = cell.textContent.trim();
+            if (t) cell.textContent = t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
         });
-    </script>
-    <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const obsCells = document.querySelectorAll('td:nth-child(8)');
-            obsCells.forEach(cell => {
-                const text = cell.textContent.trim();
-                cell.textContent = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-            });
-        });
-    </script>
+    }
+});
+</script>
 @endsection

@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 
 class MissionController extends Controller {
 
-    public function showMission(Request $request)
+public function showMission(Request $request)
 {
     $type = $request->query('type', 'recente');
 
@@ -38,7 +38,7 @@ class MissionController extends Controller {
     $user = Auth::user();
     $query = Mission::with(['lieuDepart', 'lieuArrive', 'voiture', 'chauffeur']);
 
-    if($user->role === '7') {
+    if ($user->role === '7') {
         $query->where('chauffeur_id', $user->id);
     }
 
@@ -48,11 +48,11 @@ class MissionController extends Controller {
         $query->where('date_arrive', '>=', now());
     }
 
-    $missions = $query->get();
-
+    $missions = $query->orderBy('date_depart', 'asc')->get();
 
     return view('mission.listeMission', compact('missions', 'trajets', 'voitures', 'chauffeurs', 'user', 'date_depart', 'date_arrive', 'type'));
 }
+
 
 
 public function mission(Request $request) {
@@ -85,39 +85,55 @@ public function checkDisponibilite(Request $request)
 {
     $date_depart = $request->date_depart;
     $date_arrive = $request->date_arrive;
+    $typeRoute = strtolower($request->typeRoute);
 
 
-    $voitures = Voiture::all()->map(function ($v) use ($date_depart, $date_arrive) {
-        $v->disponible = !Mission::where('voiture_id', $v->id)
-            ->where(function ($query) use ($date_depart, $date_arrive) {
-                $query->whereBetween('date_depart', [$date_depart, $date_arrive])
-                      ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
-                      ->orWhere(function ($query) use ($date_depart, $date_arrive) {
-                          $query->where('date_depart', '<=', $date_depart)
-                                ->where('date_arrive', '>=', $date_arrive);
-                      });
-            })->exists();
-        return $v;
-    });
+    $compatibilite = [
+        "goudronnée" => ["berline", "suv", "pick-up", "4x4", "minibus", "camionnette"],
+        "mixte"      => ["4x4", "suv", "camionnette", "pick-up", "berline"],
+        "piste" => ["4x4", "pick-up", "camionnette"]
+    ];
+    $types_acceptes = $compatibilite[$typeRoute] ?? [];
 
-    $chauffeurs = User::where('role', '7')->get()->map(function ($c) use ($date_depart, $date_arrive) {
-        $c->disponible = !Mission::where('chauffeur_id', $c->id)
-            ->where(function ($query) use ($date_depart, $date_arrive) {
-                $query->whereBetween('date_depart', [$date_depart, $date_arrive])
-                      ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
-                      ->orWhere(function ($query) use ($date_depart, $date_arrive) {
-                          $query->where('date_depart', '<=', $date_depart)
-                                ->where('date_arrive', '>=', $date_arrive);
-                      });
-            })->exists();
-        return $c;
-    });
+
+    $voitures = Voiture::whereIn('typeVehi', $types_acceptes)
+        ->get()
+        ->map(function ($v) use ($date_depart, $date_arrive) {
+            $v->disponible = !Mission::where('voiture_id', $v->id)
+                ->where(function ($query) use ($date_depart, $date_arrive) {
+                    $query->whereBetween('date_depart', [$date_depart, $date_arrive])
+                          ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
+                          ->orWhere(function ($query) use ($date_depart, $date_arrive) {
+                              $query->where('date_depart', '<=', $date_depart)
+                                    ->where('date_arrive', '>=', $date_arrive);
+                          });
+                })
+                ->exists();
+            return $v;
+        });
+
+
+    $chauffeurs = User::where('role', '7')->get()
+        ->map(function ($c) use ($date_depart, $date_arrive) {
+            $c->disponible = !Mission::where('chauffeur_id', $c->id)
+                ->where(function ($query) use ($date_depart, $date_arrive) {
+                    $query->whereBetween('date_depart', [$date_depart, $date_arrive])
+                          ->orWhereBetween('date_arrive', [$date_depart, $date_arrive])
+                          ->orWhere(function ($query) use ($date_depart, $date_arrive) {
+                              $query->where('date_depart', '<=', $date_depart)
+                                    ->where('date_arrive', '>=', $date_arrive);
+                          });
+                })
+                ->exists();
+            return $c;
+        });
 
     return response()->json([
         'voitures' => $voitures,
         'chauffeurs' => $chauffeurs
     ]);
 }
+
 
 public function delete( $id ) {
     $mission = Mission::findOrFail( $id );
